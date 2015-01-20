@@ -1,6 +1,6 @@
 a_str a_clear(a_str str) 
 {
-    struct header *h;
+    struct a_header *h;
     assert(str != NULL);
     PASSTHROUGH_ON_FAIL(str != NULL, NULL);
     

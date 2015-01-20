@@ -1,6 +1,6 @@
 a_str a_new_size_raw(size_t l)
 {
-    struct header *h;
+    struct a_header *h;
     size_t size;
     
     for (++l, size = A_MIN_STR_SIZE; size < l;)
@@ -17,7 +17,7 @@ a_str a_new_size_raw(size_t l)
 a_str a_new_size(size_t l)
 {
     a_str s;
-    struct header *h;
+    struct a_header *h;
     
     if ((s = a_new_size_raw(l)))
     {
@@ -39,7 +39,7 @@ a_str a_new(const char *s)
 a_str a_new_len(const char *s, size_t l)
 {
     a_str str;
-    struct header *h;
+    struct a_header *h;
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
     
@@ -61,6 +61,6 @@ a_str a_new_dup(a_cstr s)
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
     
     if ((dup = a_new_size_raw(a_size(s))))
-        memcpy(dup, s, sizeof (struct header) + a_size(s));
+        memcpy(dup, s, sizeof (struct a_header) + a_size(s));
     return dup;
 }

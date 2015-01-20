@@ -1,6 +1,6 @@
 a_str a_cat_len(a_str s, const char *s2, size_t l) 
 {
-    struct header *h;
+    struct a_header *h;
     assert(s != NULL && s2 != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL && s2 != NULL, NULL);
     
@@ -24,7 +24,7 @@ a_str a_cat(a_str s, const char *s2)
 
 a_str a_cat_str(a_str s, a_str s2) 
 {
-    struct header *h;
+    struct a_header *h;
     size_t length2;
     assert(s != NULL && s2 != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL && s2 != NULL, NULL);
