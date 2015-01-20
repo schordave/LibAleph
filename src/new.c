@@ -6,8 +6,7 @@ a_str a_new_size_raw(size_t l)
     for (++l, size = A_MIN_STR_SIZE; size < l;)
         size <<= 1;
     
-    h = A_MALLOC(sizeof *h + size); /* TODO l+1 overflow situation */
-    if (!h)
+    if (!(h = A_MALLOC(sizeof *h + size))) /* TODO l+1 overflow situation */
         return NULL;
     
     h->mem = size;
@@ -17,10 +16,10 @@ a_str a_new_size_raw(size_t l)
 /* creates a new Aleph string with enough space to hold l bytes. */
 a_str a_new_size(size_t l)
 {
-    a_str s = a_new_size_raw(l);
+    a_str s;
     struct header *h;
     
-    if (s)
+    if ((s = a_new_size_raw(l)))
     {
         h = head(s);
         *s = '\0';
@@ -39,12 +38,12 @@ a_str a_new(const char *s)
 
 a_str a_new_len(const char *s, size_t l)
 {
-    a_str str = a_new_size_raw(l);
+    a_str str;
     struct header *h;
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
     
-    if (str)
+    if ((str = a_new_size_raw(l)))
     {
         h = head(str);
         memcpy(str, s, l);
