@@ -24,7 +24,6 @@ a_str a_cat_str(a_str s, a_str s2)
 {
     struct header *h;
     size_t length2;
-    
     assert(s != NULL && s2 != NULL);
     
     length2 = a_len(s2);
