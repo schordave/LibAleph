@@ -24,8 +24,12 @@ L=/*                                                                            
 #                                      which is enalbed by default.
 #       -DA_INCLUDE_NAMES=0
 CC=gcc
-FG=-pedantic -Werror -Wall -O2 -Wno-overlength-strings -DNDEBUG
-FGD=-pedantic -Werror -Wall -O0 -g -ggdb -Wno-overlength-strings
+WARN_ME=-Werror -Wall -Wformat-nonliteral -Wformat-security \
+	-Wswitch-default -Wtraditional -Wundef -Wbad-function-cast \
+	-Wwrite-strings -Wconversion -Wlogical-op 
+NO_WARN=-Wno-overlength-strings
+FG=-pedantic $(WARNME) $(NO_WARN) -O2 -DNDEBUG
+FGD=-pedantic $(WARNME) $(NO_WARN) -O0 -g -ggdb
 SRC=src/
 OUT=build/
 
@@ -62,10 +66,10 @@ test: test.c $(OUT)libaleph.a
 testd: test.c $(OUT)libalephd.a
 	$(CC) $(FGD) -o test -I $(OUT) test.c $(OUT)libalephd.a
 
-gen: gen.c $(OUT)libaleph.a
-	$(CC) $(FG) -o gen -I $(OUT) gen.c $(OUT)libaleph.a
+aleph_gen: gen/gen.c $(OUT)libaleph.a
+	$(CC) $(FG) -o aleph_gen -I $(OUT) gen/gen.c $(OUT)libaleph.a
 
-gen_names: gen
+gen_names: aleph_gen
 	@echo "Compiling generator"
-	./gen 1 > $(SRC)name_.c
+	./aleph_gen 1 > $(SRC)name_.c
 	@echo "name_.c generated"

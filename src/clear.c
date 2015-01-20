@@ -2,6 +2,7 @@ a_str a_clear(a_str str)
 {
     struct header *h;
     assert(str != NULL);
+    PASSTHROUGH_ON_FAIL(str != NULL, NULL);
     
     h = head(str);
     h->size = 0;
