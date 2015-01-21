@@ -7,7 +7,7 @@ a_str a_set(a_str str, a_str newstr)
     size = a_size(newstr);
     str = a_reserve(str, size);
     if (str)
-        memcpy(a_header(str), a_header(newstr), sizeof (struct a_header) + a_len(newstr) + 1);
+        memcpy(a_header(str), a_header(newstr), sizeof (struct a_header) + size + 1);
 
     return str;
 }
