@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
+ * 
+ * License: MIT
+ */
 void a_dump(a_str s, int val)
 {
     if (!s)

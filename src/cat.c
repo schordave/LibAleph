@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
+ * 
+ * License: MIT
+ */
 a_str a_cat_len(a_str s, const char *s2, size_t l) 
 {
     struct a_header *h;
