@@ -4,7 +4,7 @@ a_str a_clear(a_str str)
     assert(str != NULL);
     PASSTHROUGH_ON_FAIL(str != NULL, NULL);
     
-    h = head(str);
+    h = a_header(str);
     h->size = 0;
     h->len = 0;
     str[0] = '\0';

@@ -1,6 +1,6 @@
 void a_free(a_str s)
 {
-    free(head(s));
+    free(a_header(s));
 } 
 
 void a_free_vec(a_str *sv)

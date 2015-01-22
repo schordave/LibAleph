@@ -7,7 +7,7 @@ a_str a_cat_len(a_str s, const char *s2, size_t l)
     s = a_ensure(s, l);
     if (!s)
         return NULL;
-    h = head(s);
+    h = a_header(s);
     memcpy(s+h->size, s2, l);
     h->size += l;
     s[h->size] = '\0';
@@ -31,7 +31,7 @@ a_str a_cat_str(a_str s, a_str s2)
     
     length2 = a_len(s2);
     s = a_ensure(s, length2);
-    h = head(s);
+    h = a_header(s);
     if (!s)
         return NULL;
     memcpy(s+h->size, s2, length2);

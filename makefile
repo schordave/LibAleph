@@ -24,12 +24,13 @@ L=/*                                                                            
 #                                      which is enalbed by default.
 #       -DA_INCLUDE_NAMES=0
 CC=gcc
-WARN_ME=-Werror -Wall -Wformat-nonliteral -Wformat-security \
-	-Wswitch-default -Wtraditional -Wundef -Wbad-function-cast \
-	-Wwrite-strings -Wconversion -Wlogical-op 
+WARN=-Werror -Wall -Wformat-nonliteral -Wformat-security \
+	-Wswitch-default -Wundef -Wbad-function-cast \
+	-Wwrite-strings -Wlogical-op
+	# -Wconversion
 NO_WARN=-Wno-overlength-strings
-FG=-pedantic $(WARNME) $(NO_WARN) -O2 -DNDEBUG
-FGD=-pedantic $(WARNME) $(NO_WARN) -O0 -g -ggdb
+FG=-pedantic $(WARN) $(NO_WARN) -O2 -DNDEBUGX
+FGD=-pedantic $(WARN) $(NO_WARN) -O0 -g -ggdb
 SRC=src/
 OUT=build/
 
@@ -67,9 +68,14 @@ testd: test.c $(OUT)libalephd.a
 	$(CC) $(FGD) -o test -I $(OUT) test.c $(OUT)libalephd.a
 
 aleph_gen: gen/gen.c $(OUT)libaleph.a
-	$(CC) $(FG) -o aleph_gen -I $(OUT) gen/gen.c $(OUT)libaleph.a
+	$(CC) $(FG) -o aleph_gen -fwhole-program -I $(OUT) gen/gen.c $(OUT)libaleph.a
 
 gen_names: aleph_gen
-	@echo "Compiling generator"
-	./aleph_gen 1 > $(SRC)name_.c
+	@echo "Generating name table"
+	./aleph_gen 1 > $(SRC)a_tbl_names.c
 	@echo "name_.c generated"
+
+gen_categories: aleph_gen
+	@echo "Generating name table"
+	./aleph_gen 3 > $(SRC)a_tbl_categories.c
+	@echo "a_tbl_categories.c generated"

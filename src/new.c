@@ -10,7 +10,7 @@ a_str a_new_size_raw(size_t l)
         return NULL;
     
     h->mem = size;
-    return buff(h);
+    return a_buff(h);
 }
 
 /* creates a new Aleph string with enough space to hold l bytes. */
@@ -21,7 +21,7 @@ a_str a_new_size(size_t l)
     
     if ((s = a_new_size_raw(l)))
     {
-        h = head(s);
+        h = a_header(s);
         *s = '\0';
         h->len = 0;
         h->size = 0;
@@ -45,7 +45,7 @@ a_str a_new_len(const char *s, size_t l)
     
     if ((str = a_new_size_raw(l)))
     {
-        h = head(str);
+        h = a_header(str);
         memcpy(str, s, l);
         str[l] = '\0';
         h->len = a_len_cstr(s);

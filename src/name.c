@@ -172,13 +172,13 @@ char *a_name_cp(a_cp cp, char *buff)
     cp_data = bsearch(&cp, a_codepoint_name_words_offsets, A_NAME_SIZE, sizeof (int) * A_NAME_LEN, a_cmp_names);
     if (cp_data)
     {
-        size_t at, l = cp_data[1];
+        int at, l = cp_data[1];
         
         for (at = 0; at < l; ++at)
         {
             int i1 = a_codepoint_name_words_indexes[cp_data[2 + at]]; /* word offset */
             int i2 = a_codepoint_name_words_indexes[cp_data[2 + at] + 1];
-            memcpy(buff, a_codepoint_name_words + i1, i2 - i1);
+            memcpy(buff, a_codepoint_name_words + i1, (size_t)(i2 - i1));
             
             if (at+1 < l)
                 buff[i2 - i1] = ' ';
