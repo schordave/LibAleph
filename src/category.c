@@ -6,16 +6,18 @@ int a_category(a_cp codepoint)
 }
 int a_is_alpha(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
+    register int c;
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    c = A_CATEGORY(codepoint);
     
     return (c == a_gc_lu || c == a_gc_ll || c == a_gc_lt
             || c == a_gc_lm || c == a_gc_lo);
 }
 int a_is_alphanumeric(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
+    register int c;
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    c = A_CATEGORY(codepoint);
     
     return (c == a_gc_lu || c == a_gc_ll || c == a_gc_lt
             || c == a_gc_lm || c == a_gc_lo || c == a_gc_nd
@@ -23,17 +25,15 @@ int a_is_alphanumeric(a_cp codepoint)
 }
 int a_is_control(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_cc);
+    return (A_CATEGORY(codepoint) == a_gc_cc);
 }
 int a_is_currency(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_sc);
+    return (A_CATEGORY(codepoint) == a_gc_sc);
 }
 int a_is_digit(a_cp codepoint)
 {
@@ -41,15 +41,15 @@ int a_is_digit(a_cp codepoint)
 }
 int a_is_format(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_cf);
+    return (A_CATEGORY(codepoint) == a_gc_cf);
 }
 int a_is_graphical(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
+    register int c;
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    c = A_CATEGORY(codepoint);
     
     return (c == a_gc_lu || c == a_gc_ll || c == a_gc_lt
             || c == a_gc_lm || c == a_gc_lo || c == a_gc_mn
@@ -63,51 +63,52 @@ int a_is_graphical(a_cp codepoint)
 }
 int a_is_letter(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
+    register int c;
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    c = A_CATEGORY(codepoint);
     
     return (c == a_gc_lu || c == a_gc_ll || c == a_gc_lt
             || c == a_gc_lm || c == a_gc_lo);
 }
 int a_is_lower(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_ll);
+    return (A_CATEGORY(codepoint) == a_gc_ll);
 }
 int a_is_mark(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
+    register int c;
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    c = A_CATEGORY(codepoint);
     
     return (c == a_gc_mn || c == a_gc_mc || c == a_gc_me);
 }
 int a_is_noncharacter(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_cn);
+    return (A_CATEGORY(codepoint) == a_gc_cn);
 }
 int a_is_number(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
+    register int c;
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    c = A_CATEGORY(codepoint);
     
     return (c == a_gc_nd || c == a_gc_nl || c == a_gc_no);
 }
 int a_is_private_use(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_co);
+    return (A_CATEGORY(codepoint) == a_gc_co);
 }
 int a_is_punctuation(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
+    register int c;
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    c = A_CATEGORY(codepoint);
     
     return (c == a_gc_pc || c == a_gc_pd || c == a_gc_ps
             || c == a_gc_pe || c == a_gc_pi || c == a_gc_pf
@@ -115,24 +116,23 @@ int a_is_punctuation(a_cp codepoint)
 }
 int a_is_separator(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
+    register int c;
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    c = A_CATEGORY(codepoint);
     
     return (c == a_gc_zs || c == a_gc_zl || c == a_gc_zp);
 }
 int a_is_space(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_zs);
+    return (A_CATEGORY(codepoint) == a_gc_zs);
 }
 int a_is_surrogate(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_cs);
+    return (A_CATEGORY(codepoint) == a_gc_cs);
 }
 int a_is_surrogate_high(a_cp codepoint)
 {
@@ -148,31 +148,27 @@ int a_is_surrogate_low(a_cp codepoint)
 }
 int a_is_symbol(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_lu);
+    return (A_CATEGORY(codepoint) == a_gc_lu);
 }
 int a_is_upper(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_lu);
+    return (A_CATEGORY(codepoint) == a_gc_lu);
 }
 int a_is_math(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    return (c == a_gc_sm);
+    return (A_CATEGORY(codepoint) == a_gc_sm);
 }
 const char *a_category_to_str(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    switch (c)
+    switch (A_CATEGORY(codepoint))
     {
         case a_gc_lu: return "Lu";
         case a_gc_ll: return "Ll";
@@ -209,10 +205,9 @@ const char *a_category_to_str(a_cp codepoint)
 }
 const char *a_category_to_description(a_cp codepoint)
 {
-    register int c = A_CATEGORY(codepoint);
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
-    switch (c)
+    switch (A_CATEGORY(codepoint))
     {
         case a_gc_lu: return "Letter, uppercase";
         case a_gc_ll: return "Letter, lowercase";
