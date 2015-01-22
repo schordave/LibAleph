@@ -29,7 +29,7 @@ WARN=-Werror -Wall -Wformat-nonliteral -Wformat-security \
 	-Wwrite-strings -Wlogical-op
 	# -Wconversion
 NO_WARN=-Wno-overlength-strings
-FG=-pedantic $(WARN) $(NO_WARN) -O2 -DNDEBUG -DA_INCLUDE_IO=0
+FG=-pedantic $(WARN) $(NO_WARN) -O2 -DNDEBUG -DA_INCLUDE_IO=1 -DA_INCLUDE_MEM=1 -DA_INCLUDE_NAMES=1
 FGD=-pedantic $(WARN) $(NO_WARN) -O0 -g -ggdb
 SRC=src/
 OUT=build/
@@ -50,7 +50,9 @@ $(OUT)aleph.h: .FORCE
 $(OUT)aleph.c: .FORCE
 	@echo "Merging all source files."
 	@echo -e '$(L)' > $(OUT)aleph.c
-	@echo -e '#include "aleph.h"\n' >> $(OUT)aleph.c
+	@echo -e '#include "aleph.h"\n#include <string.h>\n\
+		  #include <stdio.h>\n#include <stdarg.h>\n\
+		  ' >> $(OUT)aleph.c
 	@find $(SRC) -name '*.c' -print0 | \
 		xargs --null awk 'FNR==1{printf("\n\n/* FROM %s */\n\n", ARGV[ARGIND])}1' >> $(OUT)aleph.c
 
