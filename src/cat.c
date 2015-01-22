@@ -36,9 +36,9 @@ a_str a_cat_str(a_str s, a_str s2)
     
     length2 = a_len(s2);
     s = a_ensure(s, length2);
-    h = a_header(s);
     if (!s)
         return NULL;
+    h = a_header(s);
     memcpy(s+h->size, s2, length2);
     h->len += a_len(s2);
     h->size += length2;
