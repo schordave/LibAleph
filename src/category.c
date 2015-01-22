@@ -28,6 +28,13 @@ int a_is_alphanumeric(a_cp codepoint)
             || c == a_gc_lm || c == a_gc_lo || c == a_gc_nd
             || c == a_gc_nl || c == a_gc_no);
 }
+
+int a_is_bmp(a_cp codepoint)
+{
+    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    
+    return codepoint <= 0xFFFF;
+}
 int a_is_control(a_cp codepoint)
 {
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
@@ -132,6 +139,12 @@ int a_is_space(a_cp codepoint)
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
     return (A_CATEGORY(codepoint) == a_gc_zs);
+}
+int a_is_supplementary(a_cp codepoint)
+{
+    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    
+    return codepoint > 0x10000;
 }
 int a_is_surrogate(a_cp codepoint)
 {
