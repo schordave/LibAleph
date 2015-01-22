@@ -29,7 +29,7 @@ WARN=-Werror -Wall -Wformat-nonliteral -Wformat-security \
 	-Wwrite-strings -Wlogical-op
 	# -Wconversion
 NO_WARN=-Wno-overlength-strings
-FG=-pedantic $(WARN) $(NO_WARN) -O2 -DNDEBUGX
+FG=-pedantic $(WARN) $(NO_WARN) -O2 -DNDEBUG -DA_INCLUDE_IO=0
 FGD=-pedantic $(WARN) $(NO_WARN) -O0 -g -ggdb
 SRC=src/
 OUT=build/
@@ -73,9 +73,9 @@ aleph_gen: gen/gen.c $(OUT)libaleph.a
 gen_names: aleph_gen
 	@echo "Generating name table"
 	./aleph_gen 1 > $(SRC)a_tbl_names.c
-	@echo "name_.c generated"
+	@echo "a_tbl_names.c generated"
 
 gen_categories: aleph_gen
-	@echo "Generating name table"
+	@echo "Generating categories table"
 	./aleph_gen 3 > $(SRC)a_tbl_categories.c
 	@echo "a_tbl_categories.c generated"

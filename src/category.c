@@ -167,6 +167,86 @@ int a_is_math(a_cp codepoint)
     
     return (c == a_gc_sm);
 }
+const char *a_category_to_str(a_cp codepoint)
+{
+    register int c = A_CATEGORY(codepoint);
+    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    
+    switch (c)
+    {
+        case a_gc_lu: return "Lu";
+        case a_gc_ll: return "Ll";
+        case a_gc_lt: return "Lt";
+        case a_gc_lm: return "Lm";
+        case a_gc_lo: return "Lo";
+        case a_gc_mn: return "Mn";
+        case a_gc_mc: return "Mc";
+        case a_gc_me: return "Me";
+        case a_gc_nd: return "Nd";
+        case a_gc_nl: return "Nl";
+        case a_gc_no: return "No";
+        case a_gc_pc: return "Pc";
+        case a_gc_pd: return "Pd";
+        case a_gc_ps: return "Ps";
+        case a_gc_pe: return "Pe";
+        case a_gc_pi: return "Pi";
+        case a_gc_pf: return "Pf";
+        case a_gc_po: return "Po";
+        case a_gc_sm: return "Sm";
+        case a_gc_sc: return "Sc";
+        case a_gc_sk: return "Sk";
+        case a_gc_so: return "So";
+        case a_gc_zs: return "Zs";
+        case a_gc_zl: return "Zl";
+        case a_gc_zp: return "Zp";
+        case a_gc_cc: return "Cc";
+        case a_gc_cf: return "Cf";
+        case a_gc_cs: return "Cs";
+        case a_gc_co: return "Co";
+        case a_gc_cn: return "Cn";
+        default:      return "";
+    }
+}
+const char *a_category_to_description(a_cp codepoint)
+{
+    register int c = A_CATEGORY(codepoint);
+    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    
+    switch (c)
+    {
+        case a_gc_lu: return "Letter, uppercase";
+        case a_gc_ll: return "Letter, lowercase";
+        case a_gc_lt: return "Letter, titlecase";
+        case a_gc_lm: return "Letter, modifier";
+        case a_gc_lo: return "Letter, other";
+        case a_gc_mn: return "Mark, nonspacing";
+        case a_gc_mc: return "Mark, spacing combining";
+        case a_gc_me: return "Mark, enclosing";
+        case a_gc_nd: return "Number, decimal digit";
+        case a_gc_nl: return "Number, letter";
+        case a_gc_no: return "Number, other";
+        case a_gc_pc: return "Punctuation, connector";
+        case a_gc_pd: return "Punctuation, dash";
+        case a_gc_ps: return "Punctuation, open";
+        case a_gc_pe: return "Punctuation, close";
+        case a_gc_pi: return "Punctuation, initial";
+        case a_gc_pf: return "Punctuation, final";
+        case a_gc_po: return "Punctuation, other";
+        case a_gc_sm: return "Symbol, math";
+        case a_gc_sc: return "Symbol, currency";
+        case a_gc_sk: return "Symbol, modifier";
+        case a_gc_so: return "Symbol, other";
+        case a_gc_zs: return "Separator, space";
+        case a_gc_zl: return "Separator, line";
+        case a_gc_zp: return "Separator, paragraph";
+        case a_gc_cc: return "Other, control";
+        case a_gc_cf: return "Other, format";
+        case a_gc_cs: return "Other, surrogate";
+        case a_gc_co: return "Other, private use";
+        case a_gc_cn: return "Other, not assigned";
+        default:      return "";
+    }
+}
 
 static const short a_ascii_category[128] = 
 {
