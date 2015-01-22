@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
+ * 
+ * License: MIT
+ */
 int a_category(a_cp codepoint)
 {
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
@@ -151,6 +156,12 @@ int a_is_symbol(a_cp codepoint)
     assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
     
     return (A_CATEGORY(codepoint) == a_gc_lu);
+}
+int a_is_title(a_cp codepoint)
+{
+    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    
+    return (A_CATEGORY(codepoint) == a_gc_lt);
 }
 int a_is_upper(a_cp codepoint)
 {
