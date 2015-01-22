@@ -39,12 +39,15 @@ void a_dump_cp(a_cp cp)
         char name[A_NAME_MAX_SIZE];
 #endif
         unsigned char chr[5];
+        int category;
         int l, i;
         
+        category = a_category(cp);
         a_to_utf8_size(cp, (char*)chr, &l);
         fprintf(stderr,
                 "a_cp {codepoint=%d (0x%X), ref='%s', gc=%s ('%s'), ",
-                cp, cp, chr, a_category_to_str(cp), a_category_to_description(cp));
+                cp, cp, chr, a_category_to_str(category),
+                a_category_to_description(category));
 #if A_INCLUDE_NAMES == 1
         fprintf(stderr, "name='%s', ", a_name_cp(cp, name));
 #endif

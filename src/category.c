@@ -175,50 +175,28 @@ int a_is_math(a_cp codepoint)
     
     return (A_CATEGORY(codepoint) == a_gc_sm);
 }
-const char *a_category_to_str(a_cp codepoint)
+
+static char a_categories[61] =
+"LuLlLtLmLoMnMcMeNdNlNoPcPdPsPePiPfPoSmScSkSoZsZlZpCcCfCsCoCn";
+static char a_categories_strs[90] =
+"Lu\0Ll\0Lt\0Lm\0Lo\0Mn\0Mc\0Me\0Nd\0Nl\0No\0Pc\0Pd\0Ps\0Pe\0"
+"Pi\0Pf\0Po\0Sm\0Sc\0Sk\0So\0Zs\0Zl\0Zp\0Cc\0Cf\0Cs\0Co\0Cn\0";
+
+const char *a_category_to_str(int category)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
-    
-    switch (A_CATEGORY(codepoint))
-    {
-        case a_gc_lu: return "Lu";
-        case a_gc_ll: return "Ll";
-        case a_gc_lt: return "Lt";
-        case a_gc_lm: return "Lm";
-        case a_gc_lo: return "Lo";
-        case a_gc_mn: return "Mn";
-        case a_gc_mc: return "Mc";
-        case a_gc_me: return "Me";
-        case a_gc_nd: return "Nd";
-        case a_gc_nl: return "Nl";
-        case a_gc_no: return "No";
-        case a_gc_pc: return "Pc";
-        case a_gc_pd: return "Pd";
-        case a_gc_ps: return "Ps";
-        case a_gc_pe: return "Pe";
-        case a_gc_pi: return "Pi";
-        case a_gc_pf: return "Pf";
-        case a_gc_po: return "Po";
-        case a_gc_sm: return "Sm";
-        case a_gc_sc: return "Sc";
-        case a_gc_sk: return "Sk";
-        case a_gc_so: return "So";
-        case a_gc_zs: return "Zs";
-        case a_gc_zl: return "Zl";
-        case a_gc_zp: return "Zp";
-        case a_gc_cc: return "Cc";
-        case a_gc_cf: return "Cf";
-        case a_gc_cs: return "Cs";
-        case a_gc_co: return "Co";
-        case a_gc_cn: return "Cn";
-        default:      return "";
-    }
+    assert(category > 0 && category < a_gc_max_category);
+    return a_categories_strs + (category * 3);
 }
-const char *a_category_to_description(a_cp codepoint)
+int a_category_from_str(const char *category)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    assert(category[2] == '\0');
+    return (strstr(a_categories, category) - a_categories) / 2;
+}
+const char *a_category_to_description(int category)
+{
+    assert(category > 0 && category < a_gc_max_category);
     
-    switch (A_CATEGORY(codepoint))
+    switch (category)
     {
         case a_gc_lu: return "Letter, uppercase";
         case a_gc_ll: return "Letter, lowercase";
