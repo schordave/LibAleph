@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
+ * 
+ * License: MIT
+ */
 a_str a_new_size_raw(size_t l)
 {
     struct a_header *h;

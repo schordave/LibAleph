@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
+ * 
+ * License: MIT
+ */
 #if A_INCLUDE_NAMES == 1
 
 #if A_NAME_JUMP_TABLE

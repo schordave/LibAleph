@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
+ * 
+ * License: MIT
+ */
 a_str a_set(a_str str, a_str newstr) 
 {
     size_t size;
