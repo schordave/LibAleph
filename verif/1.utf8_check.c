@@ -24,7 +24,12 @@
 #include "ctest.h"
 #include "aleph.h"
 
-CTEST(UTF8_Sequences, valid_sequences_from_various_planes)
+CTEST(Sequences, valid_sequences_null)
+{
+    ASSERT_NULL(a_is_valid_utf8(""));
+}
+
+CTEST(Sequences, valid_sequences_from_various_planes)
 {
     
     ASSERT_NULL(a_is_valid_utf8("˙ʇsǝʇ ɐ sı sıɥʇ"));
@@ -106,7 +111,7 @@ CTEST(UTF8_Sequences, valid_sequences_from_various_planes)
                                 "\x41\xF0\xA0\x9C\x8E\x41\xE2\x84\xB5\x41\xC2\xBF\xE2\x84\xB5"));
 }
 
-CTEST(UTF8_Sequences, invalid_continuation_bytes)
+CTEST(Sequences, invalid_continuation_bytes)
 {
     size_t i;
     const char *s, *s2; 
@@ -141,7 +146,7 @@ CTEST(UTF8_Sequences, invalid_continuation_bytes)
 
 }
 
-CTEST(UTF8_Sequences, sequences_with_last_cont_byte_missing)
+CTEST(Sequences, sequences_with_last_cont_byte_missing)
 {
     size_t i;
     const char *s, *s2; 
@@ -176,7 +181,7 @@ CTEST(UTF8_Sequences, sequences_with_last_cont_byte_missing)
     
 }
 
-CTEST(UTF8_Sequences, impossible_bytes)
+CTEST(Sequences, impossible_bytes)
 {
     
     /* impossible bytes that can never appear */
@@ -188,7 +193,7 @@ CTEST(UTF8_Sequences, impossible_bytes)
     
 }
 
-CTEST(UTF8_Sequences, overlong_character_sequences)
+CTEST(Sequences, overlong_character_sequences)
 {
     /* overlong characters sequences */
     ASSERT_NOT_NULL(a_is_valid_utf8("ZZZZZZZZ\xC0\xAFZZZZZZZZZZZZZZZZZ"));
@@ -197,7 +202,7 @@ CTEST(UTF8_Sequences, overlong_character_sequences)
     
 }
 
-CTEST(UTF8_Sequences, boundry_tests_highest_overlong_characters)
+CTEST(Sequences, boundry_tests_highest_overlong_characters)
 {
     
     /* boundry test; highest unicode that is encoded as an overlong character */
@@ -207,7 +212,7 @@ CTEST(UTF8_Sequences, boundry_tests_highest_overlong_characters)
     
 }
 
-CTEST(UTF8_Sequences, overlong_null_values)
+CTEST(Sequences, overlong_null_values)
 {
     /* overlong NULL values */
     ASSERT_NOT_NULL(a_is_valid_utf8("ZZZZZZZZ\xC0\x80ZZZZZZZZZZZZZZZZZZ"));
@@ -216,7 +221,7 @@ CTEST(UTF8_Sequences, overlong_null_values)
     
 }
 
-CTEST(UTF8_Sequences, utf16_surrogates)
+CTEST(Sequences, utf16_surrogates)
 {
     
     /* UTF-16 surrogates */
@@ -240,7 +245,7 @@ CTEST(UTF8_Sequences, utf16_surrogates)
     
 }
 
-CTEST(UTF8_Sequences, additional_checks)
+CTEST(Sequences, additional_checks)
 {
     
     ASSERT_NOT_NULL(a_is_valid_utf8("ZZZZZZZZ\xEF\xBF\xBEZZZZZZZZZ"));
