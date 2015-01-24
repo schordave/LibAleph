@@ -142,7 +142,7 @@ static char a_categories_strs[90] =
 const char *a_category_to_str(int category)
 {
     unsigned pos = 0, c = (unsigned)category;
-    assert(category > 0 && category < A_MAX_BLOCKS);
+    assert(category > 0 && category < 29);
     while (c) ++pos, c >>= 1;
     return a_categories_strs + (pos * 3);
 }
@@ -153,7 +153,7 @@ int a_category_from_str(const char *category)
 }
 const char *a_category_to_description(int category)
 {
-    assert(category > 0 && category < A_MAX_BLOCKS);
+    assert(category > 0 && category < 29);
     
     switch (category)
     {
