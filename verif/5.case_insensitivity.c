@@ -905,6 +905,12 @@ CTEST(Cases_compare, arabic)
     ASSERT_EQUAL(0, a_icmp_cstr_cstr("إضاختذطفجبشظآؤأءئصعزدثرغقسة×حـك","إضاختذطفجبشظآؤأءئصعزدثرغقسة×حـك"));
 }
 
+CTEST(Cases_compare, others)
+{
+    ASSERT_EQUAL(0, a_icmp_cstr_cstr("ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ", "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ"));
+    ASSERT_EQUAL(0, a_icmp_cstr_cstr("ⒶⓑⒸⓓⒺⓕⒼⓗⒾⓙⓀⓛⓂⓝⓄⓟⓆⓡⓈⓣⓊⓥⓌⓧⓎⓩ", "ⓐⒷⓒⒹⓔⒻⓖⒽⓘⒿⓚⓁⓜⓃⓞⓅⓠⓇⓢⓉⓤⓋⓦⓍⓨⓏ"));
+}
+
 CTEST(Cases_compare, variable_length_checks)
 {
     ASSERT_EQUAL(0, a_icmp_cstr_cstr("", ""));
