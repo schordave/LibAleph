@@ -19,6 +19,7 @@ L=/*                                                                            
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS   \n\
  * IN THE SOFTWARE.                                                               \n\
  */                                                                               \n
+SHELL=/bin/bash
 #Notes
 #	-Wno-overlength-strings      - only needed if compiling with A_INCLUDE_NAMES
 #                                      which is enalbed by default.
