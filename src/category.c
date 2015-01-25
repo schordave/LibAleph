@@ -5,32 +5,32 @@
  */
 int a_category(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint);
 }
 int a_is_alpha(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_alpha;
 }
 int a_is_alphanumeric(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_alphanumeric;
 }
 int a_is_bmp(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return codepoint <= 0xFFFF;
 }
 int a_is_control(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_cc;
 }
 int a_is_currency(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_sc;
 }
 int a_is_digit(a_cp codepoint)
@@ -39,97 +39,97 @@ int a_is_digit(a_cp codepoint)
 }
 int a_is_format(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_cf;
 }
 int a_is_graphical(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_graphical;
 }
 int a_is_letter(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_letter;
 }
 int a_is_lower(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_ll;
 }
 int a_is_mark(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_mark;
 }
 int a_is_noncharacter(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_cn;
 }
 int a_is_number(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_number;
 }
 int a_is_private_use(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_co;
 }
 int a_is_punctuation(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_punctuation;
 }
 int a_is_separator(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_separator;
 }
 int a_is_space(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_zs;
 }
 int a_is_supplementary(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return codepoint > 0x10000;
 }
 int a_is_surrogate(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_cs;
 }
 int a_is_surrogate_high(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return (codepoint >= 0xD800 && codepoint <= 0xDBFF);
 }
 int a_is_surrogate_low(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return (codepoint >= 0xDC00 && codepoint <= 0xDFFF);
 }
 int a_is_symbol(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_lu;
 }
 int a_is_title(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_lt;
 }
 int a_is_upper(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_lu;
 }
 int a_is_math(a_cp codepoint)
 {
-    assert(A_MIN_CP <= codepoint && codepoint <= A_MAX_CP);
+    A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_sm;
 }
 
