@@ -2,6 +2,10 @@ language: c
 compiler:
   - gcc
   - clang
-
-script: make verif
-after_success: ./verif/test
+before_install:
+  - pip install cpp-coveralls
+script:
+  - make verif
+after_success:
+  - ./verif/test
+  - coveralls --verbose --dryrun
