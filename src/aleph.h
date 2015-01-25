@@ -323,18 +323,18 @@ int         a_cmp_wild(const char *str, const char *pattern);
 int         a_cmp_regex(const char *str, const char *pattern);
 int         a_icmp_wild(const char *str, const char *pattern);
 int         a_icmp_regex(const char *str, const char *pattern);*/
-/* find *//*
-size_t      a_find(a_cstr str, a_cstr substr);*/
+/* find */
+size_t      a_find(a_cstr str, a_cstr substr);
 size_t      a_find_cstr(a_cstr str, const char *substr);
-size_t      a_find_cp(a_cstr str, a_cp codepoint);/*
+size_t      a_find_cp(a_cstr str, a_cp codepoint);
 size_t      a_find_from(a_cstr str, a_cstr substr, size_t index);
-size_t      a_find_from_cstr(a_cstr str, const char *substr, size_t index);
-size_t      a_find_from_cp(a_cstr str, a_cp codepoint, size_t index);
+size_t      a_find_from_cstr(a_cstr str, const char *substr, size_t index);/*
+size_t      a_find_from_cp(a_cstr str, a_cp codepoint, size_t index);*/
 size_t      a_find_offset(a_cstr str, a_cstr substr);
-size_t      a_find_offset_cstr(a_cstr str, const char *substr);
-size_t      a_find_offset_cp(a_cstr str, a_cp codepoint);
+size_t      a_find_offset_cstr(a_cstr str, const char *substr);/*
+size_t      a_find_offset_cp(a_cstr str, a_cp codepoint);*/
 size_t      a_find_offset_from(a_cstr str, a_cstr substr, size_t offset);
-size_t      a_find_offset_from_cstr(a_cstr str, const char *substr, size_t offset);
+size_t      a_find_offset_from_cstr(a_cstr str, const char *substr, size_t offset);/*
 size_t      a_find_offset_from_cp(a_cstr str, a_cp codepoint, size_t offset);
 size_t      a_rfind(a_cstr str, a_cstr substr);
 size_t      a_rfind_cstr(a_cstr str, const char *substr);
