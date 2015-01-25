@@ -60,10 +60,9 @@ $(OUT)aleph.c: .FORCE
 	mkdir -p build
 	@echo "Merging all source files."
 	@echo -e '$(L)' > $(OUT)aleph.c
-	@echo -e '#include "aleph.h"\n#include <string.h>\n\
-		  #include <stdio.h>\n#include <stdarg.h>\n\
-		  #include <stdlib.h>\n\
-		  ' >> $(OUT)aleph.c
+	@echo -e '#include "aleph.h"\n#include <string.h>' >> $(OUT)aleph.c
+	@echo -e '#include <stdio.h>\n#include <stdarg.h>' >> $(OUT)aleph.c
+	@echo -e '#include <stdlib.h>\n' >> $(OUT)aleph.c
 	@find $(SRC) -name '*.c' -print0 | \
 	        sort -z | \
 		xargs --null awk 'FNR==1{printf("\n\n/* FROM %s */\n\n", ARGV[ARGIND])}1' >> $(OUT)aleph.c
