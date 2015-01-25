@@ -66,6 +66,7 @@ $(OUT)aleph.c: .FORCE
 	@find $(SRC) -name '*.c' -print0 | \
 	        sort -z | \
 		xargs --null awk 'FNR==1{printf("\n\n/* FROM %s */\n\n", ARGV[ARGIND])}1' >> $(OUT)aleph.c
+	head -50 $(OUT)aleph.c
 
 .FORCE:
 
