@@ -8,4 +8,4 @@ script:
   - make verif
 after_success:
   - ./verif/test
-  - coveralls --verbose --dryrun
+#  - coveralls --verbose --dryrun
