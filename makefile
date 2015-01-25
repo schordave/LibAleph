@@ -56,6 +56,7 @@ $(OUT)aleph.h: .FORCE
 	cp $(SRC)aleph.h $(OUT)aleph.h
 
 $(OUT)aleph.c: .FORCE
+	mkdir -p build
 	@echo "Merging all source files."
 	@echo -e '$(L)' > $(OUT)aleph.c
 	@echo -e '#include "aleph.h"\n#include <string.h>\n\
