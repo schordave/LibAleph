@@ -133,9 +133,9 @@ int a_is_math(a_cp codepoint)
     return A_CATEGORY_MASK(codepoint) & a_gc_sm;
 }
 
-static char a_categories[61] =
+static const char a_categories[61] =
 "LuLlLtLmLoMnMcMeNdNlNoPcPdPsPePiPfPoSmScSkSoZsZlZpCcCfCsCoCn";
-static char a_categories_strs[90] =
+static const char a_categories_strs[90] =
 "Lu\0Ll\0Lt\0Lm\0Lo\0Mn\0Mc\0Me\0Nd\0Nl\0No\0Pc\0Pd\0Ps\0Pe\0"
 "Pi\0Pf\0Po\0Sm\0Sc\0Sk\0So\0Zs\0Zl\0Zp\0Cc\0Cf\0Cs\0Co\0Cn\0";
 
