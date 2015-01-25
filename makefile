@@ -23,14 +23,22 @@ L=/*                                                                            
 #	-Wno-overlength-strings      - only needed if compiling with A_INCLUDE_NAMES
 #                                      which is enalbed by default.
 #       -DA_INCLUDE_NAMES=0
-CC=gcc
+CC?=gcc
+
 WARN=-Werror -Wall -Wformat-nonliteral -Wformat-security \
 	-Wswitch-default -Wundef -Wbad-function-cast \
-	-Wwrite-strings -Wlogical-op
+	-Wwrite-strings
 	# -Wconversion
+ifeq ($(CC), gcc)
+    WARN += -Wlogical-op
+endif
+
 NO_WARN=-Wno-overlength-strings
-FG=-pedantic $(WARN) $(NO_WARN) -O2 -DNDEBUG -DA_INCLUDE_IO=1 -DA_INCLUDE_MEM=1 -DA_INCLUDE_NAMES=1
-FGD=-pedantic $(WARN) $(NO_WARN) -O0 -g -ggdb
+
+LIB_FLAGS=-DA_NULL_PASSTHROUGH=0 -DA_INCLUDE_IO=1 -DA_INCLUDE_MEM=1 -DA_INCLUDE_NAMES=0
+
+FG=-pedantic $(WARN) $(NO_WARN) -O2 -DNDEBUG $(LIB_FLAGS)
+FGD=-pedantic $(WARN) $(NO_WARN) -O0 -g -ggdb $(LIB_FLAGS)
 SRC=src/
 OUT=build/
 
@@ -52,8 +60,10 @@ $(OUT)aleph.c: .FORCE
 	@echo -e '$(L)' > $(OUT)aleph.c
 	@echo -e '#include "aleph.h"\n#include <string.h>\n\
 		  #include <stdio.h>\n#include <stdarg.h>\n\
+		  #include <stdlib.h>\n\
 		  ' >> $(OUT)aleph.c
 	@find $(SRC) -name '*.c' -print0 | \
+	        sort -z | \
 		xargs --null awk 'FNR==1{printf("\n\n/* FROM %s */\n\n", ARGV[ARGIND])}1' >> $(OUT)aleph.c
 
 .FORCE:
@@ -77,7 +87,15 @@ gen_names: aleph_gen
 	./aleph_gen 1 > $(SRC)a_tbl_names.c
 	@echo "a_tbl_names.c generated"
 
-gen_categories: aleph_gen
-	@echo "Generating categories table"
-	./aleph_gen 3 > $(SRC)a_tbl_categories.c
-	@echo "a_tbl_categories.c generated"
+gen_records: aleph_gen
+	@echo "Generating records table"
+	./aleph_gen 7 > $(SRC)a_tbl_records.c
+	@echo "a_tbl_records.c generated"
+
+gen_block: aleph_gen
+	@echo "Generating blocks table"
+	./aleph_gen 5 > $(SRC)a_tbl_blocks.c
+	@echo "a_tbl_blocks.c generated"
+
+verif: $(OUT)libaleph.a
+	$(MAKE) -C verif/
