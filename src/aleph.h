@@ -59,7 +59,7 @@
  * \author Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
  * \copyright MIT License
  */
-#include <stdlib.h>
+#include <stddef.h>
 #include <assert.h>
 /*
  * 
