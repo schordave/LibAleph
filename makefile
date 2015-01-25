@@ -53,6 +53,7 @@ $(OUT)libalephd.a: $(OUT)aleph.h $(OUT)aleph.c
 	ar -cvq $(OUT)libalephd.a $(OUT)*d.o
 
 $(OUT)aleph.h: .FORCE
+	mkdir -p build
 	cp $(SRC)aleph.h $(OUT)aleph.h
 
 $(OUT)aleph.c: .FORCE
