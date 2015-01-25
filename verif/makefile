@@ -18,11 +18,15 @@ all: test
 remake: clean all
 
 %.o: %.c ctest.h
-	gcc $(CCFLAGS) -c -o $@ $<
+	$(CC) $(CCFLAGS) -c -o $@ $< 
 
-test: main.o ctest.h $(manual_list_of_tests) ../build/libaleph.a
-	gcc $(LDFLAGS) main.o $(manual_list_of_tests) ../build/libaleph.a -o test
+aleph.o:
+	cp ../build/aleph.c aleph.c
+	$(CC) -I../build/ -fprofile-arcs -ftest-coverage aleph.c -c -o aleph.o
+
+test: main.o ctest.h $(manual_list_of_tests) aleph.o
+	$(CC) $(LDFLAGS) -lgcov -coverage  main.o $(manual_list_of_tests) aleph.o -o test
 
 clean:
-	rm -f test *.o
+	rm -fr test *.o *.gcov *.gcno *.gcda
  
