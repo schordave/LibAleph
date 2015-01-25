@@ -309,7 +309,10 @@ int         a_icmp_simple_cstr(a_cstr str1, const char *str2);
 int         a_icmp_simple_cstr_cstr(const char *str1, const char *str2);
 int         a_icmp_min(a_cstr str1, a_cstr str2);
 int         a_icmp_min_cstr(a_cstr str1, const char *str2);
-int         a_icmp_min_cstr_cstr(const char *str1, const char *str2);/*
+int         a_icmp_min_cstr_cstr(const char *str1, const char *str2);
+int         a_icmpn(a_cstr str1, a_cstr str2, size_t n);
+int         a_icmpn_cstr(a_cstr str1, const char *str2, size_t n);
+int         a_icmpn_cstr_cstr(const char *str1, const char *str2, size_t n);/*
 int         a_icmp_canonical(a_cstr str1, a_cstr str2);
 int         a_icmp_canonical_cstr(a_cstr str1, const char *str2);
 int         a_icmp_canonical_cstr_cstr(const char *str1, const char *str2);
