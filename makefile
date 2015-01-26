@@ -36,7 +36,7 @@ endif
 
 NO_WARN=-Wno-overlength-strings
 
-LIB_FLAGS=-DA_NULL_PASSTHROUGH=0 -DA_INCLUDE_IO=1 -DA_INCLUDE_MEM=1 -DA_INCLUDE_NAMES=0
+LIB_FLAGS=-DA_NULL_PASSTHROUGH=0 -DA_INCLUDE_IO=1 -DA_INCLUDE_MEM=1 -DA_INCLUDE_NAMES=1
 
 FG=-pedantic $(WARN) $(NO_WARN) -O2 -DNDEBUG $(LIB_FLAGS)
 FGD=-pedantic $(WARN) $(NO_WARN) -O0 -g -ggdb $(LIB_FLAGS)
@@ -71,10 +71,7 @@ $(OUT)aleph.c: .FORCE
 .FORCE:
 
 clean:
-	@rm -f $(OUT)*.c
-	@rm -f $(OUT)*.h
-	@rm -f $(OUT)*.o
-	@rm -f $(OUT)*.a
+	@rm -rf $(OUT)
 
 test: test.c $(OUT)libaleph.a
 	$(CC) $(FG) -o test -I $(OUT) test.c $(OUT)libaleph.a
@@ -82,7 +79,7 @@ testd: test.c $(OUT)libalephd.a
 	$(CC) $(FGD) -o test -I $(OUT) test.c $(OUT)libalephd.a
 
 aleph_gen: gen/gen.c $(OUT)libaleph.a
-	$(CC) $(FG) -o aleph_gen -fwhole-program -I $(OUT) gen/gen.c $(OUT)libaleph.a
+	$(CC) $(FG) -o -I $(OUT) gen/gen.c $(OUT)libaleph.a
 
 gen_names: aleph_gen
 	@echo "Generating name table"
