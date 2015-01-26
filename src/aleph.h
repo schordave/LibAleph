@@ -19,6 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#ifndef LIBALEPH_H
+#define LIBALEPH_H
 /**
  * \mainpage LibAleph, A Unicode string library for C.
  * 
@@ -300,7 +302,8 @@ a_str       a_trim_right(a_str str);
 a_str       a_trim_right_cstr(a_str str, const char *chars);
 /* match */
 int         a_cmp(a_cstr str1, a_cstr str2);
-int         a_cmp_cstr(const char *str, const char *str2);
+int         a_cmp_cstr(a_cstr str1, const char *str2);
+int         a_cmp_cstr_cstr(const char *str, const char *str2);
 int         a_icmp(a_cstr str1, a_cstr str2);
 int         a_icmp_cstr(a_cstr str1, const char *str2);
 int         a_icmp_cstr_cstr(const char *str1, const char *str2);
@@ -326,6 +329,7 @@ int         a_icmp_regex(const char *str, const char *pattern);*/
 /* find */
 size_t      a_find(a_cstr str, a_cstr substr);
 size_t      a_find_cstr(a_cstr str, const char *substr);
+size_t      a_find_cstr_cstr(const char *str, const char *substr);
 size_t      a_find_cp(a_cstr str, a_cp codepoint);
 size_t      a_find_from(a_cstr str, a_cstr substr, size_t index);
 size_t      a_find_from_cstr(a_cstr str, const char *substr, size_t index);/*
@@ -348,10 +352,10 @@ size_t      a_rfind_offset_cp(a_cstr str, a_cp codepoint);
 size_t      a_rfind_offset_from(a_cstr str, a_cstr substr, size_t offset);
 size_t      a_rfind_offset_from_cstr(a_cstr str, const char *substr, size_t offset);
 size_t      a_rfind_offset_from_cp(a_cstr str, a_cp codepoint, size_t offset);*/
-            /* case insensitive version ... *//*
+            /* case insensitive version ... */
 size_t      a_ifind(a_cstr str, a_cstr substr);
 size_t      a_ifind_cstr(a_cstr str, const char *substr);
-size_t      a_ifind_cp(a_cstr str, a_cp codepoint);
+size_t      a_ifind_cstr_cstr(const char *str, const char *substr);/*
 size_t      a_ifind_from(a_cstr str, a_cstr substr, size_t index);
 size_t      a_ifind_from_cstr(a_cstr str, const char *substr, size_t index);
 size_t      a_ifind_from_cp(a_cstr str, a_cp codepoint, size_t index);
@@ -933,7 +937,7 @@ const char     *a_unicode_version_url(void);
 #ifdef A_INCLUDE_NAMES
 /**
  * \brief Size for a buffer large enough to store
- *        any Unicode character name.
+ *        any Unicode character name. (and a \0)
  */
 #   define A_NAME_MAX_SIZE 100
 char       *a_name_cp(a_cp codepoint, char *buff);
@@ -958,3 +962,5 @@ struct a_header
 
 #define a_buff(b) ((char*)b + sizeof (struct a_header))
 #define a_header(b) ((struct a_header*)((char*)b - sizeof (struct a_header)))
+#endif
+/* EOF */
