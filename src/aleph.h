@@ -398,104 +398,6 @@ a_str       a_reverse_str(a_str str, a_str output);
 a_str       a_escape(a_str str); /* escape '\b', '\f', '\n', '\r', '\t', '\v', '\' and '"'; 0x01-0x1F, and 0x7F-0xFF  */
 a_str       a_escape_except(a_str str, const char *except);
 a_str       a_unescape(a_str str);
-#if 0
-#ifdef A_INCLUDE_TOKEN/
-/* token/list manipulation (most of those are just convenience variations of the same internal function) */
-a_str       a_tok_add(a_str str, a_cstr token, const char *delimiter);
-a_str       a_tok_add_cp(a_str str, a_cstr token, a_cp codepoint);
-a_str       a_tok_add_cstr(a_str str, const char *token, const char *delimiter);
-a_str       a_tok_add_cstr_cp(a_str str, const char *token, a_cp codepoint);
-a_str       a_tok_rem(a_str str, a_cstr token, const char *delimiter, size_t nth);
-a_str       a_tok_rem_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
-a_str       a_tok_rem_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
-a_str       a_tok_rem_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
-a_str       a_tok_del(a_str str, const char *delimiter, size_t nth);
-a_str       a_tok_del_cp(a_str str, a_cp codepoint, size_t nth);
-a_str       a_tok_find(a_str str, a_cstr token, const char *delimiter, size_t nth);
-a_str       a_tok_find_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
-a_str       a_tok_find_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
-a_str       a_tok_find_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
-a_str       a_tok_get(a_str str, const char *delimiter, size_t nth);
-a_str       a_tok_get_cp(a_str str, a_cp codepoint, size_t nth);
-a_str       a_tok_len(a_str str, const char *delimiter, size_t nth);
-a_str       a_tok_len_cp(a_str str, a_cp codepoint, size_t nth);
-a_str       a_tok_ins(a_str str, a_cstr token, const char *delimiter, size_t nth); /* insert as the Nth token */
-a_str       a_tok_ins_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
-a_str       a_tok_ins_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
-a_str       a_tok_ins_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
-a_str       a_tok_put(a_str str, a_str token, const char *delimiter, size_t nth);               /* override Nth token */
-a_str       a_tok_put_cp(a_str str, a_str token, a_cp codepoint, size_t nth);
-a_str       a_tok_put_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
-a_str       a_tok_put_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
-a_str       a_tok_rep(a_str str, a_cstr token, a_cstr new_token, a_cp codepoint, size_t nth);      /* replace a token */
-a_str       a_tok_rep_cp(a_str str, a_cstr token, a_cstr new_token, const char *delimiter, size_t nth);
-a_str       a_tok_rep_cstr(a_str str, a_cstr token, const char *new_token, a_cp codepoint, size_t nth);
-a_str       a_tok_rep_cstr_cp(a_str str, a_cstr token, const char *new_token, const char *delimiter, size_t nth);
-a_str       a_tok_rep_cstr_cstr(a_str str, const char *token, const char *new_token, a_cp codepoint, size_t nth);
-a_str       a_tok_rep_cstr_cstr_cp(a_str str, const char *token, const char *new_token, const char *delimiter, size_t nth);
-a_str       a_tok_rem(a_str str, a_cstr token, a_cp codepoint, size_t nth);
-a_str       a_tok_rem_cp(a_str str, a_cstr token, const char *delimiter, size_t nth);
-a_str       a_tok_rem_cstr(a_str str, const char *token, a_cp codepoint, size_t nth);
-a_str       a_tok_rem_cstr_cp(a_str str, const char *token, const char *delimiter, size_t nth);
-a_str       a_tok_wild(a_str str, a_cstr pattern, a_cp codepoint, size_t nth);                       /* wildmatch Nth token */
-a_str       a_tok_wild_cp(a_str str, a_cstr pattern, const char *delimiter, size_t nth);
-a_str       a_tok_wild_cstr(a_str str, const char *pattern, a_cp codepoint, size_t nth);
-a_str       a_tok_wild_cstr_cp(a_str str, const char *pattern, const char *delimiter, size_t nth);
-a_str       a_tok_cont(a_str str, a_cstr pattern, a_cp codepoint, size_t nth);                       /* match Nth token */
-a_str       a_tok_cont_cp(a_str str, a_cstr pattern, const char *delimiter, size_t nth);
-a_str       a_tok_cont_cstr(a_str str, const char *pattern, a_cp codepoint, size_t nth);             /* match Nth token */
-a_str       a_tok_cont_cstr_cp(a_str str, const char *pattern, const char *delimiter, size_t nth);
-a_str       a_tok_sort(a_str str, const char *delimiter, int sort_option);
-a_str       a_tok_sort_cp(a_str str, a_cp codepoint, int sort_option);
-            /* case insensitive version ... */
-a_str       a_tok_i_add(a_str str, a_cstr token, const char *delimiter);
-a_str       a_tok_i_add_cp(a_str str, a_cstr token, a_cp codepoint);
-a_str       a_tok_i_add_cstr(a_str str, const char *token, const char *delimiter);
-a_str       a_tok_i_add_cstr_cp(a_str str, const char *token, a_cp codepoint);
-a_str       a_tok_i_rem(a_str str, a_cstr token, const char *delimiter, size_t nth);
-a_str       a_tok_i_rem_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_rem_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
-a_str       a_tok_i_rem_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_del(a_str str, const char *delimiter, size_t nth);
-a_str       a_tok_i_del_cp(a_str str, a_cp codepoint, size_t nth);
-a_str       a_tok_i_find(a_str str, a_cstr token, const char *delimiter, size_t nth);
-a_str       a_tok_i_find_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_find_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
-a_str       a_tok_i_find_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_get(a_str str, const char *delimiter, size_t nth);
-a_str       a_tok_i_get_cp(a_str str, a_cp codepoint, size_t nth);
-a_str       a_tok_i_len(a_str str, const char *delimiter, size_t nth);
-a_str       a_tok_i_len_cp(a_str str, a_cp codepoint, size_t nth);
-a_str       a_tok_i_ins(a_str str, a_cstr token, const char *delimiter, size_t nth); /* insert as the Nth token */
-a_str       a_tok_i_ins_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_ins_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
-a_str       a_tok_i_ins_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_put(a_str str, a_str token, const char *delimiter, size_t nth);               /* override Nth token */
-a_str       a_tok_i_put_cp(a_str str, a_str token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_put_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
-a_str       a_tok_i_put_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_rep(a_str str, a_cstr token, a_cstr new_token, a_cp codepoint, size_t nth);      /* replace a token */
-a_str       a_tok_i_rep_cp(a_str str, a_cstr token, a_cstr new_token, const char *delimiter, size_t nth);
-a_str       a_tok_i_rep_cstr(a_str str, a_cstr token, const char *new_token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_rep_cstr_cp(a_str str, a_cstr token, const char *new_token, const char *delimiter, size_t nth);
-a_str       a_tok_i_rep_cstr_cstr(a_str str, const char *token, const char *new_token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_rep_cstr_cstr_cp(a_str str, const char *token, const char *new_token, const char *delimiter, size_t nth);
-a_str       a_tok_i_rem(a_str str, a_cstr token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_rem_cp(a_str str, a_cstr token, const char *delimiter, size_t nth);
-a_str       a_tok_i_rem_cstr(a_str str, const char *token, a_cp codepoint, size_t nth);
-a_str       a_tok_i_rem_cstr_cp(a_str str, const char *token, const char *delimiter, size_t nth);
-a_str       a_tok_i_wild(a_str str, a_cstr pattern, a_cp codepoint, size_t nth);                       /* wildmatch Nth token */
-a_str       a_tok_i_wild_cp(a_str str, a_cstr pattern, const char *delimiter, size_t nth);
-a_str       a_tok_i_wild_cstr(a_str str, const char *pattern, a_cp codepoint, size_t nth);
-a_str       a_tok_i_wild_cstr_cp(a_str str, const char *pattern, const char *delimiter, size_t nth);
-a_str       a_tok_i_cont(a_str str, a_cstr pattern, a_cp codepoint, size_t nth);                       /* match Nth token */
-a_str       a_tok_i_cont_cp(a_str str, a_cstr pattern, const char *delimiter, size_t nth);
-a_str       a_tok_i_cont_cstr(a_str str, const char *pattern, a_cp codepoint, size_t nth);             /* match Nth token */
-a_str       a_tok_i_cont_cstr_cp(a_str str, const char *pattern, const char *delimiter, size_t nth);
-a_str       a_tok_i_sort(a_str str, const char *delimiter, int sort_option);
-a_str       a_tok_i_sort_cp(a_str str, a_cp codepoint, int sort_option);
-#endif
-#endif
 /* file i/o */
 #if A_INCLUDE_IO == 1
 a_str       a_file_read(FILE *fp);
@@ -942,8 +844,145 @@ const char     *a_unicode_version_url(void);
 #   define A_NAME_MAX_SIZE 100
 char       *a_name_cp(a_cp codepoint, char *buff);
 #endif
+/**
+ * 
+ * A locale is an identifier that refers to a set of user preferences
+ * that tend to be shared across significant swaths of the world. 
+ * 
+ * Various things that relay on the user's locale are parsing of dates,
+ * times, numbers, and currencies, measurement units, collation, as well,
+ * as languages, scripts, translated names for time zones, and countries.
+ * 
+ */
+/**
+ * 
+ * \brief Set the current locale
+ * 
+ * language[_-]script[_-]region[_-]variant([_-]optional t/u extensions)
+ * 
+ * language - Unicode base language code - <a href="http://www.loc.gov/standards/iso639-2/">ISO-639</a>
+ *            language code such as 'en', 'es', 'ale', 'fr', and 'he'.
+ *   script - Unicode script code - <a href="http://www.unicode.org/iso15924/iso15924-codes.html">ISO-15924</a> 
+ *            script code such as 'Latn', 'Hebr', 'Arab', 'Hant', and 'Zmth'.
+ *   region - Unicode region code - <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO-3166</a>
+ *            region code such as 'AU', 'EG', 'IL', and 'US'.
+ *  variant - Unicode language variant code
+ * 
+ * Example locales:
+ * 
+ *  - 'en', 'en-US', 'en-Latn-US'
+ *  - 'he', 'he-IL', 'he-Hebr-IL', 'he-Hebr-US'
+ *  - 'en', 'en-AU', 'en-Latn-AU'
+ *  - 'ar', 'ar-EG', 'ar-Arab-EG'
+ * 
+ * (although specifyingt the script where that script will typically be used is highly discourged)
+ * 
+ * As per UTS #35, no BCP47 grandfathered tag are accepted.
+ * 
+ * \note The default locale is root.
+ * 
+ */
+int a_locale_set(const char *id);
 
 
+#if 0
+#ifdef A_INCLUDE_TOKEN/
+/* token/list manipulation (most of those are just convenience variations of the same internal function) */
+a_str       a_tok_add(a_str str, a_cstr token, const char *delimiter);
+a_str       a_tok_add_cp(a_str str, a_cstr token, a_cp codepoint);
+a_str       a_tok_add_cstr(a_str str, const char *token, const char *delimiter);
+a_str       a_tok_add_cstr_cp(a_str str, const char *token, a_cp codepoint);
+a_str       a_tok_rem(a_str str, a_cstr token, const char *delimiter, size_t nth);
+a_str       a_tok_rem_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
+a_str       a_tok_rem_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
+a_str       a_tok_rem_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
+a_str       a_tok_del(a_str str, const char *delimiter, size_t nth);
+a_str       a_tok_del_cp(a_str str, a_cp codepoint, size_t nth);
+a_str       a_tok_find(a_str str, a_cstr token, const char *delimiter, size_t nth);
+a_str       a_tok_find_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
+a_str       a_tok_find_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
+a_str       a_tok_find_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
+a_str       a_tok_get(a_str str, const char *delimiter, size_t nth);
+a_str       a_tok_get_cp(a_str str, a_cp codepoint, size_t nth);
+a_str       a_tok_len(a_str str, const char *delimiter, size_t nth);
+a_str       a_tok_len_cp(a_str str, a_cp codepoint, size_t nth);
+a_str       a_tok_ins(a_str str, a_cstr token, const char *delimiter, size_t nth); /* insert as the Nth token */
+a_str       a_tok_ins_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
+a_str       a_tok_ins_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
+a_str       a_tok_ins_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
+a_str       a_tok_put(a_str str, a_str token, const char *delimiter, size_t nth);               /* override Nth token */
+a_str       a_tok_put_cp(a_str str, a_str token, a_cp codepoint, size_t nth);
+a_str       a_tok_put_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
+a_str       a_tok_put_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
+a_str       a_tok_rep(a_str str, a_cstr token, a_cstr new_token, a_cp codepoint, size_t nth);      /* replace a token */
+a_str       a_tok_rep_cp(a_str str, a_cstr token, a_cstr new_token, const char *delimiter, size_t nth);
+a_str       a_tok_rep_cstr(a_str str, a_cstr token, const char *new_token, a_cp codepoint, size_t nth);
+a_str       a_tok_rep_cstr_cp(a_str str, a_cstr token, const char *new_token, const char *delimiter, size_t nth);
+a_str       a_tok_rep_cstr_cstr(a_str str, const char *token, const char *new_token, a_cp codepoint, size_t nth);
+a_str       a_tok_rep_cstr_cstr_cp(a_str str, const char *token, const char *new_token, const char *delimiter, size_t nth);
+a_str       a_tok_rem(a_str str, a_cstr token, a_cp codepoint, size_t nth);
+a_str       a_tok_rem_cp(a_str str, a_cstr token, const char *delimiter, size_t nth);
+a_str       a_tok_rem_cstr(a_str str, const char *token, a_cp codepoint, size_t nth);
+a_str       a_tok_rem_cstr_cp(a_str str, const char *token, const char *delimiter, size_t nth);
+a_str       a_tok_wild(a_str str, a_cstr pattern, a_cp codepoint, size_t nth);                       /* wildmatch Nth token */
+a_str       a_tok_wild_cp(a_str str, a_cstr pattern, const char *delimiter, size_t nth);
+a_str       a_tok_wild_cstr(a_str str, const char *pattern, a_cp codepoint, size_t nth);
+a_str       a_tok_wild_cstr_cp(a_str str, const char *pattern, const char *delimiter, size_t nth);
+a_str       a_tok_cont(a_str str, a_cstr pattern, a_cp codepoint, size_t nth);                       /* match Nth token */
+a_str       a_tok_cont_cp(a_str str, a_cstr pattern, const char *delimiter, size_t nth);
+a_str       a_tok_cont_cstr(a_str str, const char *pattern, a_cp codepoint, size_t nth);             /* match Nth token */
+a_str       a_tok_cont_cstr_cp(a_str str, const char *pattern, const char *delimiter, size_t nth);
+a_str       a_tok_sort(a_str str, const char *delimiter, int sort_option);
+a_str       a_tok_sort_cp(a_str str, a_cp codepoint, int sort_option);
+            /* case insensitive version ... */
+a_str       a_tok_i_add(a_str str, a_cstr token, const char *delimiter);
+a_str       a_tok_i_add_cp(a_str str, a_cstr token, a_cp codepoint);
+a_str       a_tok_i_add_cstr(a_str str, const char *token, const char *delimiter);
+a_str       a_tok_i_add_cstr_cp(a_str str, const char *token, a_cp codepoint);
+a_str       a_tok_i_rem(a_str str, a_cstr token, const char *delimiter, size_t nth);
+a_str       a_tok_i_rem_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_rem_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
+a_str       a_tok_i_rem_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_del(a_str str, const char *delimiter, size_t nth);
+a_str       a_tok_i_del_cp(a_str str, a_cp codepoint, size_t nth);
+a_str       a_tok_i_find(a_str str, a_cstr token, const char *delimiter, size_t nth);
+a_str       a_tok_i_find_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_find_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
+a_str       a_tok_i_find_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_get(a_str str, const char *delimiter, size_t nth);
+a_str       a_tok_i_get_cp(a_str str, a_cp codepoint, size_t nth);
+a_str       a_tok_i_len(a_str str, const char *delimiter, size_t nth);
+a_str       a_tok_i_len_cp(a_str str, a_cp codepoint, size_t nth);
+a_str       a_tok_i_ins(a_str str, a_cstr token, const char *delimiter, size_t nth); /* insert as the Nth token */
+a_str       a_tok_i_ins_cp(a_str str, a_cstr token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_ins_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
+a_str       a_tok_i_ins_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_put(a_str str, a_str token, const char *delimiter, size_t nth);               /* override Nth token */
+a_str       a_tok_i_put_cp(a_str str, a_str token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_put_cstr(a_str str, const char *token, const char *delimiter, size_t nth);
+a_str       a_tok_i_put_cstr_cp(a_str str, const char *token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_rep(a_str str, a_cstr token, a_cstr new_token, a_cp codepoint, size_t nth);      /* replace a token */
+a_str       a_tok_i_rep_cp(a_str str, a_cstr token, a_cstr new_token, const char *delimiter, size_t nth);
+a_str       a_tok_i_rep_cstr(a_str str, a_cstr token, const char *new_token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_rep_cstr_cp(a_str str, a_cstr token, const char *new_token, const char *delimiter, size_t nth);
+a_str       a_tok_i_rep_cstr_cstr(a_str str, const char *token, const char *new_token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_rep_cstr_cstr_cp(a_str str, const char *token, const char *new_token, const char *delimiter, size_t nth);
+a_str       a_tok_i_rem(a_str str, a_cstr token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_rem_cp(a_str str, a_cstr token, const char *delimiter, size_t nth);
+a_str       a_tok_i_rem_cstr(a_str str, const char *token, a_cp codepoint, size_t nth);
+a_str       a_tok_i_rem_cstr_cp(a_str str, const char *token, const char *delimiter, size_t nth);
+a_str       a_tok_i_wild(a_str str, a_cstr pattern, a_cp codepoint, size_t nth);                       /* wildmatch Nth token */
+a_str       a_tok_i_wild_cp(a_str str, a_cstr pattern, const char *delimiter, size_t nth);
+a_str       a_tok_i_wild_cstr(a_str str, const char *pattern, a_cp codepoint, size_t nth);
+a_str       a_tok_i_wild_cstr_cp(a_str str, const char *pattern, const char *delimiter, size_t nth);
+a_str       a_tok_i_cont(a_str str, a_cstr pattern, a_cp codepoint, size_t nth);                       /* match Nth token */
+a_str       a_tok_i_cont_cp(a_str str, a_cstr pattern, const char *delimiter, size_t nth);
+a_str       a_tok_i_cont_cstr(a_str str, const char *pattern, a_cp codepoint, size_t nth);             /* match Nth token */
+a_str       a_tok_i_cont_cstr_cp(a_str str, const char *pattern, const char *delimiter, size_t nth);
+a_str       a_tok_i_sort(a_str str, const char *delimiter, int sort_option);
+a_str       a_tok_i_sort_cp(a_str str, a_cp codepoint, int sort_option);
+#endif
+#endif
 /*
  * 
  * 
