@@ -36,7 +36,12 @@ endif
 
 NO_WARN=-Wno-overlength-strings
 
-LIB_FLAGS=-DA_NULL_PASSTHROUGH=0 -DA_INCLUDE_IO=1 -DA_INCLUDE_MEM=1 -DA_INCLUDE_NAMES=1
+LIB_FLAGS=	-DA_NULL_PASSTHROUGH=0          \
+		-DA_INCLUDE_IO=1                \
+		-DA_INCLUDE_MEM=1               \
+		-DA_INCLUDE_NAMES=1             \
+		-DA_INCLUDE_LOCALE=1            \
+		-DA_INCLUDE_LOCALE_LANG_NAME=1
 
 FG=-pedantic $(WARN) $(NO_WARN) -O2 -DNDEBUG $(LIB_FLAGS)
 FGD=-pedantic $(WARN) $(NO_WARN) -O0 -g -ggdb $(LIB_FLAGS)
