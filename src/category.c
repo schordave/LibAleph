@@ -209,17 +209,17 @@ static const short a_ascii_category[128] =
 };
 
 
-int a_ascii_is_alpha(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 1)); } 
-int a_ascii_is_digit(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 2)); } 
-int a_ascii_is_xdigit(a_cp cp) { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 3)); } 
-int a_ascii_is_odigit(a_cp cp) { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 4)); } 
-int a_ascii_is_bdigit(a_cp cp) { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 5)); } 
-int a_ascii_is_alnum(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 6)); } 
-int a_ascii_is_blank(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 7)); } 
-int a_ascii_is_cntrl(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 8)); } 
-int a_ascii_is_graph(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 9)); } 
-int a_ascii_is_lower(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 10)); } 
-int a_ascii_is_upper(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 11)); } 
-int a_ascii_is_print(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 12)); } 
-int a_ascii_is_punct(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 13)); } 
-int a_ascii_is_space(a_cp cp)  { A_ASSERT_CODEPOINT(codepoint); return (cp < 128) && (a_ascii_category[cp] & (1 << 14)); } 
+int a_ascii_is_alpha(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 1)); } 
+int a_ascii_is_digit(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 2)); } 
+int a_ascii_is_xdigit(a_cp cp) { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 3)); } 
+int a_ascii_is_odigit(a_cp cp) { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 4)); } 
+int a_ascii_is_bdigit(a_cp cp) { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 5)); } 
+int a_ascii_is_alnum(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 6)); } 
+int a_ascii_is_blank(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 7)); } 
+int a_ascii_is_cntrl(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 8)); } 
+int a_ascii_is_graph(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 9)); } 
+int a_ascii_is_lower(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 10)); } 
+int a_ascii_is_upper(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 11)); } 
+int a_ascii_is_print(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 12)); } 
+int a_ascii_is_punct(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 13)); } 
+int a_ascii_is_space(a_cp cp)  { A_ASSERT_CODEPOINT(cp); return (cp < 128) && (a_ascii_category[cp] & (1 << 14)); } 
