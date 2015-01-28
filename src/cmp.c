@@ -1,3 +1,15 @@
+int a_cmp(a_cstr str1, a_cstr str2)
+{
+    return strcmp(str1, str2);
+}
+int a_cmp_cstr(a_cstr str1, const char *str2)
+{
+    return strcmp(str1, str2);
+}
+int a_cmp_cstr_cstr(const char *str1, const char *str2)
+{
+    return strcmp(str1, str2);
+}
 int a_icmp(a_cstr str1, a_cstr str2)
 {
     return a_icmp_cstr_cstr(str1, str2);
