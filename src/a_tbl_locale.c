@@ -7887,8 +7887,8 @@ static const struct a_locale_data a_locale_data_lookup[A_LOCALE_LANG_SIZE] =
 #define A_LOCALE_SCRIPT_SIZE 175
 struct a_script_data
 {
-    const char script[4];
-    const short scriptn;
+    const char iso15924[4];
+    const short iso15924_n;
 };
 
 static const struct a_script_data a_script_data_lookup[A_LOCALE_SCRIPT_SIZE] =
@@ -8073,8 +8073,8 @@ static const struct a_script_data a_script_data_lookup[A_LOCALE_SCRIPT_SIZE] =
 #define A_LOCALE_REGION_SIZE 249
 struct a_region_data
 {
-    const char script[2];
-    const short scriptn;
+    const char iso3166_2[2];
+    const short iso3166_code;
 };
 
 /* ISO-3166 */
