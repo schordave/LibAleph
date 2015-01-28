@@ -7,21 +7,15 @@
 
 struct a_locale
 {
-    a_str val;
     int language;
     int script;
     int region;
+    int exceptions;
 };
 
 static struct a_locale *a_locale_get(void)
 {
-    static struct a_locale a_locale = { NULL, 0, 0, 0 };
-    
-    if (!a_locale.val)
-    {
-        a_locale.val = a_new("root");
-    }
-    
+    static struct a_locale a_locale = { -1, -1, -1 };
     return &a_locale;
 }
 
@@ -57,9 +51,25 @@ static int a_local_parse_region_subtag(const char **lang);
 int a_locale_set(const char *unicode_locale_id);
 int a_locale_set(const char *id)
 {
-    struct a_locale locale;
-    if (a_local_parse_locale(id, &locale))
-        return 1;
+    struct a_locale locale = { 0, 0, 0, 0};
+    struct a_locale *l;
+    
+    if (id != NULL)
+    {
+        if (a_local_parse_locale(id, &locale))
+            return 1;
+    }
+    else
+        id = "root";
+    
+    l = a_locale_get();
+    l->language = locale.language;
+    l->script = locale.script;
+    l->region = locale.region;
+    
+    if (locale.language == a_locale_country_tur
+        || locale.language ==  a_locale_country_aze)
+        l->exceptions |= (1 << 0);
     
     return 0;
 }
@@ -367,6 +377,10 @@ static int a_local_parse_unicode_language_id (const char **l, struct a_locale *l
     return 0;
 }
 
+/* ISO 639
+ * 
+ * We only accept the 2-letter ISO-639-2 and 3-letter ISO-639-3
+ */
 static int a_local_parse_language_subtag(const char **lang)
 {
     const char *start;
@@ -393,6 +407,10 @@ static int a_local_parse_language_subtag(const char **lang)
 }
 
 
+/* ISO-15924 script code -
+ * 
+ * this is simply the 4-letter script code
+ */
 static int a_local_parse_script_subtag(const char **script)
 {
     const char *start;
@@ -403,12 +421,16 @@ static int a_local_parse_script_subtag(const char **script)
         return -1;
     
     for (i = 0; i <= A_LOCALE_SCRIPT_SIZE; ++i)
-        if (!a_icmpn_cstr_cstr(start, a_script_data_lookup[i].script, 4))
+        if (!a_icmpn_cstr_cstr(start, a_script_data_lookup[i].iso15924, 4))
             return i;
         
     return -1;
 }
 
+/* ISO-3166 region code -
+ * 
+ *  this is either a 2-letter region code or their equivilent numeric value
+ */
 static int a_local_parse_region_subtag(const char **region)
 {
     size_t i;
@@ -416,7 +438,7 @@ static int a_local_parse_region_subtag(const char **region)
     if (loc_is_alpha(region, 2, 2))
     {
         for (i = 0; i <= A_LOCALE_REGION_SIZE; ++i)
-            if (!a_icmpn_cstr_cstr(*region-2, a_region_data_lookup[i].script, 2))
+            if (!a_icmpn_cstr_cstr(*region-2, a_region_data_lookup[i].iso3166_2, 2))
                 return i;
     }
     else if (loc_is_digit(region, 3, 3))
@@ -429,7 +451,7 @@ static int a_local_parse_region_subtag(const char **region)
         val = strtol(num, NULL, 10);
             
         for (i = 0; i <= A_LOCALE_REGION_SIZE; ++i)
-            if (a_region_data_lookup[i].scriptn == val)
+            if (a_region_data_lookup[i].iso3166_code == val)
                 return i;
     }
     return -1;
