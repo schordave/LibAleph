@@ -10,10 +10,13 @@
  */
 a_str a_reserve(a_str s, size_t l)
 {
-    struct a_header *h = a_header(s);
-    size_t size = h->mem;
+    struct a_header *h;
+    size_t size;
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
+    
+    h = a_header(s);
+    size = h->mem;
  
     if (size <= l)
     {
