@@ -73,6 +73,26 @@ char *a_to_fold_cp(a_cp cp, char *b)
     assert(b != NULL);
     PASSTHROUGH_ON_FAIL(b != NULL, NULL);
     
+    /*
+    * special exception for turkish language
+    * 
+    * 0049; T; 0131; # LATIN CAPITAL LETTER I
+    * 0130; T; 0069; # LATIN CAPITAL LETTER I WITH DOT ABOVE
+    */
+    if (a_locale_get()->exceptions & (1 << 0))
+    {
+        if (cp == 0x49)
+        {
+            b[0] = (char)0xC4, b[1] = (char)0xB1, b[2] = '\0';
+            return b;
+        }
+        else if (cp == 0x130)
+        {
+            b[0] = (char)0x69, b[1] = '\0';
+            return b;
+        }
+    }
+    
     /* common case */
     if (!(r->special & A_SPECIAL_MASK_CASEFOLD))
     {
@@ -137,6 +157,26 @@ a_cp *a_to_fold_cp_cp(a_cp cp, a_cp *b)
     assert(A_MIN_CP <= cp && cp <= A_MAX_CP);
     assert(b != NULL);
     PASSTHROUGH_ON_FAIL(b != NULL, NULL);
+    
+    /*
+    * special exception for turkish language
+    * 
+    * 0049; T; 0131; # LATIN CAPITAL LETTER I
+    * 0130; T; 0069; # LATIN CAPITAL LETTER I WITH DOT ABOVE
+    */
+    if (a_locale_get()->exceptions & (1 << 0))
+    {
+        if (cp == 0x49)
+        {
+            b[0] = 0x131;
+            return b;
+        }
+        else if (cp == 0x130)
+        {
+            b[0] = 0x69;
+            return b;
+        }
+    }
     
     /* common case */
     if (!(r->special & A_SPECIAL_MASK_CASEFOLD))
