@@ -80,7 +80,7 @@ char *a_to_fold_cp(a_cp cp, char *b)
      * 0049; T; 0131; # LATIN CAPITAL LETTER I
      * 0130; T; 0069; # LATIN CAPITAL LETTER I WITH DOT ABOVE
      */
-    if (a_locale_get()->exceptions & (1 << 0))
+    if (a_locale_get()->exceptions & A_LOCALE_TURKISH_EXCEPTION)
     {
         if (cp == 0x49)
         {
@@ -167,7 +167,7 @@ a_cp *a_to_fold_cp_cp(a_cp cp, a_cp *b)
      * 0049; T; 0131; # LATIN CAPITAL LETTER I
      * 0130; T; 0069; # LATIN CAPITAL LETTER I WITH DOT ABOVE
      */
-    if (a_locale_get()->exceptions & (1 << 0))
+    if (a_locale_get()->exceptions & A_LOCALE_TURKISH_EXCEPTION)
     {
         if (cp == 0x49)
         {

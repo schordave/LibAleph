@@ -11,6 +11,7 @@ struct a_locale
     int script;
     int region;
     int exceptions;
+#define A_LOCALE_TURKISH_EXCEPTION (1 << 0)
 };
 
 static struct a_locale *a_locale_get(void)
@@ -60,7 +61,10 @@ int a_locale_set(const char *id)
             return 1;
     }
     else
+    {
         id = "root";
+        locale.language = locale.script = locale.region = 0;
+    }
     
     l = a_locale_get();
     l->language = locale.language;
