@@ -3,8 +3,39 @@
  * 
  * License: MIT
  */
-static int a_local_parse_unicode_language_id(const char **l);
-static int a_local_parse_locale(const char *l);
+#if A_INCLUDE_LOCALE == 1
+
+struct a_locale
+{
+    a_str val;
+    int language;
+    int script;
+    int region;
+};
+
+static struct a_locale *a_locale_get(void)
+{
+    static struct a_locale a_locale = { NULL, 0, 0, 0 };
+    
+    if (!a_locale.val)
+    {
+        a_locale.val = a_new("root");
+    }
+    
+    return &a_locale;
+}
+
+int a_locale_language(void)
+{
+    return a_locale_get()->language;
+}
+
+
+static int a_local_parse_unicode_language_id(const char **l, struct a_locale *locale);
+static int a_local_parse_locale(const char *l, struct a_locale *locale);
+static int a_local_parse_language_subtag(const char **lang);
+static int a_local_parse_script_subtag(const char **lang);
+static int a_local_parse_region_subtag(const char **lang);
 
 /*
  * Accepts a Unicode Locale Identifier as defined by UTS #35.
@@ -16,11 +47,18 @@ static int a_local_parse_locale(const char *l);
  * although for now, we just accept them and discard them.
  * 
  * http://unicode.org/reports/tr35/
+ * http://www.w3.org/International/articles/bcp47/
+ * 
+ * Accepts only well-formed tags (grammar-wise AND content-wise).
+ * As per UTS #35, no BCP47 grandfathered tag are accepted.
+ * 
+ * Returns 0 on success, else failure.
  */
 int a_locale_set(const char *unicode_locale_id);
 int a_locale_set(const char *id)
 {
-    if (a_local_parse_locale(id))
+    struct a_locale locale;
+    if (a_local_parse_locale(id, &locale))
         return 1;
     
     return 0;
@@ -108,7 +146,7 @@ static int loc_is_sep(const char **str)
     return 0;
 }
 
-static int a_local_parse_locale(const char *id)
+static int a_local_parse_locale(const char *id, struct a_locale *locale)
 {
     char lang_subtag[9];
     char script_subtag[5] = {0,0,0,0,0};
@@ -117,7 +155,7 @@ static int a_local_parse_locale(const char *id)
     const char *start;
     size_t c = 0;
     
-    if (!a_local_parse_unicode_language_id(&id))
+    if (!a_local_parse_unicode_language_id(&id, locale))
     {
         /* sep (transformed_extensions unicode_locale_extensions?
             | unicode_locale_extensions? transformed_extensions?) */
@@ -155,6 +193,7 @@ static int a_local_parse_locale(const char *id)
                 {
                     memcpy(lang_subtag, start, id-start);
                     lang_subtag[id-start] = 0;
+                    
                     (void)lang_subtag;
                     
                     /* unicode_script_subtag */
@@ -254,6 +293,8 @@ static int a_local_parse_locale(const char *id)
                             while (loc_is_sep(&id) && loc_is_alnum(&id, 3, 8));
                     }
                 }
+                else
+                    return 1;
             }
             else
                 return 1;
@@ -261,12 +302,9 @@ static int a_local_parse_locale(const char *id)
     }
     return 0;
 }
-static int a_local_parse_unicode_language_id (const char **l)
+static int a_local_parse_unicode_language_id (const char **l, struct a_locale *locale)
 {
     const char *start, *at = *l;
-    char lang_subtag[9];
-    char script_subtag[5] = {0,0,0,0,0};
-    char region_subtag[4] = {0,0,0,0};
     char variant_subtag[10];
 /*
        unicode_language_id = "root"
@@ -281,42 +319,24 @@ static int a_local_parse_unicode_language_id (const char **l)
         return 0;
     }
     
-    /* unicode_language_subtag = alpha{2,8} ; */
-    start = at;
-    if (!loc_is_alpha(&at, 2, 8))
-        return 1;
-    memcpy(lang_subtag, start, at-start);
-    lang_subtag[at-start] = 0;
-    
-    (void)lang_subtag;
-    
+    /* unicode_language_subtag */
+    if ((locale->language = a_local_parse_language_subtag(&at)) < 0)
+        return 1;    
+
     /* [-_] */
     if (!loc_is_sep(&at))
         return 0;
     
-    /* unicode_script_subtag   = alpha{4} ; */
-    start = at;
-    if (loc_is_alpha(&at, 4, 4))
+    /* unicode_script_subtag */
+    if ((locale->script = a_local_parse_script_subtag(&at)) >= 0)
     {
-        memcpy(script_subtag, start, at-start);
-        script_subtag[at-start] = 0;
-        
-        (void)script_subtag;
-        
         /* [-_] */
         if (!loc_is_sep(&at))
             return 0;
     }
     
-    /* unicode_region_subtag = (alpha{2} | digit{3}) */
-    start = at;
-    if (loc_is_alpha(&at, 2, 2)) 
-        memcpy(region_subtag, start, 2);
-    else if (loc_is_digit(&at, 3, 3))
-        memcpy(region_subtag, start, 3);
-    
-    (void)region_subtag;
-    
+    /* unicode_region_subtag */
+    locale->region = a_local_parse_region_subtag(&at);
     
     /* ([-_] ([0-9 A-Z a-z]{5,8} | [0-9][0-9 A-Z a-z]{3}))* 
      */
@@ -346,3 +366,74 @@ static int a_local_parse_unicode_language_id (const char **l)
     *l = at;
     return 0;
 }
+
+static int a_local_parse_language_subtag(const char **lang)
+{
+    const char *start;
+    size_t i;
+    
+    start = *lang;
+    if (!loc_is_alpha(lang, 2, 8))
+        return -1;
+    
+    if (*lang-start == 2)
+    {
+        for (i = 0; i <= A_LOCALE_LANG_SIZE; ++i)
+            if (!a_icmpn_cstr_cstr(start, a_locale_data_lookup[i].iso639_2, 2))
+                return i;
+    }
+    else if (*lang-start == 3)
+    {
+        for (i = 0; i <= A_LOCALE_LANG_SIZE; ++i)
+            if (!a_icmpn_cstr_cstr(start, a_locale_data_lookup[i].iso639_3, 3))
+                return i;
+    }
+    
+    return -1;
+}
+
+
+static int a_local_parse_script_subtag(const char **script)
+{
+    const char *start;
+    size_t i;
+    
+    start = *script;
+    if (!loc_is_alpha(script, 4, 4))
+        return -1;
+    
+    for (i = 0; i <= A_LOCALE_SCRIPT_SIZE; ++i)
+        if (!a_icmpn_cstr_cstr(start, a_script_data_lookup[i].script, 4))
+            return i;
+        
+    return -1;
+}
+
+static int a_local_parse_region_subtag(const char **region)
+{
+    size_t i;
+    
+    if (loc_is_alpha(region, 2, 2))
+    {
+        for (i = 0; i <= A_LOCALE_REGION_SIZE; ++i)
+            if (!a_icmpn_cstr_cstr(*region-2, a_region_data_lookup[i].script, 2))
+                return i;
+    }
+    else if (loc_is_digit(region, 3, 3))
+    {
+        int val;
+        char num[4];
+        
+        memcpy(num, *region-3, 3);
+        num[3] = '\0';
+        val = strtol(num, NULL, 10);
+            
+        for (i = 0; i <= A_LOCALE_REGION_SIZE; ++i)
+            if (a_region_data_lookup[i].scriptn == val)
+                return i;
+    }
+    return -1;
+}
+
+
+#endif
