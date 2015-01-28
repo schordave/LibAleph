@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
+ * 
+ * License: MIT
+ */
+
 const char a_next_char_size[256] = 
 {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -15,12 +21,6 @@ const char a_next_char_size[256] =
     4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1
 };
 
-
-/*
- * Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
- * 
- * License: MIT
- */
 char *a_next(const char **s)
 {
     assert(s != NULL);
