@@ -28,7 +28,7 @@ CC?=gcc
 
 WARN=-Werror -Wall -Wformat-nonliteral -Wformat-security \
 	-Wswitch-default -Wundef -Wbad-function-cast \
-	-Wwrite-strings
+	-Wwrite-strings -Wmissing-field-initializers
 	# -Wconversion
 ifeq ($(CC), gcc)
     WARN += -Wlogical-op
@@ -36,7 +36,7 @@ endif
 
 NO_WARN=-Wno-overlength-strings
 
-LIB_FLAGS=	-DA_NULL_PASSTHROUGH=0          \
+LIB_FLAGS=	-DA_NULL_PASSTHROUGH=1          \
 		-DA_INCLUDE_IO=1                \
 		-DA_INCLUDE_MEM=1               \
 		-DA_INCLUDE_NAMES=1             \
