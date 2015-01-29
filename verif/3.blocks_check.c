@@ -67,3 +67,28 @@ CTEST(Categories, check_block_arabic)
         ASSERT_EQUAL(0, a_icmp_cstr_cstr(a_block_name_cp(cp), "Arabic"));
     }
 }
+
+CTEST(Categories, check_block_emoticons)
+{
+    const char *e;
+    
+    e = "😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐";
+    while (*e)
+        ASSERT_EQUAL(a_block_emoticons, a_block_cp(a_next_cp(&e)));
+    
+
+    e = "😸😹😺😻😼😽😾😿🙀";
+    while (*e)
+        ASSERT_EQUAL(a_block_emoticons, a_block_cp(a_next_cp(&e)));
+    
+
+    e = "🙅🙆🙇🙈🙉🙊🙋🙌";
+    while (*e)
+        ASSERT_EQUAL(a_block_emoticons, a_block_cp(a_next_cp(&e)));
+}
+
+CTEST(Categories, check_block_boundries)
+{
+    ASSERT_EQUAL(a_block_basic_latin, a_block_cp(A_MIN_CP));
+    ASSERT_EQUAL(a_block_supplementary_private_use_area_b, a_block_cp(A_MAX_CP));
+}
