@@ -22,6 +22,7 @@ void a_free_n(a_str str, ...)
     va_list ap;
     a_str s;
     
+    a_free(str);
     va_start(ap, str);
     while ((s = va_arg(ap, a_str)))
         a_free(s);
