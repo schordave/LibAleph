@@ -7,5 +7,5 @@ before_install:
 script:
   - make verif
 after_success:
-  - ./verif/test
+  - cd verif/ && ./test && gcov aleph.c
 #  - coveralls --verbose --dryrun
