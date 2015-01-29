@@ -8,4 +8,4 @@ script:
   - make verif
 after_success:
   - cd verif/ && ./test && gcov aleph.c
-  - cp verif/ && coveralls --verbose --dryrun
+  - cd verif/ && coveralls --verbose --dryrun
