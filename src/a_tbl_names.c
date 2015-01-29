@@ -1,10 +1,16 @@
+/*                                                                     
+ * Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC  
+ *                                                                     
+ * License: MIT                                                        
+ */                                                                    
+
 /**************************************************************************
  *     WARNING                                                WARNING     *
  *                                                                        *
  *       THIS FILE WAS GENERATED USING THE GEN TOOL. DO NOT MODIFY        *
  *       THIS CODE MANUALLY! ALL CHANGES WILL BE LOST!                    *
  *                                                                        *
- *       Generated on: Wed, 21 Jan 2015 16:31:53 -0500                    *
+ *       Generated on: Sat, 24 Jan 2015 22:03:46 EST                      *
  *                                                                        *
  *                Run: 'make aleph_gen' to regenerate.                    *
  *                                                                        *
