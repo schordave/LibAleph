@@ -149,21 +149,21 @@ CTEST(Sequences, invalid_continuation_bytes)
 CTEST(Sequences, sequences_with_last_cont_byte_missing)
 {
     size_t i;
-    const char *s, *s2; 
+    const char *s; 
     
     /* Sequences with last continuation byte missing */
     
     /* 2-byte sequences with last byte missing every other one */
     s = "\xD7\x90\xD7\xD7\x90\xD7\xD7\x90\xD7\xD7\x90\xD7\xD7\x90\xD7\xD7\x90\xD7\xD7\x90\xD7"
         "\xD7\x90\xD7\xD7\x90\xD7\xD7\x90\xD7ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
-    for (i = 0, s2 = s; (s = a_is_valid_utf8(s)); ++i, ++s);
+    for (i = 0; (s = a_is_valid_utf8(s)); ++i, ++s);
     ASSERT_EQUAL(10, i); /* make sure all 16 were found */
     
     /* 3-byte sequences with last byte missing every other one */
     s = "\xE3\x84\x9E\xE3\x84\xE3\x84\x9E\xE3\x84\xE3\x84\x9E\xE3\x84\xE3\x84\x9E\xE3\x84\xE3"
         "\x84\x9E\xE3\x84\xE3\x84\x9E\xE3\x84\xE3\x84\x9E\xE3\x84\xE3\x84\x9E\xE3\x84\xE3\x84"
         "\x9E\xE3\x84\xE3\x84\x9E\xE3\x84ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
-    for (i = 0, s2 = s; (s = a_is_valid_utf8(s)); ++i, s += 2);
+    for (i = 0; (s = a_is_valid_utf8(s)); ++i, s += 2);
     ASSERT_EQUAL(10, i); /* make sure all 16 were found */
     
     /* 4-byte sequences with last byte missing every other one */
@@ -171,12 +171,12 @@ CTEST(Sequences, sequences_with_last_cont_byte_missing)
         "\xF0\x9F\x98\x81\xF0\x9F\x98\xF0\x9F\x98\x81\xF0\x9F\x98\xF0\x9F\x98\x81\xF0\x9F\x98"
         "\xF0\x9F\x98\x81\xF0\x9F\x98\xF0\x9F\x98\x81\xF0\x9F\x98\xF0\x9F\x98\x81\xF0\x9F\x98"
         "\xF0\x9F\x98\x81\xF0\x9F\x98XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-    for (i = 0, s2 = s; (s = a_is_valid_utf8(s)); ++i, s += 3);
+    for (i = 0; (s = a_is_valid_utf8(s)); ++i, s += 3);
     ASSERT_EQUAL(10, i); /* make sure all 16 were found */
     
     /* combination of all above */
     s = "\xD7\xE3\x84\xF0\x9F\x98\xE3\x84\xD7";
-    for (i = 0, s2 = s; (s = a_is_valid_utf8(s)); ++i, ++s);
+    for (i = 0; (s = a_is_valid_utf8(s)); ++i, ++s);
     ASSERT_EQUAL(9, i); /* make sure all 16 were found */
     
 }
