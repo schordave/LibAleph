@@ -16,7 +16,7 @@ struct a_locale
 
 static struct a_locale *a_locale_get(void)
 {
-    static struct a_locale a_locale = { -1, -1, -1, -1 };
+    static struct a_locale a_locale = { -1, -1, -1, 0 };
     return &a_locale;
 }
 
