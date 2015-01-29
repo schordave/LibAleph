@@ -42,6 +42,7 @@ a_str a_cat_str(a_str s, a_str s2)
     memcpy(s+h->size, s2, s2_size);
     h->len += a_len(s2);
     h->size += s2_size;
+    s[h->size] = '\0';
     return s;
 }
 
