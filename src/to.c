@@ -8,7 +8,7 @@ a_cp a_to_cp(const char *s)
     const unsigned char *p = (const unsigned char*)s;
     unsigned char c = *p;
     assert(s != NULL);
-    PASSTHROUGH_ON_FAIL(s != NULL, NULL);
+    PASSTHROUGH_ON_FAIL(s != NULL, 0);
     
     if (c < 0x80)
         return c;
