@@ -142,3 +142,43 @@ CTEST(Categories, check_cat_len)
     
     a_free(a);
 }
+
+CTEST(Categories, check_cat_cp)
+{
+    a_cp cp;
+    a_str a;
+    
+    a = a_new(NULL);
+    
+    for (cp = 0x24B6; cp <= 0x24CF; ++cp)
+        a = a_cat_cp(a, cp);
+    
+    ASSERT_EQUAL(26, a_len(a));
+    ASSERT_EQUAL(26*3, a_size(a));
+    ASSERT_EQUAL(0, a_cmp_cstr(a, "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ"));
+    ASSERT_EQUAL(0, a_icmp_cstr(a, "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ"));
+    
+    a_clear(a);
+    
+    for (cp = 0x24D0; cp <= 0x24E9; ++cp)
+        a = a_cat_cp(a, cp);
+    
+    ASSERT_EQUAL(26, a_len(a));
+    ASSERT_EQUAL(26*3, a_size(a));
+    ASSERT_EQUAL(0, a_cmp_cstr(a, "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ"));
+    ASSERT_EQUAL(0, a_icmp_cstr(a, "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ"));
+    
+    a_clear(a);
+    
+    for (cp = 0x16A0; cp <= 0x16F8; ++cp)
+        a = a_cat_cp(a, cp);
+    
+    ASSERT_EQUAL(89, a_len(a));
+    ASSERT_EQUAL(89*3, a_size(a));
+    ASSERT_EQUAL(0, a_cmp_cstr(a, "ᚠᚡᚢᚣᚤᚥᚦᚧᚨᚩᚪᚫᚬᚭᚮᚯᚰᚱᚲᚳᚴᚵᚶᚷᚸᚹᚺᚻᚼᚽᚾᚿᛀᛁᛂᛃᛄᛅᛆᛇᛈᛉᛊᛋᛌᛍᛎᛏᛐᛑᛒᛓᛔᛕᛖᛗᛘᛙᛚᛛᛜᛝᛞᛟᛠᛡᛢᛣᛤᛥᛦᛧᛨᛩᛪ᛫᛬᛭ᛮᛯᛰᛱᛲᛳᛴᛵᛶᛷᛸ"));
+    ASSERT_EQUAL(0, a_icmp_cstr(a, "ᚠᚡᚢᚣᚤᚥᚦᚧᚨᚩᚪᚫᚬᚭᚮᚯᚰᚱᚲᚳᚴᚵᚶᚷᚸᚹᚺᚻᚼᚽᚾᚿᛀᛁᛂᛃᛄᛅᛆᛇᛈᛉᛊᛋᛌᛍᛎᛏᛐᛑᛒᛓᛔᛕᛖᛗᛘᛙᛚᛛᛜᛝᛞᛟᛠᛡᛢᛣᛤᛥᛦᛧᛨᛩᛪ᛫᛬᛭ᛮᛯᛰᛱᛲᛳᛴᛵᛶᛷᛸ"));
+       
+    puts(a);
+    
+    a_free(a);
+}
