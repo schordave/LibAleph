@@ -30,18 +30,18 @@ a_str a_cat(a_str s, const char *s2)
 a_str a_cat_str(a_str s, a_str s2) 
 {
     struct a_header *h;
-    size_t length2;
+    size_t s2_size;
     assert(s != NULL && s2 != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL && s2 != NULL, NULL);
     
-    length2 = a_len(s2);
-    s = a_ensure(s, length2);
+    s2_size = a_size(s2);
+    s = a_ensure(s, s2_size);
     if (!s)
         return NULL;
     h = a_header(s);
-    memcpy(s+h->size, s2, length2);
+    memcpy(s+h->size, s2, s2_size);
     h->len += a_len(s2);
-    h->size += length2;
+    h->size += s2_size;
     return s;
 }
 
