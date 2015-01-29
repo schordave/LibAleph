@@ -53,7 +53,6 @@ CTEST(Categories, check_cat)
 
 CTEST(Categories, check_cat_chr)
 {
-    int i;
     a_str a;
     
     a = a_new("test");
@@ -120,7 +119,6 @@ CTEST(Categories, check_cat_str)
 
 CTEST(Categories, check_cat_len)
 {
-    int i;
     a_str a;
     
     a = a_new("test");
