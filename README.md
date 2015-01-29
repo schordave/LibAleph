@@ -1,6 +1,7 @@
 LibAleph <img src="doc/logo.png?raw=true" alt="LibAleph" height="100px" /> 
 =============
-[![Build Status](https://travis-ci.org/ZigWap/LibAleph.svg?branch=master)](https://travis-ci.org/ZigWap/LibAleph) [![Coverage Status](https://coveralls.io/repos/ZigWap/LibAleph/badge.svg?branch=master)](https://coveralls.io/r/ZigWap/LibAleph?branch=master)
+[![Build Status](https://img.shields.io/travis/ZigWap/LibAleph.svg)](https://travis-ci.org/ZigWap/LibAleph) [![Coverage Status](https://img.shields.io/coveralls/ZigWap/LibAleph/master.svg)](https://coveralls.io/r/ZigWap/LibAleph?branch=master)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 A complete, portable, Unicode library for C.
 
