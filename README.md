@@ -1,5 +1,6 @@
-LibAleph <img src="doc/logo.png?raw=true" alt="LibAleph" height="100px" />
+LibAleph <img src="doc/logo.png?raw=true" alt="LibAleph" height="100px" /> 
 =============
+[![Build Status](https://travis-ci.org/ZigWap/LibAleph.svg?branch=master)](https://travis-ci.org/ZigWap/LibAleph) [![Coverage Status](https://coveralls.io/repos/ZigWap/LibAleph/badge.svg?branch=master)](https://coveralls.io/r/ZigWap/LibAleph?branch=master)
 
 A complete, portable, Unicode library for C.
 
