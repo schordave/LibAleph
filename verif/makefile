@@ -11,6 +11,7 @@ endif
 
 manual_list_of_tests=1.utf8_check.o \
                      2.category_check.o \
+                     3.blocks_check.o \
                      5.case_insensitivity.o
 
 all: test

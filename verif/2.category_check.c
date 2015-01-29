@@ -24,6 +24,19 @@
 #include "ctest.h"
 #include "aleph.h"
 
+CTEST(Categories, check_category)
+{
+    a_cp cp;
+    
+    for (cp = 'a'; cp < 'z'; ++cp)
+        ASSERT_TRUE(a_category(cp) == a_gc_letter_lowercase);
+    
+    for (cp = 'A'; cp < 'Z'; ++cp)
+        ASSERT_TRUE(a_category(cp) == a_gc_letter_uppercase);
+
+    ASSERT_TRUE(a_category(' ') & a_gc_separator);
+}
+
 CTEST(Categories, check_currency_category)
 {
     ASSERT_TRUE(a_is_currency(a_to_cp("₠")));
