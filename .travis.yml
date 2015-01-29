@@ -7,5 +7,5 @@ before_install:
 script:
   - make verif
 after_success:
-  - ./verif/test
+  - valgrind --error-exitcode=1 ./verif/test
   - cd verif/ && coveralls --verbose
