@@ -107,6 +107,7 @@ CTEST(Categories, check_cat_str)
     ASSERT_EQUAL(10+15+8+5+6, a_size(f));
     
     ASSERT_EQUAL(0, a_icmp_cstr(f, "مرحباγεια σαςשלוםhello您好"));
+    ASSERT_EQUAL(0, a_cmp_cstr(f, "مرحباγεια σαςשלוםhello您好"));
 
     /* small sanity test */
     ASSERT_EQUAL(a_len(a)+a_len(b)
@@ -115,4 +116,31 @@ CTEST(Categories, check_cat_str)
         +a_size(c)+a_size(d)+a_size(e), a_size(f));
     
     a_free_n(a, b, c, d, e, f, NULL);
+}
+
+CTEST(Categories, check_cat_len)
+{
+    int i;
+    a_str a;
+    
+    a = a_new("test");
+    
+    a = a_cat_len(a, "∜∜∛∛", 3);
+    a = a_cat_len(a, "∛∛∜∜", 3);
+    
+    ASSERT_EQUAL(4+1+1, a_len(a));
+    ASSERT_EQUAL(4+3+3, a_size(a));
+    ASSERT_EQUAL(0, a_cmp_cstr(a, "test∜∛"));
+    ASSERT_EQUAL(0, a_icmp_cstr(a, "test∜∛"));
+    
+    a = a_cat_len(a, "ⒶⒷⒸ", 3);
+    a = a_cat_len(a, "ⒷⒸⒶ", 3);
+    a = a_cat_len(a, "ⒸⒶⒷ", 3);
+    
+    ASSERT_EQUAL(6+1+1+1, a_len(a));
+    ASSERT_EQUAL(10+3+3+3, a_size(a));
+    ASSERT_EQUAL(0, a_cmp_cstr(a, "test∜∛ⒶⒷⒸ"));
+    ASSERT_EQUAL(0, a_icmp_cstr(a, "test∜∛ⒶⒷⒸ"));
+    
+    a_free(a);
 }

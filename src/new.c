@@ -48,7 +48,7 @@ a_str a_new_len(const char *s, size_t l)
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
     
-    if ((str = a_new_size_raw(l)))
+    if ((str = a_new_size_raw(l+1)))
     {
         h = a_header(str);
         memcpy(str, s, l);
