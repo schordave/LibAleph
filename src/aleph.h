@@ -389,6 +389,7 @@ int         a_startswith_cstr(a_cstr str, const char *substr);
 int         a_startswith_norm(a_str str, a_str substr);
 int         a_endswith(a_cstr str, a_str substr);
 int         a_endswith_cstr(a_cstr str, const char *substr);
+int         a_endswith_cstr_cstr(const char *str, const char *substr);
 int         a_endswith_norm(a_str str, a_str substr);
 
 int         a_istartswith(a_cstr str, a_cstr substr);
@@ -396,6 +397,7 @@ int         a_istartswith_cstr(a_cstr str, const char *substr);
 int         a_istartswith_norm(a_str str, a_str substr);
 int         a_iendswith(a_cstr str, a_str substr);
 int         a_iendswith_cstr(a_cstr str, const char *substr);
+int         a_iendswith_cstr_cstr(const char *str, const char *substr);
 int         a_iendswith_norm(a_str str, a_str substr);
 /* reverse */
 a_str       a_reverse(a_str str);
