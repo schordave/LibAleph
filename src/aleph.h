@@ -326,6 +326,7 @@ a_str       a_ins_offset_cstr(a_str str, const char *str2, size_t offset);
 a_str       a_ins_offset_cp(a_str str, a_cp codepoint, size_t offset);
 /*@}*/
 
+
 /** \name Splitting
  *
  * Functions used to split a string with various options.
@@ -550,19 +551,45 @@ a_str       a_reverse_str(a_str str, a_str output);
 /*@}*/
 
 
-/* escape */
+/** \name Escaping/Unescaping
+ *
+ * Functions used to transform a string into an escaped string and
+ * vice versa.
+ * 
+ * @{
+ */
 a_str       a_escape(a_str str); /* escape '\b', '\f', '\n', '\r', '\t', '\v', '\' and '"'; 0x01-0x1F, and 0x7F-0xFF  */
 a_str       a_escape_except(a_str str, const char *except);
 a_str       a_unescape(a_str str);
-/* file i/o */
+/*@}*/
+
+
+
 #if A_INCLUDE_IO == 1
+/** \name Input/Output handling
+ *
+ * Functions used in reading and writing to a FILE object.
+ * 
+ * @{
+ */
 a_str       a_file_read(FILE *fp);
 a_str       a_file_readline(FILE *fp);
 a_str       a_file_readline_delim(FILE *fp, const char *delim);
 a_str       a_file_readline_delim_str(FILE *fp, const char *delim, a_str str);
 size_t      a_file_line_count(FILE *fp);
 #endif
+/*@}*/
+
+
 #if A_INCLUDE_MEM == 1
+/** \name Garbage Collection
+ *
+ * A set of functions to facilitate a light weight string release pool
+ * that can be used to collect strings and free them all at once at a
+ * later period.
+ * 
+ * @{
+ */
 a_str       a_gc_collect(a_pool *pool, a_str str);
 void        a_gc_free(a_pool pool);
 a_pool      a_gc_new();
@@ -570,12 +597,28 @@ a_pool      a_gc_new();
 #define     a_gc_done() a_gc_free(a_tmp_pool)
 #define     a_(s) a_gc_collect(&a_tmp_pool, s)
 #define     A_(p, s) a_gc_collect(&p, s)
+/*@}*/
 #endif
-/* formatting */
+
+
 #if ALEPH_C_V == 2
+/** \name Formatting
+ *
+ * ...
+ * 
+ * @{
+ */
 a_str       a_format(a_str str, const char *format, ...);
-#endif 
-/* to / conersions */
+/*@}*/
+#endif
+
+
+/** \name Transformation
+ *
+ * ...
+ * 
+ * @{
+ */
 a_cp        a_to_cp(const char *str);
 const char *a_to_utf8(a_cp codepoint, char *buffer);
 const char *a_to_utf8_size(a_cp codepoint, char *buffer, int *size);
@@ -587,7 +630,32 @@ char       *a_to_fold_cp(a_cp cp, char *b);
 a_cp       *a_to_fold_cp_cp(a_cp cp, a_cp *b);
 char       *a_to_fold_simple_chr(a_cp cp, char *b);
 a_cp        a_to_fold_simple_chr_cp(a_cp cp);
-/* categories */
+/*@}*/
+
+
+#if A_INCLUDE_NAMES == 1
+/** \name Names 
+ *
+ * ...
+ * 
+ * @{
+ */
+/**
+ * \brief Size for a buffer large enough to store
+ *        any Unicode character name. (and a \0)
+ */
+#   define A_NAME_MAX_SIZE 100
+char       *a_name_cp(a_cp codepoint, char *buff);
+/*@}*/
+#endif
+
+
+/** \name Categories
+ *
+ * ...
+ * 
+ * @{
+ */
 int         a_ascii_is_alpha(a_cp codepoint);
 int         a_ascii_is_digit(a_cp codepoint);
 int         a_ascii_is_xdigit(a_cp codepoint);
@@ -703,7 +771,15 @@ enum a_general_categories
     a_gc_punctuation    = a_gc_pc|a_gc_pd|a_gc_ps|a_gc_pe|a_gc_pi|a_gc_pf|a_gc_po,
     a_gc_separator      = a_gc_zs|a_gc_zl|a_gc_zp
 };
-/* blocks */
+/*@}*/
+
+
+/** \name Blocks
+ *
+ * ...
+ * 
+ * @{
+ */
 a_cp        a_block_start(int block);
 a_cp        a_block_end(int block);
 a_cp        a_block_size(int block);
@@ -966,8 +1042,15 @@ enum a_blocks
         a_block_supplementary_private_use_area_b                   = 251,
         a_block_count
 };
+/*@}*/
 
-/* Normalization Forms */
+
+/** \name Normalization
+ *
+ * ...
+ * 
+ * @{
+ */
 a_str       a_normalize(a_str str, int mode);
 a_str       a_normalize_cstr(const char *str, int mode);
 a_str       a_new_normalize(a_cstr str, int mode); /* also declared above */
@@ -985,22 +1068,40 @@ enum a_normalization_forms_quick_check
     a_norm_no,
     a_norm_maybe
 };
-/* hash */
+/*@}*/
+
+
+
+/** \name Hashing
+ *
+ * ...
+ * 
+ * @{
+ */
 unsigned long   a_hash(a_cstr str);
 unsigned int    a_crc32(a_cstr str);
-/* version */
+/*@}*/
+
+
+/** \name Version
+ *
+ * ...
+ * 
+ * @{
+ */
 const char     *a_unicode_version(void);
 const char     *a_unicode_version_reference(void);
 const char     *a_unicode_version_url(void);
-#if A_INCLUDE_NAMES == 1
-/**
- * \brief Size for a buffer large enough to store
- *        any Unicode character name. (and a \0)
- */
-#   define A_NAME_MAX_SIZE 100
-char       *a_name_cp(a_cp codepoint, char *buff);
-#endif
+/*@}*/
+
+
 #if A_INCLUDE_LOCALE == 1
+/** \name Locale
+ *
+ * ...
+ * 
+ * @{
+ */
 /**
  * 
  * A locale is an identifier that refers to a set of user preferences
@@ -1040,10 +1141,17 @@ char       *a_name_cp(a_cp codepoint, char *buff);
  * 
  */
 int a_locale_set(const char *id);
+/*@}*/
 #endif
 
 #if 0
-#ifdef A_INCLUDE_TOKEN/
+#ifdef A_INCLUDE_TOKEN
+/** \name Token/List Manipulation
+ *
+ * ...
+ * 
+ * @{
+ */
 /* token/list manipulation (most of those are just convenience variations of the same internal function) */
 a_str       a_tok_add(a_str str, a_cstr token, const char *delimiter);
 a_str       a_tok_add_cp(a_str str, a_cstr token, a_cp codepoint);
@@ -1138,13 +1246,11 @@ a_str       a_tok_i_cont_cstr(a_str str, const char *pattern, a_cp codepoint, si
 a_str       a_tok_i_cont_cstr_cp(a_str str, const char *pattern, const char *delimiter, size_t nth);
 a_str       a_tok_i_sort(a_str str, const char *delimiter, int sort_option);
 a_str       a_tok_i_sort_cp(a_str str, a_cp codepoint, int sort_option);
+/*@}*/
 #endif
 #endif
-/*
- * 
- * 
- * 
- */
+
+#ifndef DOXYGEN_DOCS
 struct a_header
 {
     size_t len;  /* length (in codepoints)          */
@@ -1154,9 +1260,9 @@ struct a_header
     char *it;    /* pointer to the current char     */
     #endif
 };
-
-
 #define a_buff(b) ((char*)b + sizeof (struct a_header))
 #define a_header(b) ((struct a_header*)((char*)b - sizeof (struct a_header)))
+#endif
+
 #endif
 /* EOF */
