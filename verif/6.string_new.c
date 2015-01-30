@@ -25,7 +25,7 @@
 #include "ctest.h"
 #include "aleph.h"
 
-CTEST(Categories, check_new)
+CTEST(Creation, check_new)
 {
     a_str a, b, c, d, e, f, g, h, i, j;
     
@@ -65,7 +65,7 @@ CTEST(Categories, check_new)
     a_free_n(a, b, c, d, e, f, g, h, i, j, NULL);
 }
 
-CTEST(Categories, check_new_cp_n_chr)
+CTEST(Creation, check_new_cp_n_chr)
 {
     a_str a;
     
@@ -85,7 +85,7 @@ CTEST(Categories, check_new_cp_n_chr)
     a_free(a);
 }
 
-CTEST(Categories, check_new_dup)
+CTEST(Creation, check_new_dup)
 {
     a_str a, b;
     

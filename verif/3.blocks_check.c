@@ -24,7 +24,7 @@
 #include "ctest.h"
 #include "aleph.h"
 
-CTEST(Categories, check_block_greek)
+CTEST(Blocks, check_block_greek)
 {
     a_cp cp;
     
@@ -38,7 +38,7 @@ CTEST(Categories, check_block_greek)
     }
 }
 
-CTEST(Categories, check_block_hebrew)
+CTEST(Blocks, check_block_hebrew)
 {
     a_cp cp;
     
@@ -54,7 +54,7 @@ CTEST(Categories, check_block_hebrew)
 
 
 
-CTEST(Categories, check_block_arabic)
+CTEST(Blocks, check_block_arabic)
 {
     a_cp cp;
     
@@ -68,7 +68,7 @@ CTEST(Categories, check_block_arabic)
     }
 }
 
-CTEST(Categories, check_block_emoticons)
+CTEST(Blocks, check_block_emoticons)
 {
     const char *e;
     
@@ -87,7 +87,7 @@ CTEST(Categories, check_block_emoticons)
         ASSERT_EQUAL(a_block_emoticons, a_block_cp(a_next_cp(&e)));
 }
 
-CTEST(Categories, check_block_boundries)
+CTEST(Blocks, check_block_boundries)
 {
     ASSERT_EQUAL(a_block_basic_latin, a_block_cp(A_MIN_CP));
     ASSERT_EQUAL(a_block_supplementary_private_use_area_b, a_block_cp(A_MAX_CP));
