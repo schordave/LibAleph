@@ -95,7 +95,7 @@ int a_is_space(a_cp codepoint)
 int a_is_supplementary(a_cp codepoint)
 {
     A_ASSERT_CODEPOINT(codepoint);
-    return codepoint > 0x10000;
+    return codepoint >= 0x10000;
 }
 int a_is_surrogate(a_cp codepoint)
 {
