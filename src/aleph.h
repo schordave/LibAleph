@@ -182,7 +182,13 @@ typedef struct a_pool *a_pool;
  */
 extern const char a_next_char_size[256];
 
-/* creation/destruction */
+/** \name Creation and destruction
+ *
+ * Various functions used for creating and destructing Aleph string
+ * objects, \em a_str. All a_str objects must be destroyed using one
+ * of the destruction functions below such as a_free().
+ * @{
+ */
 /**
  * \brief Creates a new Aleph string from a standard NULL-terminated UTF-8 string.
  * 
@@ -204,15 +210,33 @@ a_str       a_new_normalize(a_cstr str, int mode); /* see norm modes below */
 void        a_free(a_str str);
 void        a_free_n(a_str str, ...);
 void        a_free_vec(a_str *strv);
-/* clear */
+/*@}*/
+
+/** \name Assignments
+ *
+ * Various functions used to replace the value of the string with a
+ * new value.
+ * @{
+ */
 a_str       a_clear(a_str str);
-/* set */
 a_str       a_set(a_str str, a_str newstr);
 a_str       a_set_cstr(a_str str, const char *newstr);
 a_str       a_set_cstr_size(a_str str, const char *newstr, size_t size);
-/* index */
+/*@}*/
+
+/** \name Index
+ *
+ * Various functions used to access individual characters.
+ * @{
+ */
 a_cp        a_char_at(a_cstr str, size_t index);
-/* iterator */
+/*@}*/
+
+/** \name Iterator
+ *
+ * Various functions used to traverse UTF-8 encoded strings.
+ * @{
+ */
 a_cp        a_peek(const char *str);
 char       *a_next(const char **str);
 a_cp        a_next_cp(const char **str);
@@ -230,6 +254,9 @@ char       *a_it_end(a_str s);
 int         a_it_at_end(a_cstr s);
 int         a_it_at_start(a_cstr s);
 #endif
+/*@}*/
+
+
 /* validation */
 const char *a_is_valid_utf8(const char *cstr);
 a_str       a_validate(a_str str);
