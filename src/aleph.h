@@ -248,7 +248,8 @@ size_t      a_size(a_cstr s);
 #define     a_size_chr(c) ((a_next_char_size[(int)c]))
 #define     a_size_chr_cstr(s) (a_size_chr((unsigned char)*s))
 /* concatentation */
-a_str       a_cat(a_str str, const char *str2);
+a_str       a_cat(a_str str, a_str str2);
+a_str       a_cat_cstr(a_str str, const char *str2);
 a_str       a_cat_chr(a_str str, const char *chr);
 a_str       a_cat_str(a_str str, a_str str2);
 a_str       a_cat_len(a_str str, const char *str2, size_t l);

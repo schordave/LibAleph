@@ -20,11 +20,17 @@ a_str a_cat_len(a_str s, const char *s2, size_t l)
     return s;
 }
 
-a_str a_cat(a_str s, const char *s2) 
+a_str a_cat_cstr(a_str s, const char *s2) 
 {
     assert(s != NULL && s2 != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL && s2 != NULL, NULL);
     return a_cat_len(s, s2, strlen(s2));
+}
+a_str a_cat(a_str s, a_str s2)
+{
+    assert(s != NULL && s2 != NULL);
+    PASSTHROUGH_ON_FAIL(s != NULL && s2 != NULL, NULL);
+    return a_cat_len(s, s2, a_size(s2));
 }
 
 a_str a_cat_str(a_str s, a_str s2) 
