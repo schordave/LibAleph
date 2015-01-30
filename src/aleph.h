@@ -327,6 +327,26 @@ a_str       a_ins_offset_cp(a_str str, a_cp codepoint, size_t offset);
 /*@}*/
 
 
+/** \name Replacement
+ *
+ * Various ways of inserting values into an Aleph string.
+ * @{
+ */
+a_str       a_rep(a_str str, a_cstr oldstr, a_cstr newstr);
+a_str       a_rep_cstr_cstr(a_str str, const char *oldstr, const char *newstr);
+a_str       a_rep_cp(a_str str, a_cp oldcp, a_cp newcp);
+a_str       a_irep(a_str str, a_cstr oldstr, a_cstr newstr);
+a_str       a_irep_cstr_cstr(a_str str, const char *oldstr, const char *newstr);
+a_str       a_irep_cp(a_str str, a_cp oldcp, a_cp newcp);
+a_str       a_rep_all(a_str str, a_cstr oldstr, a_cstr newstr);
+a_str       a_rep_all_cstr_cstr(a_str str, const char *oldstr, const char *newstr);
+a_str       a_rep_all_cp(a_str str, a_cp oldcp, a_cp newcp);
+a_str       a_irep_all(a_str str, a_cstr oldstr, a_cstr newstr);
+a_str       a_irep_all_cstr_cstr(a_str str, const char *oldstr, const char *newstr);
+a_str       a_rep_all_cp(a_str str, a_cp oldcp, a_cp newcp);
+/*@}*/
+
+
 /** \name Splitting
  *
  * Functions used to split a string with various options.
@@ -769,7 +789,8 @@ enum a_general_categories
     a_gc_mark           = a_gc_mn|a_gc_mc|a_gc_me,
     a_gc_number         = a_gc_nd|a_gc_nl|a_gc_no,
     a_gc_punctuation    = a_gc_pc|a_gc_pd|a_gc_ps|a_gc_pe|a_gc_pi|a_gc_pf|a_gc_po,
-    a_gc_separator      = a_gc_zs|a_gc_zl|a_gc_zp
+    a_gc_separator      = a_gc_zs|a_gc_zl|a_gc_zp,
+    a_gc_symbol         = a_gc_sm|a_gc_sc|a_gc_sk|a_gc_so
 };
 /*@}*/
 

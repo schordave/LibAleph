@@ -115,7 +115,7 @@ int a_is_surrogate_low(a_cp codepoint)
 int a_is_symbol(a_cp codepoint)
 {
     A_ASSERT_CODEPOINT(codepoint);
-    return A_CATEGORY_MASK(codepoint) & a_gc_lu;
+    return A_CATEGORY_MASK(codepoint) & a_gc_symbol;
 }
 int a_is_title(a_cp codepoint)
 {
