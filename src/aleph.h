@@ -567,6 +567,7 @@ int         a_iendswith_norm(a_str str, a_str substr);
  * @{
  */
 a_str       a_reverse(a_str str);
+a_str       a_reverse_new(a_str str);
 a_str       a_reverse_str(a_str str, a_str output);
 /*@}*/
 
