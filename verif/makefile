@@ -15,6 +15,7 @@ manual_list_of_tests=1.utf8_check.o          \
                      5.case_insensitivity.o  \
                      6.string_new.o          \
                      7.string_cat.o          \
+                     8.string_set.o          
 
 all: test
 

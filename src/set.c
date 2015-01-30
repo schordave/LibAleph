@@ -9,6 +9,9 @@ a_str a_set(a_str str, a_str newstr)
     assert(str != NULL && newstr != NULL);
     PASSTHROUGH_ON_FAIL(str != NULL && newstr != NULL, NULL);
     
+    if (str == newstr)
+        return str;
+    
     size = a_size(newstr);
     str = a_reserve(str, size);
     if (str)
