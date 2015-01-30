@@ -141,20 +141,18 @@ static const char a_categories_strs[90] =
 
 const char *a_category_to_str(int category)
 {
-    unsigned pos = 0, c = (unsigned)category;
-    assert(category > 0 && category < 29);
+    unsigned pos = -1, c = (unsigned)category;
+    assert(category > 0);
     while (c) ++pos, c >>= 1;
     return a_categories_strs + (pos * 3);
 }
 int a_category_from_str(const char *category)
 {
-    assert(category[2] == '\0');
     return 1 << ((strstr(a_categories, category) - a_categories) / 2);
 }
 const char *a_category_to_description(int category)
 {
-    assert(category > 0 && category < 29);
-    
+    assert(category > 0);
     switch (category)
     {
         case a_gc_lu: return "Letter, uppercase";
