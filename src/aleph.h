@@ -197,7 +197,7 @@ extern const char a_next_char_size[256];
  * \return a_str, otherwise NULL on failure.
  */
 a_str       a_new(const char *str);
-a_str       a_new_cp(a_cp chr, size_t repeat);
+a_str       a_new_cp(a_cp codepoint, size_t repeat);
 a_str       a_new_chr(char *chr, size_t repeat);
 a_str       a_new_len(const char *str, size_t length);
 a_str       a_new_valid(const char *str);

@@ -9,11 +9,12 @@ ifeq ($(UNAME), Darwin)
 LDFLAGS=-Wl,-flat_namespace,-undefined,dynamic_lookup
 endif
 
-manual_list_of_tests=1.utf8_check.o \
-                     2.category_check.o \
-                     3.blocks_check.o \
-                     5.case_insensitivity.o \
-                     6.string_cat.o
+manual_list_of_tests=1.utf8_check.o          \
+                     2.category_check.o      \
+                     3.blocks_check.o        \
+                     5.case_insensitivity.o  \
+                     6.string_new.o          \
+                     7.string_cat.o          \
 
 all: test
 
