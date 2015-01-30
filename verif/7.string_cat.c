@@ -24,7 +24,7 @@
 #include "ctest.h"
 #include "aleph.h"
 
-CTEST(Categories, check_cat)
+CTEST(Concatenation, check_cat_cstr)
 {
     int i;
     a_str a;
@@ -33,25 +33,56 @@ CTEST(Categories, check_cat)
     
     /* 4 bytes each cat */
     for (i = 0; i < 1000; ++i)
-        a = a_cat(a, "test");
+        a = a_cat_cstr(a, "test");
     
     ASSERT_EQUAL(4004, a_len(a));
     ASSERT_EQUAL(4004, a_size(a));
 
     /* 3-bytes each */
-    a = a_cat(a, "ⒶⒷⒸ");
+    a = a_cat_cstr(a, "ⒶⒷⒸ");
     ASSERT_EQUAL(4004+3, a_len(a));
     ASSERT_EQUAL(4004+9, a_size(a));
     
     /* 2-bytes each */
-    a = a_cat(a, "אבגד");
+    a = a_cat_cstr(a, "אבגד");
     ASSERT_EQUAL(4004+3+4, a_len(a));
     ASSERT_EQUAL(4004+9+8, a_size(a));
     
     a_free(a);
 }
 
-CTEST(Categories, check_cat_chr)
+CTEST(Concatenation, check_cat)
+{
+    a_gc;
+    int i;
+    a_str a, b;
+    
+    a = a_new("test");
+    
+    /* 4 bytes each cat */
+    b = a_(a_new("test"));
+    for (i = 0; i < 1000; ++i)
+        a = a_cat(a, b);
+    
+    ASSERT_EQUAL(4004, a_len(a));
+    ASSERT_EQUAL(4004, a_size(a));
+
+    /* 3-bytes each */
+    a = a_cat(a, a_(a_new("ⒶⒷⒸ")));
+    ASSERT_EQUAL(4004+3, a_len(a));
+    ASSERT_EQUAL(4004+9, a_size(a));
+    
+    /* 2-bytes each */
+    a = a_cat(a, a_(a_new("אבגד")));
+    ASSERT_EQUAL(4004+3+4, a_len(a));
+    ASSERT_EQUAL(4004+9+8, a_size(a));
+    
+    a_free(a);
+    
+    a_gc_done();
+}
+
+CTEST(Concatenation, check_cat_chr)
 {
     a_str a;
     
@@ -74,7 +105,7 @@ CTEST(Categories, check_cat_chr)
     a_free(a);
 }
 
-CTEST(Categories, check_cat_str)
+CTEST(Concatenation, check_cat_str)
 {
     a_str a, b, c, d, e, f;
     
@@ -117,7 +148,7 @@ CTEST(Categories, check_cat_str)
     a_free_n(a, b, c, d, e, f, NULL);
 }
 
-CTEST(Categories, check_cat_len)
+CTEST(Concatenation, check_cat_len)
 {
     a_str a;
     
@@ -143,7 +174,7 @@ CTEST(Categories, check_cat_len)
     a_free(a);
 }
 
-CTEST(Categories, check_cat_cp)
+CTEST(Concatenation, check_cat_cp)
 {
     a_cp cp;
     a_str a;

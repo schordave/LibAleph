@@ -1,6 +1,6 @@
 UNAME=$(shell uname)
 
-CCFLAGS=-Wall -Wextra -Wno-unused-parameter -g -ggdb -I../build/
+CCFLAGS=-Wall -Wextra -Wno-unused-parameter -g -ggdb -I../build/ -DA_INCLUDE_MEM=1
 ifdef CTEST_COLOR_OK
 CCFLAGS+=-DCOLOR_OK
 endif
