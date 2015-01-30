@@ -35,6 +35,7 @@ CTEST(Blocks, check_block_greek)
         ASSERT_EQUAL(0x03FF, a_block_end(a_block_cp(cp)));
         ASSERT_EQUAL(0x03FF-0x0370+1, a_block_size(a_block_cp(cp)));
         ASSERT_EQUAL(0, a_icmp_cstr_cstr(a_block_name_cp(cp), "Greek and Coptic"));
+        ASSERT_EQUAL(0, a_icmp_cstr_cstr(a_block_name(a_block_cp(cp)), "Greek and Coptic"));
     }
 }
 
@@ -49,6 +50,7 @@ CTEST(Blocks, check_block_hebrew)
         ASSERT_EQUAL(0x05FF, a_block_end(a_block_cp(cp)));
         ASSERT_EQUAL(0x05FF-0x0590+1, a_block_size(a_block_cp(cp)));
         ASSERT_EQUAL(0, a_icmp_cstr_cstr(a_block_name_cp(cp), "Hebrew"));
+        ASSERT_EQUAL(0, a_icmp_cstr_cstr(a_block_name(a_block_cp(cp)), "Hebrew"));
     }
 }
 
@@ -65,6 +67,7 @@ CTEST(Blocks, check_block_arabic)
         ASSERT_EQUAL(0x06FF, a_block_end(a_block_cp(cp)));
         ASSERT_EQUAL(0x06FF-0x0600+1, a_block_size(a_block_cp(cp)));
         ASSERT_EQUAL(0, a_icmp_cstr_cstr(a_block_name_cp(cp), "Arabic"));
+        ASSERT_EQUAL(0, a_icmp_cstr_cstr(a_block_name(a_block_cp(cp)), "Arabic"));
     }
 }
 
