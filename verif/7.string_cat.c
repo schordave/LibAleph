@@ -159,6 +159,10 @@ CTEST(Categories, check_cat_cp)
     ASSERT_EQUAL(0, a_icmp_cstr(a, "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ"));
     
     a_clear(a);
+    ASSERT_EQUAL(0, a_len(a));
+    ASSERT_EQUAL(0, a_size(a));
+    ASSERT_EQUAL(0, a_cmp_cstr(a, ""));
+    ASSERT_EQUAL(0, a_icmp_cstr(a, ""));
     
     for (cp = 0x24D0; cp <= 0x24E9; ++cp)
         a = a_cat_cp(a, cp);
@@ -169,6 +173,10 @@ CTEST(Categories, check_cat_cp)
     ASSERT_EQUAL(0, a_icmp_cstr(a, "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ"));
     
     a_clear(a);
+    ASSERT_EQUAL(0, a_len(a));
+    ASSERT_EQUAL(0, a_size(a));
+    ASSERT_EQUAL(0, a_cmp_cstr(a, ""));
+    ASSERT_EQUAL(0, a_icmp_cstr(a, ""));
     
     for (cp = 0x16A0; cp <= 0x16F8; ++cp)
         a = a_cat_cp(a, cp);
