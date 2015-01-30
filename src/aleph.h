@@ -182,6 +182,7 @@ typedef struct a_pool *a_pool;
  */
 extern const char a_next_char_size[256];
 
+
 /** \name Creation and destruction
  *
  * Various functions used for creating and destructing Aleph string
@@ -212,6 +213,7 @@ void        a_free_n(a_str str, ...);
 void        a_free_vec(a_str *strv);
 /*@}*/
 
+
 /** \name Assignments
  *
  * Various functions used to replace the value of the string with a
@@ -224,6 +226,7 @@ a_str       a_set_cstr(a_str str, const char *newstr);
 a_str       a_set_cstr_size(a_str str, const char *newstr, size_t size);
 /*@}*/
 
+
 /** \name Index
  *
  * Various functions used to access individual characters.
@@ -231,6 +234,7 @@ a_str       a_set_cstr_size(a_str str, const char *newstr, size_t size);
  */
 a_cp        a_char_at(a_cstr str, size_t index);
 /*@}*/
+
 
 /** \name Iterator
  *
@@ -257,27 +261,61 @@ int         a_it_at_start(a_cstr s);
 /*@}*/
 
 
-/* validation */
+/** \name Validation
+ *
+ * Various functions used to validate UTF-8 encoded strings.
+ * @{
+ */
 const char *a_is_valid_utf8(const char *cstr);
 a_str       a_validate(a_str str);
-/* debug */
+/*@}*/
+
+
+/** \name Debug
+ *
+ * Various functions used to print useful info about an a_str object 
+ * or a specific code point.
+ * @{
+ */
 void        a_dump(a_str str, int val);
 void        a_dump_cp(a_cp cp);
-/* length */
+/*@}*/
+
+
+/** \name Lengths
+ *
+ * Various functions used to retrive or calculate the length of a
+ * string in bytes, code points, and grapheme clusters.
+ * @{
+ */
 size_t      a_len(a_cstr str);
 size_t      a_len_cstr(const char *str);
 size_t      a_len_cstr_max(const char *str, size_t max);
 size_t      a_size(a_cstr s);
 #define     a_size_chr(c) ((a_next_char_size[(int)c]))
 #define     a_size_chr_cstr(s) (a_size_chr((unsigned char)*s))
-/* concatentation */
+/*@}*/
+
+
+/** \name Concatenation
+ *
+ * Various functions used to concatenate values onto an Aleph string.
+ * @{
+ */
 a_str       a_cat(a_str str, a_str str2);
 a_str       a_cat_cstr(a_str str, const char *str2);
 a_str       a_cat_chr(a_str str, const char *chr);
 a_str       a_cat_str(a_str str, a_str str2);
 a_str       a_cat_len(a_str str, const char *str2, size_t l);
 a_str       a_cat_cp(a_str str, a_cp codepoint);
-/* insertion */
+/*@}*/
+
+
+/** \name Insertion
+ *
+ * Various ways of inserting values into an Aleph string.
+ * @{
+ */
 a_str       a_ins(a_str str, a_cstr str2, size_t index);
 a_str       a_ins_chr(a_str str, const char *chr, size_t index);
 a_str       a_ins_cstr(a_str str, const char *strs, size_t index);
@@ -286,6 +324,13 @@ a_str       a_ins_offset(a_str str, a_cstr str2, size_t offset);
 a_str       a_ins_offset_chr(a_str str, const char *chr, size_t offset);
 a_str       a_ins_offset_cstr(a_str str, const char *str2, size_t offset);
 a_str       a_ins_offset_cp(a_str str, a_cp codepoint, size_t offset);
+/*@}*/
+
+/** \name Splitting
+ *
+ * Functions used to split a string with various options.
+ * @{
+ */
 /* splitting *//*
 a_str      *a_split(a_cstr str, a_cstr delimiters);
 a_str      *a_split_count(a_cstr str, a_cstr delimiters, size_t *count);
@@ -304,19 +349,52 @@ enum a_split_options
     a_split_remove_empty = 0x01,
     a_split_trim_tokens  = 0x02
 };
-/* join */
+/*@}*/
+
+
+/** \name Joining
+ *
+ * Functions used to join multiple Aleph strings together
+ * @{
+ */
 a_str       a_join(a_str, ...);
 a_str       a_join_on(a_str, const char *glue, ...);
 a_str       a_join_on_opts(a_str, int opts, ...); /* skip blanks, etc.. */
-/* buffer manipulation */
+/*@}*/
+
+/** \name Buffer Size Management
+ *
+ * Various functions used to manage the internal buffer size
+ * of an a_str object.
+ * @{
+ */
 a_str       a_reserve(a_str str, size_t l);
 a_str       a_ensure(a_str str, size_t l);
-/* count */
-size_t      a_count(a_cstr str, const char *delmiters);
+/*@}*/
+
+
+/** \name Substring Counting
+ *
+ * Various functions used to count the number of delimiters/substrings
+ * found in the original string.
+ * @{
+ */
+size_t      a_count(a_cstr str, a_cstr delmiters);
+size_t      a_count_cstr(a_cstr str, const char *delmiters);
+size_t      a_count_cstr_cstr(const char *str, const char *delmiters);
 size_t      a_count_cp(a_cstr str, a_cp codepoint);
-size_t      a_count_cstr(const char *str, const char *delmiters);
 size_t      a_count_cstr_cp(const char *str, a_cp codepoint);
-/* extraction */
+size_t      a_count_substr(a_cstr str, a_cstr substr);
+size_t      a_count_substr_cstr(a_cstr str, const char *substr);
+size_t      a_count_substr_cstr_cstr(const char *str, const char *substr);
+/*@}*/
+
+
+/** \name Substring Extraction
+ *
+ * Various functions used to extract a substring from a string.
+ * @{
+ */
 a_str       a_substr(a_cstr str, long start, long length);
 a_str       a_substr_inplace(a_str str, long start, long length);
 a_str       a_substr_offset(a_cstr str, long start, long length);
@@ -329,14 +407,28 @@ a_str       a_left_offset_inplace(a_str str, size_t length);
 a_str       a_right(a_cstr str, size_t length);
 a_str       a_right_offset(a_cstr str, size_t length);
 a_str       a_right_offset_inplace(a_str str, size_t length);
-/* remove */
+/*@}*/
+
+
+/** \name Trimming
+ *
+ * Various functions used to trim a string.
+ * @{
+ */
 a_str       a_trim(a_str str);
-a_str       a_trim_str(a_str str, const char *chars);
+a_str       a_trim_cstr(a_str str, const char *chars);
 a_str       a_trim_left(a_str str);
 a_str       a_trim_left_cstr(a_str str, const char *chars);
 a_str       a_trim_right(a_str str);
 a_str       a_trim_right_cstr(a_str str, const char *chars);
-/* match */
+/*@}*/
+
+
+/** \name Matching
+ *
+ * Various functions used in comparing two strings fully or partially.
+ * @{
+ */
 int         a_cmp(a_cstr str1, a_cstr str2);
 int         a_cmp_cstr(a_cstr str1, const char *str2);
 int         a_cmp_cstr_cstr(const char *str, const char *str2);
@@ -362,7 +454,14 @@ int         a_cmp_wild(const char *str, const char *pattern);
 int         a_cmp_regex(const char *str, const char *pattern);
 int         a_icmp_wild(const char *str, const char *pattern);
 int         a_icmp_regex(const char *str, const char *pattern);*/
-/* find */
+/*@}*/
+
+
+/** \name Searching
+ *
+ * Various functions used to search a string.
+ * @{
+ */
 size_t      a_find(a_cstr str, a_cstr substr);
 size_t      a_find_cstr(a_cstr str, const char *substr);
 size_t      a_find_cstr_cstr(const char *str, const char *substr);
@@ -413,7 +512,15 @@ size_t      a_irfind_offset_cp(a_cstr str, a_cp codepoint);
 size_t      a_irfind_offset_from(a_cstr str, a_cstr substr, size_t offset);
 size_t      a_irfind_offset_from_cstr(a_cstr str, const char *substr, size_t offset);
 size_t      a_irfind_offset_from_cp(a_cstr str, a_cp codepoint, size_t offset);*/
-/* starts with */
+/*@}*/
+
+
+/** \name Start/End comparison
+ *
+ * Various functions used to test the end or start of a string against
+ * a substring.
+ * @{
+ */
 int         a_startswith(a_cstr str, a_cstr substr);
 int         a_startswith_cstr(a_cstr str, const char *substr);
 int         a_startswith_norm(a_str str, a_str substr);
@@ -429,9 +536,20 @@ int         a_iendswith(a_cstr str, a_str substr);
 int         a_iendswith_cstr(a_cstr str, const char *substr);
 int         a_iendswith_cstr_cstr(const char *str, const char *substr);
 int         a_iendswith_norm(a_str str, a_str substr);
-/* reverse */
+/*@}*/
+
+
+/** \name Reversal
+ *
+ * Functions used to perfrom string reversal
+ * 
+ * @{
+ */
 a_str       a_reverse(a_str str);
 a_str       a_reverse_str(a_str str, a_str output);
+/*@}*/
+
+
 /* escape */
 a_str       a_escape(a_str str); /* escape '\b', '\f', '\n', '\r', '\t', '\v', '\' and '"'; 0x01-0x1F, and 0x7F-0xFF  */
 a_str       a_escape_except(a_str str, const char *except);
