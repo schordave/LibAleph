@@ -90,6 +90,7 @@
  *        of considerable size.)
  */
 #ifndef A_INCLUDE_NAMES
+/** \hideinitializer */
 #   define A_INCLUDE_NAMES 0
 #endif
 #ifndef A_INCLUDE_LOCALE
@@ -115,12 +116,14 @@
 #       define A_MIN_STR_POOL_SIZE 16
 #   endif
 #endif
-#define A_ASSERT_UTF8(s) \
-    assert(((void)"LibAleph: Precondition Violated: string passed is not a valid UTF-8 string.", \
-    !a_is_valid_utf8(s)))
-#define A_ASSERT_CODEPOINT(cp) \
-    assert(((void)"LibAleph: Precondition Violated: codepoint provided is outside of the Unicode codespace.", \
-    (A_MIN_CP <= (cp) && (cp) <= A_MAX_CP)))
+#ifndef DOXYGEN_DOCS /* START hide from doxygen */
+#   define A_ASSERT_UTF8(s) \
+        assert(((void)"LibAleph: Precondition Violated: string passed is not a valid UTF-8 string.", \
+        !a_is_valid_utf8(s)))
+#   define A_ASSERT_CODEPOINT(cp) \
+        assert(((void)"LibAleph: Precondition Violated: codepoint provided is outside of the Unicode codespace.", \
+        (A_MIN_CP <= (cp) && (cp) <= A_MAX_CP)))
+#endif  /* END hide from doxygen */
 #ifdef __STDC_VERSION__
 #   if __STDC_VERSION__ >= 199901L
 #       define ALEPH_C_V 2
@@ -148,10 +151,12 @@
 /**
  * \brief The minimum codepoint possible in the Unicode codespace.
  */
+/** \hideinitializer */
 #define A_MIN_CP (0x000000)
 /**
  * \brief The maximum codepoint possible in the Unicode codespace.
  */
+/** \hideinitializer */
 #define A_MAX_CP (0x10FFFF)
 /**
  * \brief A typedef that should be used when dealing with aleph strings
@@ -177,6 +182,7 @@ typedef struct a_pool *a_pool;
 /**
  * \brief A sentinel value representing EOS.
  */
+/** \hideinitializer */
 #define A_EOS ((size_t)-1U)
 /*
  */
@@ -186,8 +192,8 @@ extern const char a_next_char_size[256];
 /** \name Creation and destruction
  *
  * Various functions used for creating and destructing Aleph string
- * objects, \em a_str. All a_str objects must be destroyed using one
- * of the destruction functions below such as a_free().
+ * objects, `a_str`. All a_str objects must be destroyed using one
+ * of the destruction functions below such as `a_free()`.
  * @{
  */
 /**
@@ -198,6 +204,8 @@ extern const char a_next_char_size[256];
  * 
  * \param str A NULL-terminated UTF-8 string to initize the string to, or NULL.
  * \return a_str, otherwise NULL on failure.
+ * \pre \em str must be a valid UTF-8 string, if that cannot be guaranteed,
+ *      use `a_new_valid()` instead.
  */
 a_str       a_new(const char *str);
 a_str       a_new_cp(a_cp codepoint, size_t repeat);
@@ -378,10 +386,12 @@ enum a_split_options
  * Functions used to join multiple Aleph strings together
  * @{
  */
-a_str       a_join(a_str, ...);
-a_str       a_join_on(a_str, const char *glue, ...);
-a_str       a_join_on_opts(a_str, int opts, ...); /* skip blanks, etc.. */
+a_str       a_join(a_str str, ...);
+a_str       a_join_on(a_str, a_cstr glue, ...);
+a_str       a_join_on_cstr(a_str str, const char *glue, ...);
+a_str       a_join_on_opts(a_str str, int opts, ...); /* skip blanks, etc.. */
 /*@}*/
+
 
 /** \name Buffer Size Management
  *
@@ -408,6 +418,10 @@ size_t      a_count_cstr_cp(const char *str, a_cp codepoint);
 size_t      a_count_substr(a_cstr str, a_cstr substr);
 size_t      a_count_substr_cstr(a_cstr str, const char *substr);
 size_t      a_count_substr_cstr_cstr(const char *str, const char *substr);
+
+size_t      a_icount_substr(a_cstr str, a_cstr substr);
+size_t      a_icount_substr_cstr(a_cstr str, const char *substr);
+size_t      a_icount_substr_cstr_cstr(const char *str, const char *substr);
 /*@}*/
 
 
@@ -472,9 +486,8 @@ int         a_icmp_compatibility(a_cstr str1, a_cstr str2);
 int         a_icmp_compatibility_cstr(a_cstr str1, const char *str2);
 int         a_icmp_compatibility_cstr_cstr(const char *str1, const char *str2);
 int         a_cmp_wild(const char *str, const char *pattern);
-int         a_cmp_regex(const char *str, const char *pattern);
 int         a_icmp_wild(const char *str, const char *pattern);
-int         a_icmp_regex(const char *str, const char *pattern);*/
+int         a_cmp_regex(const char *str, const char *pattern);*/
 /*@}*/
 
 
@@ -508,7 +521,7 @@ size_t      a_rfind_offset_cp(a_cstr str, a_cp codepoint);
 size_t      a_rfind_offset_from(a_cstr str, a_cstr substr, size_t offset);
 size_t      a_rfind_offset_from_cstr(a_cstr str, const char *substr, size_t offset);
 size_t      a_rfind_offset_from_cp(a_cstr str, a_cp codepoint, size_t offset);*/
-            /* case insensitive version ... */
+
 size_t      a_ifind(a_cstr str, a_cstr substr);
 size_t      a_ifind_cstr(a_cstr str, const char *substr);
 size_t      a_ifind_cstr_cstr(const char *str, const char *substr);/*
@@ -562,13 +575,39 @@ int         a_iendswith_norm(a_str str, a_str substr);
 
 /** \name Reversal
  *
- * Functions used to perfrom string reversal
+ * Functions used to perfrom string reversal.
+ * 
+ * Various semitic languages such as Hebrew and Arabic are
+ * written from right to left. Older systems often times could not
+ * handle or didn't support reordering those languages visually.
+ * Because of this such documents were encoded in visual order (i.e.
+ * the first letter of a line is the rightmost one)
+ * 
+ * (see: Hebrew: ISO/IEC 8859-8 / Arabic: ISO/IEC 8859-6)
+ * 
+ * Unicode, however defines characters to be in logical order (i.e.
+ * the order you read the string). Reversal functions can be used to
+ * reverse a segment of R-L text into logical ordering.
+ * 
+ *      a_str example = a_new("שלום עולם");
+ * 
+ *      printf("=> %s\n",  example);
+ *      printf("=> %s\n",  a_reverse(example));
+ * 
+ *      a_free(example);
+ * 
+ * Prints:
+ * 
+ *      => שלום עולם
+ *      => םלוע םולש
+ *
  * 
  * @{
  */
 a_str       a_reverse(a_str str);
 a_str       a_reverse_new(a_str str);
 a_str       a_reverse_str(a_str str, a_str output);
+a_str       a_reverse_paragraph(a_str str);
 /*@}*/
 
 
