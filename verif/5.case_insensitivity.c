@@ -32,6 +32,20 @@ CTEST(Cases_compare_simple, uneven_checks)
     ASSERT_NOT_EQUAL(0, a_icmp_simple_cstr_cstr("", "1111111111111111111")); 
 }
 
+CTEST(Cases_compare_simple, uneven_checks_str)
+{
+    a_gc;
+    
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("")), a_(a_new("")))); 
+    ASSERT_NOT_EQUAL(0, a_icmp(a_(a_new("")), "1")); 
+    ASSERT_NOT_EQUAL(0, a_icmp(a_(a_new("1")), a_(a_new("")))); 
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("1")), a_(a_new("1")))); 
+    ASSERT_NOT_EQUAL(0, a_icmp(a_(a_new("1111111111111111111")), a_(a_new("")))); 
+    ASSERT_NOT_EQUAL(0, a_icmp(a_(a_new("")), a_(a_new("1111111111111111111")))); 
+
+    a_gc_done();
+}
+
 CTEST(Cases_compare_simple, basic_latin_test)
 {
     ASSERT_EQUAL(0, a_icmp_simple_cstr_cstr("aaaaaaaaaaa", "AAAAAAAAAAA"));
@@ -52,6 +66,33 @@ CTEST(Cases_compare_simple, basic_latin_test)
                                          "tHe qUiCk bRoWn fOx jUmPs oVeR ThE LaZy dOg"));
     ASSERT_EQUAL(0, a_icmp_simple_cstr_cstr("tHe qUiCk bRoWn fOx jUmPs oVeR ThE LaZy dOg",
                                          "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"));
+}
+
+
+CTEST(Cases_compare_simple, basic_latin_test_str)
+{
+    a_gc;
+
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("aaaaaaaaaaa")), a_(a_new("AAAAAAAAAAA"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("A")), a_(a_new("a"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("AbCdEfGhI")), a_(a_new("aBcDeFgHi"))));
+    ASSERT_NOT_EQUAL(0, a_icmp(a_(a_new("A")), a_(a_new("Aa"))));
+    ASSERT_NOT_EQUAL(0, a_icmp(a_(a_new("aA")), a_(a_new("A"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("aaaaaaaaaaa")), a_(a_new("AAAAAAAAAAA"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("the quick brown fox jumps over the lazy dog")),
+                                         a_(a_new("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG")),
+                                         a_(a_new("the quick brown fox jumps over the lazy dog"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ThE QuIcK BrOwN FoX JuMpS OvEr tHe lAzY DoG")),
+                                         a_(a_new("tHe qUiCk bRoWn fOx jUmPs oVeR ThE LaZy dOg"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("tHe qUiCk bRoWn fOx jUmPs oVeR ThE LaZy dOg")),
+                                         a_(a_new("ThE QuIcK BrOwN FoX JuMpS OvEr tHe lAzY DoG"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG")),
+                                         a_(a_new("tHe qUiCk bRoWn fOx jUmPs oVeR ThE LaZy dOg"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("tHe qUiCk bRoWn fOx jUmPs oVeR ThE LaZy dOg")),
+                                         a_(a_new("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"))));
+    
+    a_gc_done();
 }
 
 CTEST(Cases_compare_simple, extended_to_greek)
@@ -111,6 +152,66 @@ CTEST(Cases_compare_simple, extended_to_greek)
     ASSERT_EQUAL(0, a_icmp_simple_cstr_cstr("Æïèô_KJąYĔHÝdđRõsĉQÝÙOęÍEĔÞġWĆZėēÞtÅÎ[àñóTØFăgËÜòãĞÉ\\ăÉqĉnEġæĢûvfy×Î`ëBïĄöäLĜċÒÑāHďđěĊðíPěßaĎüğumęãMkĒćpêg^âÖáĖxÚŸÛÀiÚlõDåìčRVUbÙ÷ÔÇĜäØCNAâWáI]êCìČðoóXZèSĢāÇj","ÆïèÔ_kJĄYĕHýDĐRõsĈQýÙOĘíeĕÞġwćzĖĒþtåî[àñÓTØFăgËüòÃĞé\\ĂÉQĉNEġæģÛvfY×Î`ëBÏĄÖäLĝċÒñĀhĎĐěċÐípěßaďüğUmĘãMKĒćpêg^ÂÖÁėxÚÿûÀiÚLÕDÅÌčrVUbù÷ôçĝÄØcNAâwáI]êCìčðOÓXZèSģāÇj"));
 }
 
+CTEST(Cases_compare, extended_to_greek_str)
+{
+    a_gc;
+
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ČĀĆĂĈĄĊČĀĆĂĈĄĊČĀĆĂĈĄĊČĀĆĂĈĄĊ")),
+                                         a_(a_new("čāćăĉąċčāćăĉąċčāćăĉąċčāćăĉąċ"))));  
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ABCĎĊĀČĂĆĄĐĈABCĎĊĀČĂĆĄĐĈ")),
+                                         a_(a_new("abcďċāčăćąđĉabcďċāčăćąđĉ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ɃɄɅɆɈɊɌɎ")),
+                                         a_(a_new("ƀʉʌɇɉɋɍɏ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("aaaaaaaaaaa")),
+                                         a_(a_new("AAAAAAAAAAA"))));
+    
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("àáÂãäåæçÈÉêëÌÍîÏðñÒÓÔõö÷øùúÛÜýþŸĀĀăĂąąćĆĈĈĊċČčďĎđĐēēĕĕĖĖęęěěĝĝĞğĠġģĢĤĥħħĩĨ")),
+                                         a_(a_new("ÀáâÃÄåæÇÈéêËÌíÎïÐÑÒÓÔõÖ÷ØÙúÛÜÝÞŸāĀĂĂĄĄćĆĈĉĊċČčĎďĐĐēēĔĔĖĖęĘĚĚĝĝĞĞġġģĢĤĤħħĩĩ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ÀáÂÃÄÅÆçÈÉêËìÍîÏðñòóÔÕö÷ØùÚÛüÝþÿāāăĂąąććĉĉĊĊČčĎĎđĐĒĒĔĕĖėęĘěěĜĜĞĞĠġģģĤĥĦĦĨĨ")),
+                                         a_(a_new("ÀáÂÃÄÅÆçÈÉêËìÍîÏðñòóÔÕö÷ØùÚÛüÝþÿāāăĂąąććĉĉĊĊČčĎĎđĐĒĒĔĕĖėęĘěěĜĜĞĞĠġģģĤĥĦĦĨĨ"))));
+
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ğÌêĔüÂæăÒÐėćčāÉĩēđĚħÈėíġàËĈęÃĢċąĉġĘĨĤĕĂąċÕ÷āĝÖÿĎùÓÇČÔĝÏĎĞØÅÁÛěħýäēćÎÚĢÑĐÞĥ")),a_(a_new("ğÌÊĔüÂÆăòÐėĆčāéĩĒđĚĦèĖíġàËĈęãģċąĈġĘĨĥĔĂąċõ÷ĀĜÖÿďùóçčôĝïĎĞøÅáÛěĦýÄĒćîúĢÑĐþĤ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("đëČĊæěçÖćÞÍóęėáąÔÈČēÅĎĂêüÙĥØñúĤĉðŸĈĊğõćąÒĒĂéïĖÂĝĎĕĀĩÃģÛĘĦĦÝġ÷îĔğÌĜĢàÄđĠěāĨ")),a_(a_new("đëČċæĚçöćþíóęĖáĄôÈČēåďĂêÜùĥØñÚĤĉÐÿĈċĞÕĆĄÒĒăéÏĖÂĝĎĕāĩãĢûĘħĦýġ÷ÎĕĞÌĜģÀÄđĠĚāĩ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("Âċ÷ėýĠąĆĀĒĚĤĕÞĜàěçØõÄÔÏĒęĂħĨóĞÜĨĊðÃđĀÑùîúĐêĝďæČĘĂĉĥġòğåĉÉÍčďģÿĆĄÖëûÈĕáĢĖĦÌ")),a_(a_new("ÂĊ÷ĖÝġĄĆāĒĚĤĔÞĜÀĚÇøÕäôÏĒęăĦĨÓĞüĨċÐãđĀÑÙîÚĐêĝĎÆčĘăĈĥġÒĞåĈéíČĎĢÿćĄöËÛèĔáĢėħì"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ðĖĆČÝđċÚĕĘąĎĈöøĆĠÕēĥāíïĐĥĈÎÊĞĄÄĂħĜČÙ÷áěĝāĦĞĂìñėĕŸĢçĩæĨďüËÈãÞôĠĊóěÅâÉĘģÛÀÒĒ")),a_(a_new("ÐĖĆčÝđĊÚĔęĄĎĈÖØĆĠõēĥāÍïđĥĉîêğąÄăħĜčù÷ÁěĝāħğĂìñėĔŸĢÇĩÆĨĎÜëèãþÔġĊÓěåâéĘģûàÒĒ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ąÂĜĥĀĞęċėęáĒûÏÊýĥòĨĢČčĩéĎÞćāĈĜŸëġÌÅĚùĕàĆñÔĊÇØúõďħÜĔÖĄÈãđđĚÎĂÆġģĉÐĞėĂóäĦ÷ēí")),a_(a_new("ąâĜĤāĞęĊėĘáĒÛÏÊÝĥòĩģčČĨÉďÞćĀĉĜÿËĠÌåěÙĕàĆñÔĊÇØúÕďĦÜĕÖĄÈãĐđĚîăæĠĢĈÐĞėĂÓäĦ÷ēí"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ħďÀĄěĘðÓùöāõĊĒĖÃčĞĨĖĕĘĢåÚïèØďĕĦÎĠÄüĤÝ÷ĈĄÛĨæĠÂğôĝĐòĤáÇÞëĀÌćēíĆčñċĐĂêĉŸĝéĂěģ")),a_(a_new("ĦĎàąĚęðÓÙÖāõĊēėÃčğĨĖĕęģÅúÏÈØĎĕħîĠÄüĤÝ÷ĈĄÛĨÆġâĞôĜĐòĥÁÇþËāìĆĒÍĆČñċđăÊĉŸĝéĂĚĢ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ČĎęãĂĜĆêúęÌçĀćÔăØóċāĤēĤğħÆõÞÜĐĔğĉěÈá÷ĦģÎÂïēěÉąĕðËÄġåġąĝÛÒĖďöĢñČÀÙĨÝđĖĨíċĈÿ")),a_(a_new("čĎĘãĂĝćêÚĘÌçĀĆôĂØÓĊĀĤĒĥĞħæõþüđĕğĉĚèÁ÷ĦĢÎÂÏĒĚéąĕðëäġÅġĄĜûÒėďÖĢÑčÀùĨýđėĩíċĈŸ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ÏÓ÷ĜþĥĆĊĘÑăěğŸÛđġħùĆÍĈĒüĖîçÝāĈĝğĔòÁÆąęÅċÃČËÐĒĥďģêĄÈÖĖÄĩàÉĢďĐĦāĕâĚøčĨÕĂĠÚìô")),a_(a_new("ÏÓ÷ĜþĥćĊęÑăĚĞÿûđĠĦÙĆÍĈēüĖîçýĀĈĝğĔòáÆĄĘÅċÃČËÐĒĤĎĢêĄèÖėÄĩÀéĢĎđĦāĕÂĚøčĩÕĂĠÚìÔ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ÂČĊŸĤĈĄāėÙĜąěĜđĤÜģĕĘèĠåěõĐĂĨĊÒæÇČĞøēćîĆēĂáêàÖĨĦģÔďĖğ÷āĎĈíÐËĕúÃñęħÓäÞġÛýÏìé")),a_(a_new("âčĊŸĤĉąāėùĝąěĜĐĥüģĔĘÈĠÅĚÕĐĂĩĊòÆçčğØĒćÎćĒĂÁêÀöĩĦĢôĎėğ÷ĀďĈÍðëĔÚãÑĘĦÓÄþĠÛýÏÌÉ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ËĕûąĊþÓęćĂģĒĤüÁĔČÕē÷ìĞāÙęĜĉĖÔŸíøîĤĆýÒÂğĈħĚěđÃČåĜÆĎĢėĩèĄġàĊÊðúāçÑÉÄġđĩöĂĦÏď")),a_(a_new("ËĕûąċþóęĆăĢēĥÜáĔčÕē÷ìğāùĘĝĈėÔŸíØîĥĆÝòÂğĈħĚěĐãČåĜæĎĢĖĩÈąġÀċÊðúĀÇñéÄġĐĩÖĂħÏĎ"))));
+    
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("îÏÅùÞģæÖġôÛËèċàÎóĔĚąÔûğÐğĜ÷ðøĜÄė×čāãÆÒÁĎÕØÈĈåġþéÁĆÂóÏĔÖÇđÜĂãÌŸĒģÄďĐăęĘĚćçÍĈËēÕčêÝÀĄúÒýÑÜùßÌÉÍÚêÂĀÑĖĊ")),a_(a_new("ÎïåùÞĢæöġôÛëèċÀÎÓĕěąôÛğðĞĝ÷ÐØĝÄė×ČĀãæÒáďõØèĉåġþéÁćÂóïĔÖçđÜĂÃÌÿēĢäďđĂęĘěĆÇÍĉËĒÕčÊýàąúÒýñüùßÌéÍÚÊÂāñĖċ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ĜäÔĚÂÚĀÎĄÉÄēèĘìýÆČüÀâĖêÙÊġĉĝîÃöÖĔģÃñóóúĕďòĊûõćçèþęÌÝÛÆËÒÏĄáðÅíøĠÅôÜėéõĐćğÑģË÷Ď×ăáċßùøĐčĂïĚðğþĀçĒÿàĉÍ")),a_(a_new("ĜÄôěâÚĀÎąéäĒÈęìýæČÜàÂėêùêġĈĝîãÖöĔĢÃñóóÚĕĎÒċûõćÇèþĘìýÛÆËÒïĄáÐÅíØĠåôÜėéÕĐćğñĢË÷Ď×ăÁĊßùØđČăïěðğÞāÇēÿàĉÍ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ēöėÏĎÄê÷ËÂòĜÆĠùÌģÃĘĠàÁÄāĂØÈĖĐÁćÊôęÖÓÑçÛĊüĒÈÎĂģğüòÙéðÆøÔčÚÑåþĊïĚĎûåÕāĚĉąßĆÕĜĈëýÿâčÀ×ÇéãĐÍîÍğóĄúþÐĔĕÝì")),a_(a_new("ĒÖĖÏďäÊ÷ëÂòĜÆġÙÌĢãęġàáÄĀăØèĖĐáĆêÔęÖóñÇûċüĒèîăģğÜÒùÉÐÆøôčúñåþċÏěďûåÕĀěĈąßĆõĜĈëÝÿÂČà×çéãđÍÎÍĞóąÚþðĕĔÝÌ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ëöąÛģñĠĞÀÎėÊéÞĆÔĂÒ×áĞñĘÚìðâÝŸĝÏèðĊãæõĚåïāĀíĕôĂÓæÎÃÇäÅďÇġĐćÌēĘéèüÁģûêøöÙċėĉúØĜĎËěþÒÙÄ÷ÍÂĕßÝõüēĈčČĄÀóđ")),a_(a_new("ËÖąÛĢñġĞÀîėÊÉÞćôĂò×áĞÑęÚìðâÝŸĜïèÐċÃÆÕĚåïāĀÍĕôăóÆîãÇäÅĎÇĠđĆÌēęéèÜÁģûÊøÖùċĖĉÚøĝďëěþÒÙä÷ÍâĕßÝÕüĒĈČčĄÀÓđ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ĠæùÛØÑÖÓġÊāğĘČËĝÌâĘÊćĉēþíçÉßúÄėĚđÅåĜðäöēÕîüøÀďÃÓàĆÁďïýôðûþèÜĔ×ąąĢĞĔĂĊãđÚñĊŸîÝÍõĉģôÁčÉçÈĀËÌïĂùÒòÂæ÷Ěė")),a_(a_new("ĠÆùûøÑÖÓġêāğęčËĜÌâęÊĆĉēÞíçéßúÄėĚĐÅÅĝÐäÖēõîÜøÀďÃÓàĆÁďÏýÔðûÞèÜĕ×ĄąĢğĕăċãđúñĊÿÎýÍõĉģôÁčÉçèāËÌÏăùÒÒâæ÷ěė"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ŸÛßčôùñĕÅèĒÚăóĀĚþüąäģÀÊĜÙğÃçðþáĆÉâøċĒãôõÒÐĘìÆæ÷íďĄõĐĕģÏîĉÇÖëđĎàÊñØèăęĆāėÝČÉâėáíÒġĉ×óġëÄúÌûěÎċïüğĝÅÖý")),a_(a_new("ÿÛßčôùÑĕÅÈēÚăóāĚþÜąäĢÀÊĝÙĞãÇðÞÁćéâØċēãôõÒÐĘÌæÆ÷ÍĎĄõđĔģÏîĈÇÖËđďÀÊñØÈĂĘćāėÝčéâėáíÒĠĈ×ÓġËäúÌÛĚÎċïÜĞĝÅÖý"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ñâëîõÞğćęĂÀěïÌùóģÔÉÜĒöõÅďãąėûÐéčĐÇûàßêÜèÒÙìąĊúĖíÔŸáÇĉĂÂæĊíČóñďøēÆêĔÖģĕÝòĀïđäğÎýÃëÁāĜćÈġÚ÷ġÞĘ×ěåĝĉäðø")),a_(a_new("ñâËÎÕÞğĆĘăàĚÏìùóĢÔéÜēöÕåĎÃąĖÛÐÉČđçÛàßÊüèÒÙìąĊúĖíÔÿÁçĈĂâÆċÍčóÑďØĒæêĕÖģĕÝÒāÏđÄĞîýãëÁāĝĆèġú÷ġþę×ĚÅĜĈäÐØ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ÐßÃđÅÓÖ×ÁāñÂÞÏĜĎÛÆòÿĜğĆăěþđëĠÌ÷ČëēèíċîÑĂĉôĠäÚċêÂÀģúąÄĆçąęìÆęðôûĀĚĞÕïòģãÝÕēÜĕýêÙÉÇøÎĈČĕėĎÙÓÈíÅÁĖøÖéüÀ")),a_(a_new("ÐßãđåÓÖ×áĀñÂþïĜĎÛæòŸĜĞĆĂěþđËġì÷čËĒèÍċÎÑĂĈôġäÚĊêâÀģúĄäćçąęÌÆĘÐÔÛĀěğÕïòĢÃýÕēüĔÝÊÙéçøîĈčĕĖĎùóÈÍÅÁĖøöéüÀ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ĢøÌÖĠÖĠâċÃÕģĀÉÙŸêæÈčÓåòàĎñûíěÇĔüëęĂėýğËçĄĉĐæĆÉÎÏÃĕÈßîÕØČÂýúðď×ĖÁĈùĐĆÞêċĜñÜÞòĜûäąôÏúĒēôğ÷óęÍāáðĚăÄÌàå")),a_(a_new("ģøÌÖĠÖĠÂĊãõģāÉùŸÊÆÈčóåòàĎÑûíĚÇĕÜëęĂėýğëçąĉđæćéîÏãĔèßÎÕØčâÝúðď×ėáĈùĐĆÞÊċĝÑüþòĝÛÄąôïÚēĒÔğ÷óęíĀáðěăäìàÅ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ÀĚÉĄøþáďÐþēĈÇäÏÛÔĄĀĀñÔĞ×ÖßâęëćÃèÙçÄĔéú÷ÏËĈÕćæøÖĔÎÙďÚÒėĘăÈĐčüÅģîÃÅēĠÜýċðĠÊĜÓñăČàÕĢĞĐáŸÍêÌĚóýíìĊėæĜâòû")),a_(a_new("àĚéąØÞÁďðÞĒĉçäÏûôąāĀñôğ×ÖßâĘëĆãÈÙçäĔÉú÷ÏËĈÕćæØÖĔÎùďÚòĖĘăÈđčüÅĢîãÅēĠüÝĊðĠêĜóÑăČÀÕģğĐáÿíêÌěÓýíÌĊĖÆĝâÒû"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ĘÕàÞÔÓÊòĘßĂÐØÙğ×ìčåëãĆÍÖÝõÀÚģċ÷ĚýòêĠďĜçÆĂèÑóąáÌËčÈĈđĉÿĖÖïÎúÔÆđĞĖÂāĔüÏēĕåĝÑÂěØÁíćģÛûĎüĊãäÄĀÞąÇÉēġÎùÉð")),a_(a_new("ęÕÀþÔóêÒĘßăÐØÙĞ×ìČÅëãćÍÖÝõÀÚģĊ÷ĚýÒêĠĎĝÇÆăÈÑóąáÌËčèĈđĈÿėÖïîÚÔÆđĞĖÂĀĔüïĒĕåĝÑÂěØÁíćģûûĎÜċãÄÄĀÞĄçéēġÎùÉð"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ăâñÍąÐùĆċċÎæúôÁĒöĕ×ăÒÅÒďĖúęÊßÔÑĢěĠĜĝĚđäÇ÷ÊðÓĄûæÄéĢÜÓüĀûđãÅèèčàÝÃĀìĎçėíëùìâġÁëøĉčÕĒĕĘïïğćýàÿĞøÕÉþÎöÞĉ")),a_(a_new("ĂâÑíĄðÙĆċĊîæÚôÁēÖĔ×ăòåòĎĖÚĘÊßôñĢěĠĝĜěĐäç÷ÊðóąÛÆÄÉģÜóüāûĐãÅèÈČÀÝÃĀÌĎçėÍËùÌâĠáËØĈčÕĒĔęïÏĞćÝàÿĞøÕéÞÎÖÞĉ"))));
+        
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("÷íĆĘõÏĘoÞJJgġcaÌLÕÆPôÊÊyKxZL[QéÏMþîIĚhÒxĢčğÛàëcùBāUĈÇÂÉànäýifqîOąÃÚYnðZØēåÚñd×ËĊÈtĄæėç^ñĚáWKMsĜeÃÛÿGVĎġÔģødHÈäF\\üăRđ_UėìĕÓĀesðĐWrTċÜA]ÁöbÓÂčĒòďÝÍĂpÙĕĆĜĞßöåĈ`V")),a_(a_new("÷íĆęÕïĘoþjJgġcAìLÕæpÔÊêykxzL[qéïmþÎiěhÒxĢČğûÀëCùbĀUĈçÂÉÀnäÝifqîOąãÚYNðZøĒåÚñD×ëĊÈTąÆėÇ^ñĚÁwkMSĜEÃÛÿgVďĠôģøDhÈÄf\\üĂrĐ_UėÌĔÓāeSÐĐWRTċÜa]ÁÖbóâČĒòďÝÍĂpÙĕćĜĞßöÅĉ`V"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ëwyÒăõÙ^O][ôÅSáTQĎÁğÓĔæPÐdÄÜęčåEÚÊäġhĐaôÑĉéèzDÂĒĆØØ_ġċĖUreėiLÀÏ÷VÆĂÓOĄsnčÑkĒéßÜĚjtþÿw`I×mfÀÒRLQçHÖFćĞęKíXÞĎíaÛÃĚxÛêÌvĀgCmĊGnÎÝyĢpÏÐ\\ĢÇĕĈÚÌîùcBÃËöýđāĝâzÈÕUbĄJĝ")),a_(a_new("ËWYÒĂõÙ^O][ôåsátqĎáğóĔÆPÐdäüęčÅEúêÄĠhđaôÑĉÉÈZdâĒĆøø_ĠċėUreėilàÏ÷VæĂÓOĄSnČÑkĒéßüějtþÿw`i×mFàÒrlqçhöFćĞękíxþĎíaÛÃĚXûêÌvĀgCmċGnîýYĢpÏð\\ģÇĔĈÚìîÙcbãËÖýĐāĜÂZèõubĄjĝ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("nÞĂĈñSnPÄvÄÑZĜ\\ÊďmèÃüÝqYiDġÙĎtĔuÀ`øĀæÖÎþĖç[_Û÷TÅíOPÏCõmCāùÇBaóČâgĠêěĈðrELÕéģċĔĄãËzqÎFĜúÏsLÈđKHwčHÐĆìxåÀĊG×óKăĖuxÛËôęeÔdòĆjOĒÒvýrĞBaŸwéáĢöìjÂğßęæfěÚÍIĐēØąü^á]y")),a_(a_new("NþăĉñSNpÄVäÑZĜ\\ÊďmÈãüýqYIDĠÙďtĕuà`ØĀæÖîÞėÇ[_Û÷tåíoPïcÕmcāÙçBAÓČÂgġêĚĈðrelõÉģċĔĄãëzQÎFĝúÏslÈđKHWČhÐĆìxÅàĊg×ÓKăėUXÛëÔęeôDòćjoĒÒVÝRĞBAŸWÉáĢÖÌjâĞßĘÆfěúíiđĒØąÜ^á]Y"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ďivEMÎéA^ìQ_øtñĠĚpîûĒOéòúÅċýjÀùċnX×ėKÜÓÏđRôûýĕâĢČPõðGwÐþÖėøVêúĐ\\ßČĎĒ÷síæcÆĞQDTąÃezĂćÙKUËziÂy]ãĠhĉģāäÊmĉíÖèubåèXALjäĄf[ĕïñloëěĝDfcbçÔàÌõÒáęćw`ŸğĜnyHăÁĘüRçóGĀÞs")),a_(a_new("ĎiVeMîéa^ÌQ_øtÑġěPîûēOéòÚåĊÝJàùĊNx×ĖkÜóÏđRôûýĕÂĢČPÕÐGWÐÞÖĖØVêÚĐ\\ßčĎĒ÷síÆcÆğqDtĄãEZĂĆùKUËZIÂY]ãĠHĉĢāäêmĈÍÖÈUbåÈxALjÄąf[ĔïÑLOËěĝdfCbÇôàìõòáęćw`ŸğĝnyhĂÁĘÜrÇógāþs"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ZÙÇtàÌĉbyÜčéĄk^ówĖÂØ`ÈXÀģ_ËďLÃäñÕîÜÁhāĒěVÞþđÑÚÐjtęÂoOĀĚćÛÒĕÇæHĊãÖrSUR[ĔIænČĢEMFjÌYzÚøÅĘWĠĝåDöDÔŸpÒNa]ùĠ÷ĞKÈaXáĞqCcvÓpĒýÎĄÍĂÉEïýĎfíÔĜMë\\ðÊsĉÕäiGUėBgÛ×ÊßïĂĆĊLĐQ")),a_(a_new("zùÇtàÌĉbYüčéąK^ÓwėÂØ`ÈXàĢ_ëĎLÃÄñõîüÁHĀĒĚVÞþĐñÚðJTęâOOĀěĆÛòĕçæHĊãÖrSuR[ĕiæNčĢEMfJÌYzÚØåęWĠĜådÖDôÿPÒnA]ÙĠ÷ĞkÈAxÁğQCcVópĒÝîĄÍĂéeÏÝďfÍÔĝmë\\ðÊSĉÕÄIGUėbGû×ÊßÏĂćĊlĐQ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ą]ĔĐêcĠMàÍóÀĊÛÌĢtïĖUËíÛåëqÑégĆĊ×čpÕùÙñēćâáØxKuXÿæì÷ÒÉyÃCvāĉþÕÜ_ßpäĈçiØĀÁyþÅúú`îÏÜmWĔehĒďÔÇÈ\\blðRêFNEěÎęAĝÆęTGÓĂjq[ģĖbďLÖòaĂkğÈÖSdÃdwôýČġąZjFĞðOoâěNvzĐsrHIÝ^Äĝ")),a_(a_new("Ą]ĕđêcġmàíÓÀċÛìĢtïĖUËÍÛåëqñéGćĊ×čPÕÙùÑĒĆÂÁØXKuXŸæì÷òéyÃcVĀĉÞõü_ßPäĉÇiøāáYÞÅúú`ÎÏüMWĕEhēďÔÇÈ\\BlðRÊFNEěÎĘAĝæĘtgÓăjQ[ģėbďlÖÒAĂkğèöSdÃDwôýČĠĄzjfĞðOOÂěnvzđSRHiÝ^äĝ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("øLõñÍáìóvwoMĝĎgFTËĜğęÐãcÖeĞ`ôĚÜY[âđhÆrîĈòpOÐfèÂWďúeÀĂþD÷ipĊüZêċîñÇĔÞxÕCSqGkëi_^ÏģàāÃùŸÍĀh]ßģéÛêçčNxJYĠÒsæANÛlēąėÅbïjTćđ×ĂRČĚèėÖÄmÝvĠĕDåĘuēÙĉ\\AÚôøÉÁìäóuąýqćzkb")),a_(a_new("øLõÑÍÁÌóVWOMĜĎgFtËĝğĘðãCÖeğ`ÔěüY[ÂđHÆrÎĈòpOÐfÈâWĎúeàăþd÷IPĊüZÊċîÑÇĕþxÕCsqGkëi_^ïģÀĀãùÿÍāh]ßĢéÛêÇčnxjYġÒSÆaNûLĒĄėÅbÏJTĆđ×ĂRČěÈĖöÄMÝvĠĕDÅęUēÙĉ\\AÚÔøéÁìÄÓUĄÝQćzKB"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("tÿ[éóTĂÀÜđeyęjÏEçğĒąèĝďYÙÞüíUqĆėáAWĔĊĔdĞìCôJäpÂflvóùoNĠXZÛąòðØĂÛñÂåÒþĆ^wïàbÕÄBßFĀÆSĎrñÃĚQÈ]đĠéģĜØċÖgVÖëSË`MýĢPcčÚaÊ×ÝOĉkkHîMãrUÌÔĘÊNdÚěhÇČGð÷xÆĒ_IáėlÕÅZÍĉ\\iÎā")),a_(a_new("Tÿ[éÓTĂàÜđEYęjÏEÇĞēĄÈĜĎyùÞÜíuQĆĖÁawĕĊĔdĞìCôjÄPÂflVÓÙonĠXZÛĄòðøĂûÑâåòþć^wïàBõÄbßFĀæsďRÑãĚqè]ĐĠÉĢĜøĊöGVÖËSë`mÝģPCčÚaÊ×ýoĉKKHîMÃrUÌÔĘÊnDúĚHÇčgð÷XæĒ_iáĖlÕÅzÍĉ\\IîĀ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ïøAĉLĘÃUåStNàĂÊõġRBüVćWj×Xp\\ĖkCmā[áġmBZÔçûïâÉĝûcääÑgÖ`ùĔíđþÐ÷ëÃeċèAì]QîOēiükďÔÎéĚÚtU_Ăúç^ÌxfĜæðóSjğĖĢßZĞÝëâVyÓhEĔFgòLDYØIÈùoĆĐÍdàąÕÅÑþčöÁRNPhýĒĢěĄĘÊŸĉÒāqÆĊWďč")),a_(a_new("ïØAĉLĘãUåsTNÀĂêõġRBüVĆwj×XP\\ĖkcMĀ[áġmBZôçÛïÂÉĝÛcääñgÖ`ÙĕíđþÐ÷ëãeċèAÌ]QîOēIüKďôÎéĚútU_ĂÚÇ^ÌXFĜÆðÓsJĞĖĢßzğýËâvYóHeĔfgÒLdYØiÈÙOćĐÍdÀĄõÅñÞČÖÁRNphýēģĚąęêÿĉòāQæĊwďč"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("gĊ[ßÌčĔêēdĢåĝPBÎøPæ`ÑĚÐzÍnàíćÈ^ÃÛÛTiðDËÙZaóÄċüãKeBÒ]cQáUeýÄcĐMôĆwďlúģQÖăđVúm_otÕL×ØoçėĄéxwèÙčăÞsÔöĘI÷ĉìĀÅñy\\ïuÿþGFąġĎēóYNÂJëÀfKğhĕáĠâĉĝêçÒîrğĖVahXüÝęÉRæJSÏĀĚõ")),a_(a_new("GĊ[ßÌčĕÊēdĢåĜpbîØPæ`ñĚÐzíNÀíćè^ãÛÛtIðDËÙZaóÄċÜãkebò]cQÁUEÝäCđMÔĆwĎlÚĢQÖăđvÚm_oTÕL×øoçėĄéXwèÙčăþsôÖęI÷ĉÌĀÅñy\\ÏuÿÞgFąĠďĒóyNâJËàFkğHĔáĠâĈĝêÇòîRğĖvAHXüÝĘÉræJSÏĀěÕ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("oåÃôànĕKċcímDjýbÈĎďÕė×sgoğkèXÛÒXØĖÆģP]ÙdþTSÎĝŸlûbEHyë÷[ïfgģfzðĘęĐÐĚĔÕuÞQúÝÁÍCàvzúāTùÜIWlĐVÑačĠ\\ÅîÇć`ĄñPÂËqãuøąAYJĂéiüßnĒMĒRr^ÌĂćäÁÉěĊĝğäóĉöÊeæò_ìêÓHāôÇâĠČĈWÖï")),a_(a_new("OåãôànĕKĊcíMDJýbèĎďõė×sGOğkÈxûÒxøĖæĢP]ùdþtSÎĜÿLÛbEhyË÷[ÏFgģFZðĘĘĐðĚĔÕuÞQÚÝáíCàVZúĀtÙÜIwLđvÑAČġ\\åîçć`ąÑPÂËqãuøąAYjăÉIüßnĒmĒRR^ÌăćÄáÉěĊĜĞÄóĉöêEÆò_ìÊóhāôçâġČĈWÖÏ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("Ċá_Ï×ĜêāAØăeliXÐÅáëĄßąôuĠX^ČMğčĖ]rìĐEròhFIyÃf÷BPpĖðöÔĢÞóÚdjüÛñéĕìDĐbcÕÀsèæěÓQåNĆÞqmZģĕòÎøHýēõÜĠĉëtÍvyÙWNĝêúöçtLèĎęçïÍċGsÀ`ğvýOďāûîkaOwÙćÄâěGkzĉcŸâÃÉäĘĂ[j\\Æñēu")),a_(a_new("ċÁ_ï×ĝÊāaøăeLIxðåáËąßĄôuĠX^ČmĞČĖ]RìĐERòHFIyãf÷bppĖÐÖÔĢþóúdjüûÑéĔìDĐBcõÀSèæěÓqåNćþqMZģĔÒîøhÝĒõÜġĈëtívYÙwnĜÊÚÖÇTLèĎĘçïíĊGsÀ`ĞvÝOďĀûîKAowÙĆÄÂĚGkzĈcÿâãÉÄęă[J\\ÆñēU"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ėNyEÂďąĜ^ÌKĉĜòevÖjéiIÙBÕWäāäámîgãSCtĔOzÌĢÞćēwÃêåHÎĂaÙOĢóC÷naØÅëëĚþĀ_ğÚàèđďÓěÀr`[ĔÜúFÈÉdĆXçÕĖlTÔÑïá×ÂHĈsuzFpÆÝÝÔqġPçRđdððxLïĘKčöíċĘJăċuGÜ\\mġyĄčvñ]ÛÊÿßēÒíqÛøÆBğ")),a_(a_new("ĖNyEâĎĄĜ^ìkĉĜÒeVÖjÉIiÙBõWÄĀÄámÎgãScTĕoZìĢþćēWÃêÅHÎĂAÙoģóC÷NaØåëëĚÞā_ğÚÀèĐĎóĚàr`[ĕüúFÈÉDćXçÕėltÔñïá×ÂhĉsuZfPÆÝÝôQġpÇrĐdðÐXLÏękČÖÍċĘJăĊUgü\\mġYĄčVñ]ûêŸßĒÒÍqûØÆbğ"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("ÃĄÖĘùàÈ÷êĔþďSÙÞCEáRTčFĒěWûyĖímĉâD_ģÉïÝêKUÒEĆQđîÇĐěÑnúýXúàÔÿyĈ]\\ĜfÈĘoċÓösZbòåċTğRėìÇÆkõHpĀĒjČClÌüðÎá`ĔDüßÍiăôĄÉĀió^ëëoæZåġbØÏHďvvXañĆnØLĢjĜÄmÐQâgûP[a×ĂġwUÃGõğÄ")),a_(a_new("ÃĄöęÙÀè÷ÊĔþĎSÙÞceártčFēěwÛYĖÍMĉÂd_ģÉïÝêKuÒeĆQĐîçĐĚÑnúýXÚÀôŸyĉ]\\ĝfÈęoĊÓÖszbòåċTĞRĖìÇÆkÕHPāējČCLìüÐÎÁ`ĕDÜßíIĂÔąÉāiÓ^ËëOÆzåġbØÏhĎvvxAÑĆNølĢJĜÄMÐqÂGÛp[A×ĂĠWUãgõğä"))));
+    ASSERT_EQUAL(0, a_icmp(a_(a_new("Æïèô_KJąYĔHÝdđRõsĉQÝÙOęÍEĔÞġWĆZėēÞtÅÎ[àñóTØFăgËÜòãĞÉ\\ăÉqĉnEġæĢûvfy×Î`ëBïĄöäLĜċÒÑāHďđěĊðíPěßaĎüğumęãMkĒćpêg^âÖáĖxÚŸÛÀiÚlõDåìčRVUbÙ÷ÔÇĜäØCNAâWáI]êCìČðoóXZèSĢāÇj")),a_(a_new("ÆïèÔ_kJĄYĕHýDĐRõsĈQýÙOĘíeĕÞġwćzĖĒþtåî[àñÓTØFăgËüòÃĞé\\ĂÉQĉNEġæģÛvfY×Î`ëBÏĄÖäLĝċÒñĀhĎĐěċÐípěßaďüğUmĘãMKĒćpêg^ÂÖÁėxÚÿûÀiÚLÕDÅÌčrVUbù÷ôçĝÄØcNAâwáI]êCìčðOÓXZèSģāÇj"))));
+    
+    a_gc_done();
+}
 
 CTEST(Cases_compare_simple, russian)
 {
@@ -952,6 +1053,11 @@ CTEST(Cases_compare, variable_length_checks)
     ASSERT_EQUAL(0, a_icmp_cstr_cstr("tesst.ëxämplé.com", "teßt.ëxämplé.com"));
     ASSERT_EQUAL(0, a_icmp_cstr_cstr("nißan.com", "nissan.com"));
     ASSERT_EQUAL(0, a_icmp_cstr_cstr("americanexpreß.com", "americanexpress.com"));
+    
+    /* this is a special test where casefolding results
+     * in >1 code points for both strings, the first
+     * code point matches (s), but the second one doesn't */
+    ASSERT_NOT_EQUAL(0, a_icmp_cstr_cstr("ﬆ", "ẞ"));
     
     /* sanity tests */  
     ASSERT_NOT_EQUAL(0, a_icmp_cstr_cstr("ﬆẞﬅﬆẞﬅ", "stSsStSTssst@"));
