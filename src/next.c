@@ -27,7 +27,17 @@ char *a_next(const char **s)
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
     return (char*)(*s = *s + a_size_chr_cstr(*s));
 }
-
+char *a_gnext(const char **s)
+{
+    a_cp this, next;
+    do
+    {
+        this = a_next_cp(s);
+        next = a_peek(*s);
+    } while (next && !a_grapheme_break_table[A_GCB(this)][A_GCB(next)]);
+    
+    return (char*)*s;
+}
 a_cp a_next_cp(const char **s)
 {
     const unsigned char *p = (const unsigned char*)*s;

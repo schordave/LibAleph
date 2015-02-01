@@ -68,8 +68,14 @@
  *        define this yourself if you know your application will be dealing
  *        with mostly larger strings.
  */
+/** \hideinitializer */
 #   define A_MIN_STR_SIZE 16
 #endif
+/** \name Custom Memory
+ *
+ * 
+ * @{
+ */
 /**
  * \brief Define to use custom allocation routines instead of the standard
  *        library ones.
@@ -84,6 +90,7 @@
 
 #   endif
 #endif
+/*@}*/
 /**
  * \brief Defining A_INCLUDE_NAMES will include name look-up 
  *        functionality. (Which includes a name lookup table
@@ -252,6 +259,7 @@ a_cp        a_char_at(a_cstr str, size_t index);
 a_cp        a_peek(const char *str);
 char       *a_next(const char **str);
 a_cp        a_next_cp(const char **str);
+char       *a_gnext(const char **str);
 #define     a_next_chr(str) ((char*)(str + a_next_char_size[(int)*(unsigned char*)(str)]))
 a_str       a_last(a_str str);
 char       *a_last_cstr(const char *str);
@@ -302,6 +310,8 @@ size_t      a_len_cstr_max(const char *str, size_t max);
 size_t      a_size(a_cstr s);
 #define     a_size_chr(c) ((a_next_char_size[(int)c]))
 #define     a_size_chr_cstr(s) (a_size_chr((unsigned char)*s))
+size_t      a_glen(a_cstr str);
+size_t      a_glen_cstr(const char *s);
 /*@}*/
 
 
@@ -1205,6 +1215,7 @@ int a_locale_set(const char *id);
 /*@}*/
 #endif
 
+
 #if 0
 #ifdef A_INCLUDE_TOKEN
 /** \name Token/List Manipulation
@@ -1310,6 +1321,24 @@ a_str       a_tok_i_sort_cp(a_str str, a_cp codepoint, int sort_option);
 /*@}*/
 #endif
 #endif
+
+enum a_gcb_property
+{
+    a_gcb_CR,
+    a_gcb_other, /* UCD calls it XX in various places as well... */
+    a_gcb_control,
+    a_gcb_extend,
+    a_gcb_prepend,
+    a_gcb_spacing_mark,
+    a_gcb_regional_indicator,
+    a_gcb_L,
+    a_gcb_V,
+    a_gcb_T,
+    a_gcb_LF,
+    a_gcb_LV,
+    a_gcb_LVT,
+    a_gcb_count
+};
 
 #ifndef DOXYGEN_DOCS
 struct a_header
