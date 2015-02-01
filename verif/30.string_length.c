@@ -27,6 +27,7 @@
 
 CTEST(Length, check_length)
 { 
+    a_cp cp;
     a_str a;
     a_gc;
     
@@ -52,6 +53,15 @@ CTEST(Length, check_length)
     ASSERT_EQUAL(101, a_len(a));
     ASSERT_EQUAL(201, a_size(a));
     ASSERT_EQUAL(1, a_glen(a));
+    
+    /* the supercombiner limited the combingmarks to 100,
+     * let's try with the _entire_  unicode code space */
+    a = a_new("A");
+    for (cp = A_MIN_CP; cp <= A_MAX_CP; ++cp)
+        if (a_category(cp) & a_gc_mark_nonspacing)
+            a = a_cat_cp(a, cp);
+    ASSERT_EQUAL(1, a_glen(a_(a))); /* should be just 1 */
+    
     
     a = a_(a_set_cstr(a_new(NULL), "Z͑ͫ̓ͪ̂ͫ̽͏̴̙̤̞͉͚̯̞̠͍A̴̵̜̰͔ͫ͗͢L̠ͨͧͩ͘G̴̻͈͍͔̹̑͗̎̅͛́Ǫ̵̹̻̝̳͂̌̌͘!͖̬̰̙̗̿̋ͥͥ̂ͣ̐́́͜͞"));
     ASSERT_EQUAL(75, a_len(a));

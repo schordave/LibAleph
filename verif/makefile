@@ -38,4 +38,7 @@ test: main.o ctest.h $(manual_list_of_tests) aleph.o
 
 clean:
 	rm -fr test *.o *.gcov *.gcno *.gcda
- 
+
+run: test
+	#./test  && gcov --all-blocks --branch-probabilities --branch-counts --function-summaries aleph.c
+	./test  && gcov --function-summaries aleph.c
