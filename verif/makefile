@@ -18,7 +18,9 @@ manual_list_of_tests=1.utf8_check.o          \
                      8.string_set.o          \
                      15.string_ascii.o       \
                      16.string_reversal.o    \
-                     17.string_trim.o        
+                     17.string_trim.o        \
+                     26.unicode_version.o    \
+                     30.string_length.o      
 
 all: test
 
