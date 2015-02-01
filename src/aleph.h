@@ -23,7 +23,6 @@
 #define LIBALEPH_H
 /**
  * \file aleph.h
- * \brief Prototypes and macros for working with aleph strings.
  * 
  * This file contains all the function prototypes and macros for working
  * with aleph strings. This is the only header needed to be included by
@@ -31,34 +30,117 @@
  * 
  * Aleph operates on dynamically allocated strings called Aleph Strings formally
  * called \link #a_str \em a_str \endlink and \link #a_cstr \em a_cstr \endlink.
- * \em a_cstr is just a const version of a_str.
+ * \em a_cstr is a version of a_str that simply points to const data.
  * 
- * LibAleph is a portable Unicode string library for C. LibAleph operates on
- * UTF-8 encoded strings, provides utilities to work and manipulate them, as
+ * \b LibAleph is a portable Unicode string library for C. LibAleph operates on
+ * \b UTF-8 encoded strings, provides utilities to work and manipulate them, as
  * well as passing them back to legacy interfaces that expect NULL-terminated
  * strings. 
  * 
  * 
- * Aleph Concepts:
+ * Aleph Concepts
  * --------------
  * 
- *  "grapheme clusters" - That's what the Unicode standard calls user-perceived characters.
- *                        They are what the USER thinks are characters. In reality a single
- *                        grapheme cluster might be composed of one or more code points. When
- *                        Aleph operates on grapheme clusters, we mean extended grapheme clusters.
+ * Before going any further, we must talk about a few concepts that get used 
+ * accross the entire library. They are clearly defined below:
  * 
- *  "character"         - In LibAleph, a code point. (avoid using that term.)
+ * Language:
  * 
- *  "code point"        - Any numerical value in the Unicode codespace, I.E. any value from
- *                        0x0 to 0x10FFFF.
+ * - \b Grapheme             - The fundamental unit in written language.
  * 
- *  "code unit"         - A minimal bit-combination that represents a valid code point, in UTF-8.
+ * - \b Glyph                - A basic element of of a language; a visual variant of a Grapheme.
+ * 
+ * - \b Character            - In LibAleph, a code point. (\b avoid using that term, it's _ambiguous_.)
+ * 
+ * Unicode:
+ *
+ * - \b Grapheme \b Cluster  - That's what the Unicode standard calls user-perceived characters.
+ *                             They are what the USER thinks are characters. In reality a single
+ *                             grapheme cluster might be composed of one or more code points. When
+ *                             Aleph operates on grapheme clusters, we mean extended grapheme clusters.
+ * 
+ * - \b Code \b Point        - Any numerical value in the Unicode codespace, I.E. any value from
+ *                             0x0 to 0x10FFFF.
+ * 
+ * - \b Code \b Unit         - A minimal bit-combination that represents a valid code point, in UTF-8.
+ * 
+ * 
+ * Aleph Function Variations
+ * -------------------------
+ * 
+ * LibAleph can operate on a string in three "modes":
+ * 
+ * - Based on offsets
+ *   - Such functions will have `_offset` in their name. For example `a_substr_offset()`, `a_find_offset()`, and `a_ins_offset()`
+ *   - Those functions are considerably more efficient as they require no linear scanning of the string.
+ * 
+ * - Based on code points index
+ *   - These are the default variation. For example `a_substr()`, `a_find_from()`, and `a_ins()`.
+ * 
+ * - Based on grapheme clusters index
+ *   - Thse functions will have a `g` prefix to them, for example `a_gfind_from()` and `a_gsubstr()`.
+ * 
+ * Naming Convension
+ * -----------------
+ * 
+ * LibAleph follows a relatively consistent naming convension:
+ * 
+ * - All LibAleph identifiers start with `a_` (or `A_`).
+ * - A verb is used to describe the main functionality of the set
+ *   of functions, for example `substr`, `find`, `cmp`, and `inst`.
+ *    - Variations of the function that take different arguments will
+ *      include the argument type in the name:
+ *      - _cstr = `const char *`
+ *      - _cp = `a_cp`
+ *      - _str  = `a_str` / `a_cstr`
+ *      - _count / _len / _size = `size_t` / `long`
+ * - Modifiers that impact how the function operaters are specified
+ *   as a single letter prefix to the verb.
+ *      - Case-insensitive version of the function is prefixed with an
+ *        `i`, for example `icmp`, `ifind`, and `istartswith`.
+ *      - Grapheme index version of the function is prefixed with a
+ *        'g', for example `gfind` and `gsubstr`
+ * 
+ * Preconditions
+ * -------------
+ * 
+ * LibAleph has a single precondition that \b MUST be enforced in all
+ * functions:
+ * 
+ *  - Unless otherwise stated, ALL string and code point inputs \b MUST be
+ *    valid UTF-8 encoded strings.
+ * 
+ * A set of sanitization functions are provided which can be used
+ * to fix/validate UTF-8 encodings from unknown input sources.
+ * Additionally, LibAleph makes heavy use of `assert()` statements to
+ * validate that such inputs do not make their way into the library.
+ * It's highly recommended that you do not disable asserts() during
+ * debug mode.
+ * 
+ * Chaining
+ * --------
+ * 
+ * LibAleph utilizes dynamically-allocated character arrays. As such,
+ * they can fail usually under one circumstance: when `malloc()` or
+ * `realloc()` returns `NULL`.
+ * 
+ * LibAleph provides the special `NULL Passthrough` mode which, when
+ * enabled, allows NULL arguments to 'passthrough' the function safely.
+ * The NULL Passthrough mode can be enabled by defining the macro 
+ * `A_NULL_PASSTHROUGH`.
+ * 
+ * Additional Info
+ * ---------------
+ * 
  * 
  * \author Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
- * \copyright MIT License
+ * 
+ * <dl class="section author"><dt>Bugs</dt><dd>Please report bugs by filing an issue on GitHub: https://github.com/ZigWap/LibAleph</dd></dl>
+ * 
+ * \copyright MIT License (LibAleph code) CC BY-ND 3.0 (Documentation)
  */
-#include <stddef.h>
-#include <assert.h>
+#include <stddef.h> /* used for 'size_t'   */ 
+#include <assert.h> /* used for 'assert()' */
 /*
  * 
  */
