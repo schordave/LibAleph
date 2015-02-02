@@ -372,6 +372,7 @@ char       *a_next(char **str);
 char       *a_next_cstr(const char **str);
 a_cp        a_next_cp(const char **str);
 char       *a_gnext_cstr(const char **str);
+/** \hideinitializer */
 #define     a_next_chr(str) ((char*)(str + a_next_char_size[(int)*(unsigned char*)(str)]))
 a_str       a_last(a_str str);
 char       *a_last_cstr(const char *str);
@@ -420,7 +421,9 @@ size_t      a_len(a_cstr str);
 size_t      a_len_cstr(const char *str);
 size_t      a_len_cstr_max(const char *str, size_t max);
 size_t      a_size(a_cstr s);
+/** \hideinitializer */
 #define     a_size_chr(c) ((a_next_char_size[(int)c]))
+/** \hideinitializer */
 #define     a_size_chr_cstr(s) (a_size_chr((unsigned char)*s))
 size_t      a_mem(a_cstr str);
 size_t      a_glen(a_cstr str);
