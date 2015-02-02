@@ -77,17 +77,17 @@ CTEST(Blocks, check_block_emoticons)
     
     e = "😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐";
     while (*e)
-        ASSERT_EQUAL(a_block_emoticons, a_block_cp(a_next_cp(&e)));
+        ASSERT_EQUAL(a_block_emoticons, a_block_cp(a_next_cp_cstr(&e)));
     
 
     e = "😸😹😺😻😼😽😾😿🙀";
     while (*e)
-        ASSERT_EQUAL(a_block_emoticons, a_block_cp(a_next_cp(&e)));
+        ASSERT_EQUAL(a_block_emoticons, a_block_cp(a_next_cp_cstr(&e)));
     
 
     e = "🙅🙆🙇🙈🙉🙊🙋🙌";
     while (*e)
-        ASSERT_EQUAL(a_block_emoticons, a_block_cp(a_next_cp(&e)));
+        ASSERT_EQUAL(a_block_emoticons, a_block_cp(a_next_cp_cstr(&e)));
 }
 
 CTEST(Blocks, check_block_boundries)

@@ -86,7 +86,7 @@ CTEST(Categories, check_is_alpha)
     
     while (*s)
     {
-        a_cp c = a_next_cp(&s);
+        a_cp c = a_next_cp_cstr(&s);
         ASSERT_TRUE(a_is_alpha(c));
         ASSERT_TRUE(a_is_alphanumeric(c));
         ASSERT_TRUE(a_is_bmp(c));
@@ -125,7 +125,7 @@ CTEST(Categories, check_is_math)
     
     while (*s)
     {
-        a_cp c = a_next_cp(&s);
+        a_cp c = a_next_cp_cstr(&s);
         ASSERT_TRUE(a_is_math(c));
         ASSERT_TRUE(a_is_bmp(c));
         ASSERT_FALSE(a_is_alphanumeric(c));
@@ -172,7 +172,7 @@ CTEST(Categories, check_is_mark)
     
     while (*s)
     {
-        a_cp c = a_next_cp(&s);
+        a_cp c = a_next_cp_cstr(&s);
         ASSERT_TRUE(a_is_mark(c));
         ASSERT_TRUE(a_is_bmp(c));
         ASSERT_TRUE(a_is_graphical(c));
@@ -219,7 +219,7 @@ CTEST(Categories, check_is_punct)
     
     while (*s)
     {
-        a_cp c = a_next_cp(&s);
+        a_cp c = a_next_cp_cstr(&s);
         ASSERT_TRUE(a_is_punctuation(c));
         ASSERT_TRUE(a_is_bmp(c));
         ASSERT_TRUE(a_is_graphical(c));
@@ -232,7 +232,7 @@ CTEST(Categories, check_is_sep_space)
     
     while (*s)
     {
-        a_cp c = a_next_cp(&s);
+        a_cp c = a_next_cp_cstr(&s);
         ASSERT_TRUE(a_is_separator(c));
         ASSERT_TRUE(a_is_space(c));
         ASSERT_TRUE(a_is_bmp(c));
@@ -274,7 +274,7 @@ CTEST(Categories, check_is_symbol)
     
     while (*s)
     {
-        a_cp c = a_next_cp(&s);
+        a_cp c = a_next_cp_cstr(&s);
         ASSERT_TRUE(a_is_symbol(c));
         ASSERT_TRUE(a_is_math(c));
         ASSERT_TRUE(a_is_graphical(c));
