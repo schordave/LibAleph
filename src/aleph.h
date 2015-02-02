@@ -37,6 +37,8 @@
  * well as passing them back to legacy interfaces that expect NULL-terminated
  * strings. 
  * 
+ * LibAleph is highly intuitive and easy to use.
+ * 
  * 
  * Aleph Concepts
  * --------------
@@ -104,11 +106,13 @@
  * Preconditions
  * -------------
  * 
- * LibAleph has a single precondition that \b MUST be enforced in all
+ * LibAleph has two preconditions that \b MUST be enforced in all
  * functions:
  * 
- *  - Unless otherwise stated, ALL string and code point inputs \b MUST be
+ *  - Unless otherwise stated, ALL string inputs \b MUST be
  *    valid UTF-8 encoded strings.
+ *  - ALL code point inputs \b MUST be a valid value in the Unicode
+ *    codespace.
  * 
  * A set of sanitization functions are provided which can be used
  * to fix/validate UTF-8 encodings from unknown input sources.
@@ -122,12 +126,37 @@
  * 
  * LibAleph utilizes dynamically-allocated character arrays. As such,
  * they can fail usually under one circumstance: when `malloc()` or
- * `realloc()` returns `NULL`.
+ * `realloc()` returns `NULL`. (Although in pratice, almost all modern
+ * systems overcommit memory by default, making this very unlikely)
  * 
  * LibAleph provides the special `NULL Passthrough` mode which, when
  * enabled, allows NULL arguments to 'passthrough' the function safely.
  * The NULL Passthrough mode can be enabled by defining the macro 
  * `A_NULL_PASSTHROUGH`.
+ * 
+ * a_str type
+ * -----------
+ * 
+ * LibAleph operates on an `a_str` type which is in fact just a `char *`.
+ * LibAleph does do minimal bookkeeping in a header it maintains just before
+ * the actual string buffer. This design allows for aleph strings to be
+ * treated safely as a NULL-terminated UTF-8 strings whereever desired.
+ * Additionally, if you must, you can modify the content of the buffer
+ * yourself provided you call `a_sync()` to make sure aleph bookkeeping is
+ * in-sync with the modified buffer. You may also call `a_ensure()` and
+ * `a_reserve()` to resize the buffer to the desired size.
+ * 
+ * It's important to note that passing an a_str object to a function that has
+ * the potential to resize the buffer may invalidate the original pointer.
+ * You must save the return value which may return a new pointer. For 
+ * example:
+ * 
+ *      a_cat_cstr(foo, "123");
+ * 
+ * is incorrect, you must assign the return value to foo, i.e.:
+ * 
+ *      foo = a_cat_cstr(foo, "123");
+ * 
  * 
  * Additional Info
  * ---------------
@@ -392,6 +421,7 @@ size_t      a_len_cstr_max(const char *str, size_t max);
 size_t      a_size(a_cstr s);
 #define     a_size_chr(c) ((a_next_char_size[(int)c]))
 #define     a_size_chr_cstr(s) (a_size_chr((unsigned char)*s))
+size_t      a_mem(a_cstr str);
 size_t      a_glen(a_cstr str);
 size_t      a_glen_cstr(const char *s);
 /*@}*/
@@ -700,6 +730,8 @@ a_str       a_reverse(a_str str);
 a_str       a_reverse_new(a_str str);
 a_str       a_reverse_str(a_str str, a_str output);
 a_str       a_reverse_paragraph(a_str str);
+a_str       a_greverse_new(a_cstr str);
+a_str       a_greverse_str(a_cstr str, a_str output);
 /*@}*/
 
 
