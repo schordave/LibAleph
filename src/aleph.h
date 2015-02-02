@@ -368,9 +368,10 @@ a_cp        a_char_at(a_cstr str, size_t index);
  * @{
  */
 a_cp        a_peek(const char *str);
-char       *a_next(const char **str);
+char       *a_next(char **str);
+char       *a_next_cstr(const char **str);
 a_cp        a_next_cp(const char **str);
-char       *a_gnext(const char **str);
+char       *a_gnext_cstr(const char **str);
 #define     a_next_chr(str) ((char*)(str + a_next_char_size[(int)*(unsigned char*)(str)]))
 a_str       a_last(a_str str);
 char       *a_last_cstr(const char *str);
@@ -711,24 +712,27 @@ int         a_iendswith_norm(a_str str, a_str substr);
  * the order you read the string). Reversal functions can be used to
  * reverse a segment of R-L text into logical ordering.
  * 
- *      a_str example = a_new("שלום עולם");
- * 
- *      printf("=> %s\n",  example);
- *      printf("=> %s\n",  a_reverse(example));
- * 
- *      a_free(example);
+ *     a_str example = a_new("שָׁלוֹם");
+ *     a_str example2 = a_greverse_new(example);
+ *     
+ *     printf("=> '%s'\n",  example);
+ *     printf("=> '%s'\n",  a_reverse(example));
+ *     printf("=> '%s'\n",  example2);
+ *     
+ *     a_free_n(example, example2, NULL);
  * 
  * Prints:
  * 
- *      => שלום עולם
- *      => םלוע םולש
+ *      => 'שָׁלוֹם'
+ *      => 'םֹולָׁש'
+ *      => 'םוֹלשָׁ'
  *
  * 
  * @{
  */
 a_str       a_reverse(a_str str);
-a_str       a_reverse_new(a_str str);
-a_str       a_reverse_str(a_str str, a_str output);
+a_str       a_reverse_new(a_cstr str);
+a_str       a_reverse_str(a_cstr str, a_str output);
 a_str       a_reverse_paragraph(a_str str);
 a_str       a_greverse_new(a_cstr str);
 a_str       a_greverse_str(a_cstr str, a_str output);

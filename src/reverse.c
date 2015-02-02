@@ -39,7 +39,7 @@ a_str a_reverse(a_str str)
     
     return str;
 }
-a_str a_reverse_new(a_str str)
+a_str a_reverse_new(a_cstr str)
 {
     a_str newstr;
     assert(str != NULL);
@@ -49,12 +49,13 @@ a_str a_reverse_new(a_str str)
         return a_reverse_str(str, newstr);
     return NULL;
 }
-a_str a_reverse_str(a_str str, a_str output)
+a_str a_reverse_str(a_cstr str, a_str output)
 {
     struct a_header *in_h, *out_h;
     size_t at;
     assert(str != NULL && output != NULL);
     PASSTHROUGH_ON_FAIL(str != NULL && output != NULL, NULL);
+    A_ASSERT_UTF8(str);
     
     in_h = a_header(str);
     at = in_h->size;
@@ -75,3 +76,46 @@ a_str a_reverse_str(a_str str, a_str output)
     return output;
 }
 
+a_str a_greverse_new(a_cstr str)
+{
+    a_str newstr;
+    assert(str != NULL);
+    PASSTHROUGH_ON_FAIL(str != NULL, NULL);
+    
+    if ((newstr = a_new(NULL)))
+        return a_greverse_str(str, newstr);
+    return NULL;
+}
+
+a_str a_greverse_str(a_cstr str, a_str output)
+{
+    struct a_header *in_h, *out_h;
+    size_t at;
+    assert(str != NULL && output != NULL);
+    PASSTHROUGH_ON_FAIL(str != NULL && output != NULL, NULL);
+    A_ASSERT_UTF8(str);
+    
+    in_h = a_header(str);
+    at = in_h->size;
+    output = a_reserve(output, at);
+    
+    out_h = a_header(output);
+    output[at] = '\0';
+    out_h->len = in_h->len;
+    out_h->size = in_h->size;
+    while (*str)
+    {
+        const char *start, *end;
+        char *t;
+        size_t cont;
+        
+        start = str;
+        end = a_gnext_cstr(&str);
+        cont = end-start;
+        at -= (size_t)cont;
+        
+        for (t = output+at; cont; cont--)
+            *t++ = *start++;
+    }
+    return output;
+}

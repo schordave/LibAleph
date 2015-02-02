@@ -25,7 +25,7 @@ size_t a_glen_cstr(const char *s)
     PASSTHROUGH_ON_FAIL(s != NULL, 0);
     
     while (*s)
-        a_gnext(&s), ++size;
+        a_gnext_cstr(&s), ++size;
     return size;
 }
 size_t a_len_cstr_max(const char *s, size_t max)

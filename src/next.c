@@ -21,13 +21,20 @@ const char a_next_char_size[256] =
     4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1
 };
 
-char *a_next(const char **s)
+
+char *a_next(char **s)
+{
+    assert(s != NULL);
+    PASSTHROUGH_ON_FAIL(s != NULL, NULL);
+    return (*s = *s + a_size_chr_cstr(*s));
+}
+char *a_next_cstr(const char **s)
 {
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
     return (char*)(*s = *s + a_size_chr_cstr(*s));
 }
-char *a_gnext(const char **s)
+char *a_gnext_cstr(const char **s)
 {
     a_cp this, next;
     do
