@@ -11,12 +11,13 @@ void a_dump(a_str s, int val)
     {
         struct a_header *h = a_header(s);
         fprintf(stderr,
-            "a_str {adr=%p, %s%s%slen=%ld, size=%ld, mem=%ld, valid=%s}\n",
+            "a_str {adr=%p, %s%s%slen=%ld, glen=%ld, size=%ld, mem=%ld, valid=%s}\n",
             s,
             val ? "val='" : "",
             val ? s : "",
             val ? "', " : "",
             (long int)h->len,
+            (long int)a_glen(s),
             (long int)h->size,
             (long int)h->mem,
             a_is_valid_utf8(s) == NULL ? "true" : "false"
