@@ -34,18 +34,26 @@ char *a_next_cstr(const char **s)
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
     return (char*)(*s = *s + a_size_chr_cstr(*s));
 }
+char *a_gnext(char **s)
+{
+    return a_gnext_cstr((const char **)s);
+}
 char *a_gnext_cstr(const char **s)
 {
     a_cp this, next;
     do
     {
-        this = a_next_cp(s);
+        this = a_next_cp_cstr(s);
         next = a_peek(*s);
     } while (next && !a_grapheme_break_table[A_GCB(this)][A_GCB(next)]);
     
     return (char*)*s;
 }
-a_cp a_next_cp(const char **s)
+a_cp a_next_cp(char **s)
+{
+    return a_next_cp_cstr((const char **)s);
+}
+a_cp a_next_cp_cstr(const char **s)
 {
     const unsigned char *p = (const unsigned char*)*s;
     assert(s != NULL);

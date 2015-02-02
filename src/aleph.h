@@ -82,6 +82,13 @@
  * - Based on grapheme clusters index
  *   - Thse functions will have a `g` prefix to them, for example `a_gfind_from()` and `a_gsubstr()`.
  * 
+ * 
+ * Visual Overview
+ * ---------------
+ * 
+ * \image html chars.png
+ * 
+ * 
  * Naming Convension
  * -----------------
  * 
@@ -148,7 +155,8 @@
  * 
  * It's important to note that passing an a_str object to a function that has
  * the potential to resize the buffer may invalidate the original pointer.
- * You must save the return value which may return a new pointer. For 
+ * You must save the return value which may return a new pointer. (those 
+ * functions are noted appropriately in this doc.) For 
  * example:
  * 
  *      a_cat_cstr(foo, "123");
@@ -156,7 +164,6 @@
  * is incorrect, you must assign the return value to foo, i.e.:
  * 
  *      foo = a_cat_cstr(foo, "123");
- * 
  * 
  * Additional Info
  * ---------------
@@ -370,7 +377,9 @@ a_cp        a_char_at(a_cstr str, size_t index);
 a_cp        a_peek(const char *str);
 char       *a_next(char **str);
 char       *a_next_cstr(const char **str);
-a_cp        a_next_cp(const char **str);
+a_cp        a_next_cp(char **str);
+a_cp        a_next_cp_cstr(const char **str);
+char       *a_gnext(char **str);
 char       *a_gnext_cstr(const char **str);
 /** \hideinitializer */
 #define     a_next_chr(str) ((char*)(str + a_next_char_size[(int)*(unsigned char*)(str)]))
@@ -425,9 +434,10 @@ size_t      a_size(a_cstr s);
 #define     a_size_chr(c) ((a_next_char_size[(int)c]))
 /** \hideinitializer */
 #define     a_size_chr_cstr(s) (a_size_chr((unsigned char)*s))
-size_t      a_mem(a_cstr str);
+size_t      a_gsize_chr_cstr(const char *str);
 size_t      a_glen(a_cstr str);
 size_t      a_glen_cstr(const char *s);
+size_t      a_mem(a_cstr str);
 /*@}*/
 
 

@@ -56,3 +56,8 @@ size_t a_mem(a_cstr s)
     PASSTHROUGH_ON_FAIL(s != NULL, 0);
     return a_header(s)->mem;
 }
+size_t a_gsize_chr_cstr(const char *s)
+{
+    const char *start = s;
+    return (a_gnext_cstr(&s) - start);
+}

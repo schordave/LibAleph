@@ -16,7 +16,7 @@ a_str a_trim_left_cstr(a_str str, const char *chrs)
         int c = a_peek(s), match;
         
         for (t = chrs, match = 0; *t && !match;)
-            match = (c == a_next_cp(&t));
+            match = (c == a_next_cp_cstr(&t));
         
         if (!match)
             break;
@@ -46,7 +46,7 @@ a_str a_trim_right_cstr(a_str str, const char *chrs)
         int c = a_prev_cp(&s), match;
         
         for (t = chrs, match = 0; *t && !match;)
-            match = (c == a_next_cp(&t));
+            match = (c == a_next_cp_cstr(&t));
         
         if (!match)
         {
