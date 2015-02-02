@@ -734,6 +734,7 @@ a_str       a_reverse(a_str str);
 a_str       a_reverse_new(a_cstr str);
 a_str       a_reverse_str(a_cstr str, a_str output);
 a_str       a_reverse_paragraph(a_str str);
+a_str       a_greverse(a_str str);
 a_str       a_greverse_new(a_cstr str);
 a_str       a_greverse_str(a_cstr str, a_str output);
 /*@}*/

@@ -76,6 +76,21 @@ a_str a_reverse_str(a_cstr str, a_str output)
     return output;
 }
 
+a_str a_greverse(a_str str)
+{
+    a_str dupbuff;
+    assert(str != NULL);
+    PASSTHROUGH_ON_FAIL(str != NULL, NULL);
+    
+    if (!(dupbuff = a_new_dup(str)))
+    {
+        a_free(str);
+        return NULL;
+    }
+    a_greverse_str(dupbuff, str);
+    free(dupbuff);
+    return str;
+}
 a_str a_greverse_new(a_cstr str)
 {
     a_str newstr;
