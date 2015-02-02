@@ -50,3 +50,9 @@ size_t a_size(a_cstr s)
     PASSTHROUGH_ON_FAIL(s != NULL, 0);
     return a_header(s)->size;
 }
+size_t a_mem(a_cstr s)
+{
+    assert(s != NULL);
+    PASSTHROUGH_ON_FAIL(s != NULL, 0);
+    return a_header(s)->mem;
+}
