@@ -60,10 +60,10 @@ int a_icmp_simple_cstr(a_cstr str1, const char *str2)
 }
 int a_icmp_simple_cstr_cstr(const char *str1, const char *str2)
 {
-    register a_cp a, b;
+    register a_cp a;
     
     while ((a = a_to_fold_simple_chr_cp(a_next_cp_cstr(&str1))) 
-            == (b = a_to_fold_simple_chr_cp(a_next_cp_cstr(&str2))))
+            == a_to_fold_simple_chr_cp(a_next_cp_cstr(&str2)))
     {
         if (a == 0)
             return 0;
