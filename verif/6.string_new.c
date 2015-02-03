@@ -69,16 +69,16 @@ CTEST(Creation, check_new_len)
 {
     a_str a, b, c, d, e, f, g, h, i, j;
     
-    a = a_new_len("happy birthday", 5);
-    b = a_new_len("Ծնունդդ շնորհավոր", 14);
-    c = a_new_len("ᎤᎵᎮᎵᏍᏗ ᏂᏣᏕᏘᏯ", 18);
-    d = a_new_len("生日快樂", 6);
-    e = a_new_len("عيد ميلاد سعيد", 6);
-    f = a_new_len("Bonne fête", 5);
-    g = a_new_len("जन्मदिन मुबारक हो", 21);
-    h = a_new_len("יום הולדת שמח", 6);
-    i = a_new_len("¡feliz cumpleaños!", 7);
-    j = a_new_len("జన్మదిన శుభాకాంక్షలు", 21);
+    a = a_new_size("happy birthday", 5);
+    b = a_new_size("Ծնունդդ շնորհավոր", 14);
+    c = a_new_size("ᎤᎵᎮᎵᏍᏗ ᏂᏣᏕᏘᏯ", 18);
+    d = a_new_size("生日快樂", 6);
+    e = a_new_size("عيد ميلاد سعيد", 6);
+    f = a_new_size("Bonne fête", 5);
+    g = a_new_size("जन्मदिन मुबारक हो", 21);
+    h = a_new_size("יום הולדת שמח", 6);
+    i = a_new_size("¡feliz cumpleaños!", 7);
+    j = a_new_size("జన్మదిన శుభాకాంక్షలు", 21);
     
     ASSERT_EQUAL(5, a_len(a));
     ASSERT_EQUAL(7, a_len(b));

@@ -322,9 +322,9 @@ extern const char a_next_char_size[256];
  * @{
  */
 /**
- * \brief Creates a new Aleph string from a standard NULL-terminated UTF-8 string.
+ * \brief Creates a new string from a standard NULL-terminated UTF-8 string.
  * 
- * Creates a new Aleph string from the contents of \b str. If \b str is
+ * Creates a new Aleph string from the contents of \p str. If \p str is
  * NULL, a new empty string is created instead.
  * 
  * \param str A NULL-terminated UTF-8 string to initize the string to, or NULL.
@@ -333,16 +333,106 @@ extern const char a_next_char_size[256];
  *      use `a_new_valid()` instead.
  */
 a_str       a_new(const char *str);
+/**
+ * \brief Creates a new string from a specific code point repeated \p repeat times.
+ * 
+ * Creates a new Aleph string filled with code point \p codepoint repeated \p repeat time. 
+ * 
+ * \param codepoint A valid code point in the Unicode codespace. (i.e. #A_MIN_CP <= cp <= #A_MAX_CP)
+ * \param repeat Number of times \p codepoint should be repeated.
+ * \return A new a_str string, otherwise NULL on failure.
+ */
 a_str       a_new_cp(a_cp codepoint, size_t repeat);
+/**
+ * \brief Creates a string from a specific character repeated \p repeat times.
+ * 
+ * Creates a new Aleph string filled with code point \p chr repeated \p repeat time. 
+ * 
+ * \param chr A pointer to a valid code point encoded in UTF-8 code units.
+ * \param repeat Number of times \p chr should be repeated.
+ * \return A new a_str string, otherwise NULL on failure.
+ * \note \p chr need not be NULL-terminated.
+ */
 a_str       a_new_chr(char *chr, size_t repeat);
-a_str       a_new_len(const char *str, size_t length);
+/**
+ * \brief Creates a string from a portion of a UTF-8 string.
+ * 
+ * Creates a new Aleph string from the first \p size bytes of
+ * the UTF-8 encoded buffer \p str.
+ * 
+ * \param str The UTF-8 encoded string to copy from.
+ * \param size The number of bytes from \p str to copy.
+ * \return A new a_str string, otherwise NULL on failure.
+ * \pre \p str must not be shorter than \p size.
+ */
+a_str       a_new_size(const char *str, size_t size);
+/*
+ * TODO: Incomplete!
+ */
 a_str       a_new_valid(const char *str);
-a_str       a_new_size(size_t length);
-a_str       a_new_size_raw(size_t length);
-a_str       a_new_dup(a_cstr s);
+/**
+ * \brief Creates a string with a specific buffer size.
+ * 
+ * Creates a new empty Aleph string with a buffer size of at
+ * least \p size bytes. 
+ * 
+ * \param size Minimum buffer size for the new string.
+ * \return A new a_str string, otherwise NULL on failure.
+ * \note This function adds 1 to \p size for a NULL-terminator.
+ */
+a_str       a_new_mem(size_t size);
+/**
+ * \brief Creates a new a_str of specific buffer size.
+ * 
+ * Creates a new Aleph string with a buffer size of at
+ * least \p size bytes. Unlike `a_new_mem()`, this function
+ * leaves the buffer untouched, not even NULL-terminated.
+ * 
+ * \param size Minimum buffer size for the new string.
+ * \return A new a_str string, otherwise NULL on failure.
+ */
+a_str       a_new_mem_raw(size_t length);
+/**
+ * \brief Creates a new a_str duplicate.
+ * 
+ * Creates a new Aleph string duplicate of another Aleph
+ * string \p str.
+ * 
+ * \param str An Aleph string to duplicate.
+ * \return A new a_str string, otherwise NULL on failure.
+ */
+a_str       a_new_dup(a_cstr str);
+/*
+ * TODO: Incomplete!
+ */
 a_str       a_new_normalize(a_cstr str, int mode); /* see norm modes below */
+/**
+ * \brief Frees an Aleph string.
+ * 
+ * Frees an Aleph string.
+ * 
+ * \param str An Aleph string to free.
+ */
 void        a_free(a_str str);
+/**
+ * \brief Frees multiple Aleph strings.
+ * 
+ * Frees multiple Aleph strings passed as a
+ * NULL-terminated argument list.
+ * 
+ * \param str The first a_str to free followed by
+ *            either `NULL` or a list of a_str strings
+ *            followed by `NULL`.
+ */
 void        a_free_n(a_str str, ...);
+/**
+ * \brief Frees an array of Aleph strings
+ * 
+ * Frees a NULL-terminated array of Aleph strings.
+ * 
+ * \param strv The NULL-terminated array of Aleph strings.
+ * \note This function frees \p strv as well.
+ */
 void        a_free_vec(a_str *strv);
 /*@}*/
 
