@@ -65,6 +65,57 @@ CTEST(Creation, check_new)
     a_free_n(a, b, c, d, e, f, g, h, i, j, NULL);
 }
 
+CTEST(Creation, check_new_len)
+{
+    a_str a, b, c, d, e, f, g, h, i, j;
+    
+    a = a_new_len("happy birthday", 5);
+    b = a_new_len("Ծնունդդ շնորհավոր", 14);
+    c = a_new_len("ᎤᎵᎮᎵᏍᏗ ᏂᏣᏕᏘᏯ", 18);
+    d = a_new_len("生日快樂", 6);
+    e = a_new_len("عيد ميلاد سعيد", 6);
+    f = a_new_len("Bonne fête", 5);
+    g = a_new_len("जन्मदिन मुबारक हो", 21);
+    h = a_new_len("יום הולדת שמח", 6);
+    i = a_new_len("¡feliz cumpleaños!", 7);
+    j = a_new_len("జన్మదిన శుభాకాంక్షలు", 21);
+    
+    ASSERT_EQUAL(5, a_len(a));
+    ASSERT_EQUAL(7, a_len(b));
+    ASSERT_EQUAL(6, a_len(c));
+    ASSERT_EQUAL(2, a_len(d));
+    ASSERT_EQUAL(3, a_len(e));
+    ASSERT_EQUAL(5, a_len(f));
+    ASSERT_EQUAL(7, a_len(g));
+    ASSERT_EQUAL(3, a_len(h));
+    ASSERT_EQUAL(6, a_len(i));
+    ASSERT_EQUAL(7, a_len(j));
+    
+    ASSERT_EQUAL(5, a_size(a));
+    ASSERT_EQUAL(14, a_size(b));
+    ASSERT_EQUAL(18, a_size(c));
+    ASSERT_EQUAL(6, a_size(d));
+    ASSERT_EQUAL(6, a_size(e));
+    ASSERT_EQUAL(5, a_size(f));
+    ASSERT_EQUAL(21, a_size(g));
+    ASSERT_EQUAL(6, a_size(h));
+    ASSERT_EQUAL(7, a_size(i));
+    ASSERT_EQUAL(21, a_size(j));
+    
+    ASSERT_EQUAL(0, strcmp(a, "happy"));
+    ASSERT_EQUAL(0, strcmp(b, "Ծնունդդ"));
+    ASSERT_EQUAL(0, strcmp(c, "ᎤᎵᎮᎵᏍᏗ"));
+    ASSERT_EQUAL(0, strcmp(d, "生日"));
+    ASSERT_EQUAL(0, strcmp(e, "عيد"));
+    ASSERT_EQUAL(0, strcmp(f, "Bonne"));
+    ASSERT_EQUAL(0, strcmp(g, "जन्मदिन"));
+    ASSERT_EQUAL(0, strcmp(h, "יום"));
+    ASSERT_EQUAL(0, strcmp(i, "¡feliz"));
+    ASSERT_EQUAL(0, strcmp(j, "జన్మదిన"));
+    
+    a_free_n(a, b, c, d, e, f, g, h, i, j, NULL);
+}
+
 CTEST(Creation, check_new_cp_n_chr)
 {
     a_str a;

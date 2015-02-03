@@ -41,22 +41,22 @@ a_str a_new(const char *s)
     return a_new_len(s ? s : "", s ? strlen(s) : 0);
 }
 
-a_str a_new_len(const char *s, size_t l)
+a_str a_new_len(const char *str, size_t size)
 {
-    a_str str;
+    a_str astr;
     struct a_header *h;
-    assert(s != NULL);
-    PASSTHROUGH_ON_FAIL(s != NULL, NULL);
+    assert(str != NULL);
+    PASSTHROUGH_ON_FAIL(str != NULL, NULL);
     
-    if ((str = a_new_size_raw(l+1)))
+    if ((astr = a_new_size_raw(size+1)))
     {
-        h = a_header(str);
-        memcpy(str, s, l);
-        str[l] = '\0';
-        h->len = a_len_cstr(s);
-        h->size = l;
+        memcpy(astr, str, size);
+        astr[size] = '\0';
+        h = a_header(astr);
+        h->len = a_len_cstr(astr);
+        h->size = size;
     }
-    return str;
+    return astr;
 }
 
 a_str a_new_dup(a_cstr s)
