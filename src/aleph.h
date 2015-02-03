@@ -319,6 +319,10 @@ extern const char a_next_char_size[256];
  * Various functions used for creating and destructing Aleph string
  * objects, `a_str`. All a_str objects must be destroyed using one
  * of the destruction functions below such as `a_free()`.
+ * 
+ * Unless otherwise noted, creation functions always form valid NULL-
+ * terminated UTF-8 strings that can be passed to functions that accept
+ * `const char *` UTF-8 strings.
  * @{
  */
 /**
@@ -330,7 +334,7 @@ extern const char a_next_char_size[256];
  * \param str A NULL-terminated UTF-8 string to initize the string to, or NULL.
  * \return a_str, otherwise NULL on failure.
  * \pre \em str must be a valid UTF-8 string, if that cannot be guaranteed,
- *      use `a_new_valid()` instead.
+ *      use `a_new_validate()` instead.
  */
 a_str       a_new(const char *str);
 /**
@@ -369,7 +373,7 @@ a_str       a_new_size(const char *str, size_t size);
 /*
  * TODO: Incomplete!
  */
-a_str       a_new_valid(const char *str);
+a_str       a_new_validate(const char *str);
 /**
  * \brief Creates a string with a specific buffer size.
  * 
@@ -391,7 +395,7 @@ a_str       a_new_mem(size_t size);
  * \param size Minimum buffer size for the new string.
  * \return A new a_str string, otherwise NULL on failure.
  */
-a_str       a_new_mem_raw(size_t length);
+a_str       a_new_mem_raw(size_t size);
 /**
  * \brief Creates a new a_str duplicate.
  * 
@@ -443,9 +447,68 @@ void        a_free_vec(a_str *strv);
  * new value.
  * @{
  */
+/**
+ * \brief Clears a string.
+ * 
+ * Clears an Aleph string, setting its length to zero.
+ * 
+ * \param str The Aleph string to be cleared.
+ * \return \p str.
+ */
 a_str       a_clear(a_str str);
+/**
+ * \brief Sets the content of a string to the content of another string.
+ * 
+ * Sets the content of \p str to the content of \p newstr.
+ * 
+ * \param str The destination string.
+ * \param newstr The source string.
+ * \return \p str or a new a_str pointer; otherwise NULL on failure.
+ */
 a_str       a_set(a_str str, a_str newstr);
+/**
+ * \brief Sets the content of a string to the content of another string.
+ * 
+ * Sets the content of \p str to the content of the NULL-terminated UTF-8
+ * encoded string, \p newstr.
+ * 
+ * \param str The destination string.
+ * \param newstr The source string.
+ * 
+ * \return \p str or a new a_str pointer; otherwise NULL on failure.
+ * \pre \em newstr must be a valid UTF-8 string, if that cannot be
+ *          guaranteed, use `a_set_cstr_validate()` instead.
+ */
 a_str       a_set_cstr(a_str str, const char *newstr);
+/**
+ * \brief Sets the content of a string to the content of another string.
+ * 
+ * Sets the content of \p str to the content of the NULL-terminated UTF-8
+ * encoded string, \p newstr. The content of \p str is then validated
+ * following the rules defined in function `a_validate()`.
+ * 
+ * \param str The destination string.
+ * \param newstr The source string.
+ * 
+ * \return \p str or a new a_str pointer; otherwise NULL on failure.
+ * \note This function should be used over `a_set_cstr()` when the input
+ *       cannot be guaranteed to be a valid UTF-8 string.
+ */
+a_str       a_set_cstr_validate(a_str str, const char *newstr);
+/**
+ * \brief Sets the content of a string to a portion of another string.
+ * 
+ * Sets the content of \p str to the first \p size bytes of the NULL-
+ * terminated UTF-8 encoded string, \p newstr.
+ * 
+ * \param str The destination string.
+ * \param newstr The source string.
+ * \param size Number of bytes to copy from newstr to str.
+ * 
+ * \return \p str or a new a_str pointer; otherwise NULL on failure.
+ * \pre \em newstr must be a valid UTF-8 string, if that cannot be
+ *          guaranteed, use `a_set_cstr_validate()` instead.
+ */
 a_str       a_set_cstr_size(a_str str, const char *newstr, size_t size);
 /*@}*/
 
@@ -455,6 +518,20 @@ a_str       a_set_cstr_size(a_str str, const char *newstr, size_t size);
  * Various functions used to access individual characters.
  * @{
  */
+/**
+ * \brief Returns the code point at a specific index.
+ * 
+ * Returns the code point at index \p index of string \p str.
+ * 
+ * \param str The string in context.
+ * \param index The index of the code point.
+ * 
+ * \return The code point stored in \p str at position \p index.
+ * \note This function should \b NOT be used to iterate over a string
+ *       as it seeks the \p index 'th position from the start of the
+ *       string each time. (I.E. O(n) complexity). To iterate over a
+ *       string efficiently see the \ref Iterator functions section.
+ */
 a_cp        a_char_at(a_cstr str, size_t index);
 /*@}*/
 
@@ -462,6 +539,14 @@ a_cp        a_char_at(a_cstr str, size_t index);
 /** \name Iterator
  *
  * Various functions used to traverse UTF-8 encoded strings.
+ * 
+ * The idiomatic syntax for traversing strings are:
+ * 
+ * \includelineno iterator.c
+ * 
+ * It's the programmers responsibility to determin when the end
+ * of the string is reached.
+ * 
  * @{
  */
 a_cp        a_peek(const char *str);
@@ -472,7 +557,7 @@ a_cp        a_next_cp_cstr(const char **str);
 char       *a_gnext(char **str);
 char       *a_gnext_cstr(const char **str);
 /** \hideinitializer */
-#define     a_next_chr(str) ((char*)(str + a_next_char_size[(int)*(unsigned char*)(str)]))
+#define     a_next_chr(str) ((char*)((str) + a_next_char_size[(int)*(unsigned char*)(str)]))
 a_str       a_last(a_str str);
 char       *a_last_cstr(const char *str);
 char       *a_prev(const char **str);
