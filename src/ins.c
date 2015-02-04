@@ -30,7 +30,7 @@ a_str a_ins(a_str str, a_cstr str2, size_t index)
 {
     struct a_header *h;
     assert(str != NULL && str2 != NULL);
-    assert(a_size(str) >= index); /* only treats index as offset */
+    assert(a_len(str) >= index);
     
     h = a_header(str2);
     return a_ins_internal(str, str2, 
@@ -40,7 +40,7 @@ a_str a_ins(a_str str, a_cstr str2, size_t index)
 a_str a_ins_chr(a_str str, const char *chr, size_t index)
 {
     assert(str != NULL && chr != NULL);
-    assert(a_size(str) >= index); /* only treats index as offset */
+    assert(a_len(str) >= index);
     
     return a_ins_internal(str, chr, 
                 a_internal_index_to_offset(str, index),
@@ -49,7 +49,7 @@ a_str a_ins_chr(a_str str, const char *chr, size_t index)
 a_str a_ins_cstr(a_str str, const char *str2, size_t index)
 {
     assert(str != NULL && str2 != NULL);
-    assert(a_size(str) >= index); /* only treats index as offset */
+    assert(a_len(str) >= index);
     
     return a_ins_internal(str, str2,
                 a_internal_index_to_offset(str, index),
@@ -105,7 +105,7 @@ a_str a_gins(a_str str, a_cstr str2, size_t index)
 {
     struct a_header *h;
     assert(str != NULL && str2 != NULL);
-    assert(a_size(str) >= index); /* only treats index as offset */
+    assert(a_glen(str) >= index);
     
     h = a_header(str2);
     return a_ins_internal(str, str2, 
@@ -115,7 +115,7 @@ a_str a_gins(a_str str, a_cstr str2, size_t index)
 a_str a_gins_chr(a_str str, const char *chr, size_t index)
 {
     assert(str != NULL && chr != NULL);
-    assert(a_size(str) >= index); /* only treats index as offset */
+    assert(a_glen(str) >= index);
     
     return a_ins_internal(str, chr, 
                 a_internal_gindex_to_offset(str, index),
@@ -124,7 +124,7 @@ a_str a_gins_chr(a_str str, const char *chr, size_t index)
 a_str a_gins_cstr(a_str str, const char *str2, size_t index)
 {
     assert(str != NULL && str2 != NULL);
-    assert(a_size(str) >= index); /* only treats index as offset */
+    assert(a_glen(str) >= index);
     
     return a_ins_internal(str, str2,
                 a_internal_gindex_to_offset(str, index),
