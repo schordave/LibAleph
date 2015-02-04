@@ -302,6 +302,12 @@
 /** \hideinitializer */
 #define A_MAX_CP (0x10FFFF)
 /**
+ * \brief The maximum buffer size required to hold the longest
+ *        code units sequence + a null terminator.
+ */
+/** \hideinitializer */
+#define A_MAX_CHAR (4+1)
+/**
  * \brief A typedef that should be used when dealing with aleph strings
  *        in order to distinguish them from normal NULL-terminated strings.
  */
@@ -674,8 +680,12 @@ a_str       a_cat_cp(a_str str, a_cp codepoint);
  */
 a_str       a_ins(a_str str, a_cstr str2, size_t index);
 a_str       a_ins_chr(a_str str, const char *chr, size_t index);
-a_str       a_ins_cstr(a_str str, const char *strs, size_t index);
+a_str       a_ins_cstr(a_str str, const char *str2, size_t index);
 a_str       a_ins_cp(a_str str, a_cp codepoint, size_t index);
+a_str       a_gins(a_str str, a_cstr str2, size_t index);
+a_str       a_gins_chr(a_str str, const char *chr, size_t index);
+a_str       a_gins_cstr(a_str str, const char *str2, size_t index);
+a_str       a_gins_cp(a_str str, a_cp codepoint, size_t index);
 a_str       a_ins_offset(a_str str, a_cstr str2, size_t offset);
 a_str       a_ins_offset_chr(a_str str, const char *chr, size_t offset);
 a_str       a_ins_offset_cstr(a_str str, const char *str2, size_t offset);
