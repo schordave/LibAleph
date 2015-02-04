@@ -106,21 +106,14 @@ a_cp a_next_cp_cstr(const char **s)
 
 a_cp a_peek(const char *s)
 {
-    const unsigned char *p = (const unsigned char*)s;
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, 0);
-    
-    switch (a_size_chr_cstr(s))
-    {
-        case 1:
-            return *p;
-        case 2:
-            return ((*p & 0x1F) << 6) | (p[1] & 0x3F);
-        case 3:
-            return ((*p & 0x0F) << 12) | ((p[1] & 0x3F) << 6) | (p[2] & 0x3F);
-        case 4:
-            return ((*p & 0x07) << 18) | ((p[1] & 0x3F) << 12) | ((p[2] & 0x3F) << 6) | (p[3] & 0x3F);
-        default:
-            return -1;
-    }
+    return a_to_cp(s);
+}
+
+a_cp a_peek_prev(const char *s)
+{
+    assert(s != NULL);
+    PASSTHROUGH_ON_FAIL(s != NULL, 0);
+    return a_to_cp(a_prev(&s));
 }
