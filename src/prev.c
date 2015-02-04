@@ -8,6 +8,7 @@ char *a_prev(const char **s)
     const char *t;
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
+    
     for (t = *s - 1; ; --t)
     {
         if ((*t & 0xC0) != 0x80)
