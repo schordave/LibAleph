@@ -101,3 +101,43 @@ a_str a_ins_offset_cp(a_str str, a_cp cp, size_t offset)
     a_to_utf8_size(cp, chr, &s);
     return a_ins_internal(str, chr, offset, s, 1);
 }
+a_str a_gins(a_str str, a_cstr str2, size_t index)
+{
+    struct a_header *h;
+    assert(str != NULL && str2 != NULL);
+    assert(a_size(str) >= index); /* only treats index as offset */
+    
+    h = a_header(str2);
+    return a_ins_internal(str, str2, 
+                a_internal_gindex_to_offset(str, index),
+                h->size, h->len);
+}
+a_str a_gins_chr(a_str str, const char *chr, size_t index)
+{
+    assert(str != NULL && chr != NULL);
+    assert(a_size(str) >= index); /* only treats index as offset */
+    
+    return a_ins_internal(str, chr, 
+                a_internal_gindex_to_offset(str, index),
+                a_size_chr_cstr(chr), 1);
+}
+a_str a_gins_cstr(a_str str, const char *str2, size_t index)
+{
+    assert(str != NULL && str2 != NULL);
+    assert(a_size(str) >= index); /* only treats index as offset */
+    
+    return a_ins_internal(str, str2,
+                a_internal_gindex_to_offset(str, index),
+                strlen(str2), a_len_cstr(str2));
+}
+a_str a_gins_cp(a_str str, a_cp cp, size_t index)
+{
+    int s;
+    char chr[A_MAX_CHAR];
+    assert(str != NULL);
+    A_ASSERT_CODEPOINT(cp);
+    
+    a_to_utf8_size(cp, chr, &s);
+    return a_ins_internal(str, chr,
+                a_internal_gindex_to_offset(str, index), s, 1);
+}
