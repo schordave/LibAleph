@@ -643,7 +643,7 @@ size_t      a_len_cstr(const char *str);
 size_t      a_len_cstr_max(const char *str, size_t max);
 size_t      a_size(a_cstr s);
 /** \hideinitializer */
-#define     a_size_chr(c) ((a_next_char_size[(int)c]))
+#define     a_size_chr(c) ((a_next_char_size[(int)(unsigned char)c]))
 /** \hideinitializer */
 #define     a_size_chr_cstr(s) (a_size_chr((unsigned char)*s))
 size_t      a_gsize_chr_cstr(const char *str);
