@@ -70,7 +70,7 @@ a_str a_ins_offset(a_str str, a_cstr str2, size_t offset)
 {
     struct a_header *h;
     assert(str != NULL && str2 != NULL);
-    assert(a_size(str) >= index); /* only treats index as offset */
+    assert(a_size(str) >= offset);
     
     h = a_header(str2);
     return a_ins_internal(str, str2, offset, h->size, h->len);
