@@ -74,15 +74,46 @@ a_str a_trim_cstr(a_str str, const char *chrs)
 
 a_str a_trim_left(a_str str)
 {
+    size_t count;
+    const char *s;
     assert(str != NULL);
     PASSTHROUGH_ON_FAIL(str != NULL, NULL);
-    return a_trim_left_cstr(str, " ");
+    
+    for (s = str, count = 0; *s && a_is_space(a_peek(s)); ++count)
+        s += a_size_chr_cstr(s);
+    
+    if (count)
+    {
+        struct a_header *h = a_header(str);
+        h->size -= (s-str);
+        h->len -= count;
+        memmove(str, s, h->size + 1); /* copy with the null terminator */
+    }
+
+    return str;
 }
 a_str a_trim_right(a_str str)
 {
+
+    size_t count;
+    const char *s;
     assert(str != NULL);
     PASSTHROUGH_ON_FAIL(str != NULL, NULL);
-    return a_trim_right_cstr(str, " ");
+    
+    count = 0;
+    s = str + a_size(str);
+    while (s >= str &&  a_is_space(a_peek_prev(s)))
+        a_prev(&s), ++count;
+    
+    if (count)
+    {
+        struct a_header *h = a_header(str);
+        h->size = (s - str);
+        h->len -= count;
+        str[h->size] = '\0';
+    }
+    
+    return str;
 }
 a_str a_trim(a_str str)
 {
