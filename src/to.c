@@ -5,63 +5,23 @@
  */
 a_cp a_to_cp(const char *s)
 {
-    const unsigned char *p = (const unsigned char*)s;
-    unsigned char c = *p;
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, 0);
-    
-    if (c < 0x80)
-        return c;
-    
-    if ((c & 0xE0) == 0xC0 && (p[1] & 0xC0) == 0x80)
-        return ((c & 0x1F) << 6) | (p[1] & 0x3F);
-    
-    if ((c & 0xF0) == 0xE0 && (p[1] & 0xC0) == 0x80 && (p[2] & 0xC0) == 0x80)
-        return ((c & 0x0F) << 12) | ((p[1] & 0x3F) << 6) | (p[2] & 0x3F);
-    
-    if ((c & 0xF8) == 0xF0 && (p[1] & 0xC0) == 0x80 && (p[2] & 0xC0) == 0x80 && (p[3] & 0xC0) == 0x80)
-        return ((c & 0x07) << 18) | ((p[1] & 0x3F) << 12) | ((p[2] & 0x3F) << 6) | (p[3] & 0x3F);
-        
-    return -1;
+    return a_internal_critical_char_to_cp(s);
 }
 
 const char *a_to_utf8_size(a_cp cp, char *b, int *s)
 {
-    int size = 0;
-    unsigned int c = (unsigned int)cp;
     PASSTHROUGH_ON_FAIL(b != NULL, NULL);
     
-    if (c < 0x80)
-        b[0] = (char)c, b[1] = '\0', size = 1;
-    else if (c < 0x0800)
-        b[0] = (char)(0xC0 | (c >> 6)), 
-        b[1] = (char)(0x80 | (c & 0x3F)),
-        b[2] = '\0',
-        size = 2;
-    else if (c < 0x10000)
-        b[0] = (char)(0xE0 | (c >> 12)),
-        b[1] = (char)(0x80 | ((c >> 6) & 0x3F)),
-        b[2] = (char)(0x80 | (c & 0x3F)),
-        b[3] = '\0',
-        size = 3;
-    else if (c < 0x110000)
-        b[0] = (char)(0xF0 | (c >> 18)),
-        b[1] = (char)(0x80 | ((c >> 12) & 0x3F)),
-        b[2] = (char)(0x80 | ((c >> 6) & 0x3F)),
-        b[3] = (char)(0x80 | (c & 0x3F)),
-        b[4] = '\0',
-        size = 4;
-    else
-        b[0] = '\0', size = -1;
-    
-    if (s)
-        *s = size;
-    
+    a_internal_critical_cp_to_char(cp, b);
+    *s = a_size_chr_cstr(b);
     return b;
 }
 
 const char *a_to_utf8(a_cp c, char *b)
 {
+    PASSTHROUGH_ON_FAIL(b != NULL, NULL);
     return a_to_utf8_size(c, b, NULL);
 }
 
@@ -97,26 +57,7 @@ char *a_to_fold_cp(a_cp cp, char *b)
     
     /* common case */
     if (!(r->special & A_SPECIAL_MASK_CASEFOLD))
-    {
-        if (new_cp < 0x80)
-            b[0] = (char)new_cp, b[1] = '\0';
-        else if (new_cp < 0x0800)
-            b[0] = (char)(0xC0 | (new_cp >> 6)), 
-            b[1] = (char)(0x80 | (new_cp & 0x3F)),
-            b[2] = '\0';
-        else if (new_cp < 0x10000)
-            b[0] = (char)(0xE0 | (new_cp >> 12)),
-            b[1] = (char)(0x80 | ((new_cp >> 6) & 0x3F)),
-            b[2] = (char)(0x80 | (new_cp & 0x3F)),
-            b[3] = '\0';
-        else if (new_cp < 0x110000)
-            b[0] = (char)(0xF0 | (new_cp >> 18)),
-            b[1] = (char)(0x80 | ((new_cp >> 12) & 0x3F)),
-            b[2] = (char)(0x80 | ((new_cp >> 6) & 0x3F)),
-            b[3] = (char)(0x80 | (new_cp & 0x3F)),
-            b[4] = '\0';
-        return b;
-    }
+        return a_internal_critical_cp_to_char(new_cp, b);
     
     /* casefolding has a set of exceptional characters
      * that fold into multiple code points, sometimes
@@ -228,32 +169,12 @@ a_cp *a_to_fold_cp_cp(a_cp cp, a_cp *b)
 
 char *a_to_fold_simple_chr(a_cp cp, char *b)
 {
-    register int new_cp;
     assert(A_MIN_CP <= cp && cp <= A_MAX_CP);
     assert(b != NULL);
     PASSTHROUGH_ON_FAIL(b != NULL, NULL);
     
-    new_cp = cp + A_RECORD_PTR(cp)->simplecasefold_diff;
-    
-    if (new_cp < 0x80)
-        b[0] = (char)new_cp, b[1] = '\0';
-    else if (new_cp < 0x0800)
-        b[0] = (char)(0xC0 | (new_cp >> 6)), 
-        b[1] = (char)(0x80 | (new_cp & 0x3F)),
-        b[2] = '\0';
-    else if (new_cp < 0x10000)
-        b[0] = (char)(0xE0 | (new_cp >> 12)),
-        b[1] = (char)(0x80 | ((new_cp >> 6) & 0x3F)),
-        b[2] = (char)(0x80 | (new_cp & 0x3F)),
-        b[3] = '\0';
-    else if (new_cp < 0x110000)
-        b[0] = (char)(0xF0 | (new_cp >> 18)),
-        b[1] = (char)(0x80 | ((new_cp >> 12) & 0x3F)),
-        b[2] = (char)(0x80 | ((new_cp >> 6) & 0x3F)),
-        b[3] = (char)(0x80 | (new_cp & 0x3F)),
-        b[4] = '\0';
-    
-    return b;
+    return a_internal_critical_cp_to_char(
+                cp + A_RECORD_PTR(cp)->simplecasefold_diff, b);
 }
 
 a_cp a_to_fold_simple_chr_cp(a_cp cp)

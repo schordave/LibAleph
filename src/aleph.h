@@ -59,7 +59,8 @@
  * - \b Grapheme \b Cluster  - That's what the Unicode standard calls user-perceived characters.
  *                             They are what the USER thinks are characters. In reality a single
  *                             grapheme cluster might be composed of one or more code points. When
- *                             Aleph operates on grapheme clusters, we mean extended grapheme clusters.
+ *                             Aleph operates on grapheme clusters, we mean \b extended \b grapheme
+ *                             \b clusters.
  * 
  * - \b Code \b Point        - Any numerical value in the Unicode codespace, I.E. any value from
  *                             0x0 to 0x10FFFF.
@@ -101,6 +102,7 @@
  *      include the argument type in the name:
  *      - _cstr = `const char *`
  *      - _cp = `a_cp`
+ *      - _chr = `const char *` (only reads a single codepoint)
  *      - _str  = `a_str` / `a_cstr`
  *      - _count / _len / _size = `size_t` / `long`
  * - Modifiers that impact how the function operaters are specified
@@ -126,7 +128,7 @@
  * Additionally, LibAleph makes heavy use of `assert()` statements to
  * validate that such inputs do not make their way into the library.
  * It's highly recommended that you do not disable asserts() during
- * debug mode.
+ * debug mode, as it's your first line of defense.
  * 
  * Chaining
  * --------
@@ -164,6 +166,22 @@
  * is incorrect, you must assign the return value to foo, i.e.:
  * 
  *      foo = a_cat_cstr(foo, "123");
+ * 
+ * Hello World
+ * --------------
+ * 
+ * \includelineno hello.c
+ * 
+ * To cluster, or not to cluster, that is the question
+ * ------------------
+ * 
+ * LibAleph offers various ways of operating on \em grapheme \em clusters, a
+ * sequence of one or more code points that should be treated as a single unit.
+ * Generally speaking, grapheme clusters are what most text editors should be
+ * operating on (when the user highlights a "character"). Such clusters should
+ * not be broken down (e.g. add a line break in the middle) as that would very
+ * likely result in deformed visual rendering.
+ * 
  * 
  * Additional Info
  * ---------------
@@ -533,10 +551,28 @@ a_str       a_set_cstr_size(a_str str, const char *newstr, size_t size);
  *       string efficiently see the \ref Iterator functions section.
  */
 a_cp        a_char_at(a_cstr str, size_t index);
+/**
+ * \brief Returns the start of the grapheme cluster at a specific index.
+ * 
+ * This function returns a pointer to the first byte of the grapheme cluster
+ * that starts at index \p index of string \p str.
+ * 
+ * \param str The string in context.
+ * \param index The index of the code point.
+ * 
+ * \return A pointer to the first byte of the grapheme cluster.
+ * \note This function should \b NOT be used to iterate over a string
+ *       as it seeks the \p index 'th position from the start of the
+ *       string each time. (I.E. O(n) complexity). To iterate over a
+ *       string efficiently see the \ref Iterator functions section.
+ */
+char       *a_gchar_at(a_str str, size_t index);
 /*@}*/
 
 
-/** \name Iterator
+/**
+ * \defgroup Iterator String Iterators
+ * \name Iterator
  *
  * Various functions used to traverse UTF-8 encoded strings.
  * 
@@ -545,7 +581,7 @@ a_cp        a_char_at(a_cstr str, size_t index);
  * \includelineno iterator.c
  * 
  * It's the programmers responsibility to determin when the end
- * of the string is reached.
+ * of the string is reached. (I.E. check for the NULL-terminator.)
  * 
  * @{
  */
@@ -561,7 +597,8 @@ char       *a_gnext_cstr(const char **str);
 a_str       a_last(a_str str);
 char       *a_last_cstr(const char *str);
 char       *a_prev(const char **str);
-a_cp        a_prev_cp(const char **s);
+a_cp        a_prev_cp(char **str);
+a_cp        a_prev_cp_cstr(const char **s);
 #ifdef A_ITERATOR
 char       *a_it_at(a_str s);
 char       *a_it_next(a_str s);
@@ -698,7 +735,7 @@ enum a_split_options
  * @{
  */
 a_str       a_join(a_str str, ...);
-a_str       a_join_on(a_str, a_cstr glue, ...);
+a_str       a_join_on(a_str str, a_cstr glue, ...);
 a_str       a_join_on_cstr(a_str str, const char *glue, ...);
 a_str       a_join_on_opts(a_str str, int opts, ...); /* skip blanks, etc.. */
 /*@}*/
@@ -790,15 +827,18 @@ int         a_icmp_min_cstr_cstr(const char *str1, const char *str2);
 int         a_icmpn(a_cstr str1, a_cstr str2, size_t n);
 int         a_icmpn_cstr(a_cstr str1, const char *str2, size_t n);
 int         a_icmpn_cstr_cstr(const char *str1, const char *str2, size_t n);/*
+int         a_cmp_canonical(a_cstr str1, a_cstr str2);
+int         a_cmp_canonical_cstr(a_cstr str1, const char *str2);
+int         a_cmp_canonical_cstr_cstr(const char *str1, const char *str2);
+int         a_cmp_wild(const char *str, const char *pattern);
+int         a_cmp_regex(const char *str, const char *pattern);
 int         a_icmp_canonical(a_cstr str1, a_cstr str2);
 int         a_icmp_canonical_cstr(a_cstr str1, const char *str2);
 int         a_icmp_canonical_cstr_cstr(const char *str1, const char *str2);
 int         a_icmp_compatibility(a_cstr str1, a_cstr str2);
 int         a_icmp_compatibility_cstr(a_cstr str1, const char *str2);
 int         a_icmp_compatibility_cstr_cstr(const char *str1, const char *str2);
-int         a_cmp_wild(const char *str, const char *pattern);
-int         a_icmp_wild(const char *str, const char *pattern);
-int         a_cmp_regex(const char *str, const char *pattern);*/
+int         a_icmp_wild(const char *str, const char *pattern);*/
 /*@}*/
 
 

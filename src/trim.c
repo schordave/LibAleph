@@ -43,7 +43,7 @@ a_str a_trim_right_cstr(a_str str, const char *chrs)
     
     for (count = 0, s = str + a_size(str); s >= str; ++count)
     {
-        int c = a_prev_cp(&s), match;
+        int c = a_prev_cp_cstr(&s), match;
         
         for (t = chrs, match = 0; *t && !match;)
             match = (c == a_next_cp_cstr(&t));

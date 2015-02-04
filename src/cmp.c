@@ -184,13 +184,13 @@ int a_ircmp_cstr_cstr(const char *str1, const char *str2, size_t len1, size_t le
         /* if the buffer is empty, grab the next codepoint and casefold it */
         if (!buff_a[index_a])
         {
-            a_to_fold_cp_cp(a_prev_cp(&str1), buff_a);
+            a_to_fold_cp_cp(a_prev_cp_cstr(&str1), buff_a);
             index_a = 0;
             ++count_a;
         }
         if (!buff_b[index_b])
         {
-            a_to_fold_cp_cp(a_prev_cp(&str2), buff_b);
+            a_to_fold_cp_cp(a_prev_cp_cstr(&str2), buff_b);
             index_b = 0;
             ++count_b;
         }

@@ -5,25 +5,20 @@
  */
 char *a_prev(const char **s)
 {
-    const char *t;
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
-    
-    for (t = *s - 1; ; --t)
-    {
-        if ((*t & 0xC0) != 0x80)
-        {
-            *s = t;
-            break;
-        }
-    }
-    
-    return (char*)t;
+    return a_internal_critical_to_prev(s);
 }
 
-a_cp a_prev_cp(const char **s)
+a_cp a_prev_cp(char **s)
 {
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, 0);
-    return a_to_cp(a_prev(s));
+    return a_prev_cp_cstr((const char **)s);
+}
+a_cp a_prev_cp_cstr(const char **s)
+{
+    assert(s != NULL);
+    PASSTHROUGH_ON_FAIL(s != NULL, 0);
+    return a_internal_critical_to_prev_cp(s);
 }
