@@ -66,3 +66,38 @@ a_str a_ins_cp(a_str str, a_cp cp, size_t index)
     return a_ins_internal(str, chr,
                 a_internal_index_to_offset(str, index), s, 1);
 }
+a_str a_ins_offset(a_str str, a_cstr str2, size_t offset)
+{
+    struct a_header *h;
+    assert(str != NULL && str2 != NULL);
+    assert(a_size(str) >= index); /* only treats index as offset */
+    
+    h = a_header(str2);
+    return a_ins_internal(str, str2, offset, h->size, h->len);
+}
+a_str a_ins_offset_chr(a_str str, const char *chr, size_t offset)
+{
+    assert(str != NULL && chr != NULL);
+    assert(a_size(str) >= offset);
+    
+    return a_ins_internal(str, chr, 
+                offset, a_size_chr_cstr(chr), 1);
+}
+a_str a_ins_offset_cstr(a_str str, const char *str2, size_t offset)
+{
+    assert(str != NULL && str2 != NULL);
+    assert(a_size(str) >= offset);
+    
+    return a_ins_internal(str, str2, 
+                offset, strlen(str2), a_len_cstr(str2));
+}
+a_str a_ins_offset_cp(a_str str, a_cp cp, size_t offset)
+{
+    int s;
+    char chr[A_MAX_CHAR];
+    assert(str != NULL);
+    A_ASSERT_CODEPOINT(cp);
+    
+    a_to_utf8_size(cp, chr, &s);
+    return a_ins_internal(str, chr, offset, s, 1);
+}
