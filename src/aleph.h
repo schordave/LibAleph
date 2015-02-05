@@ -63,7 +63,7 @@
  *                             \b clusters.
  * 
  * - \b Code \b Point        - Any numerical value in the Unicode codespace, I.E. any value from
- *                             0x0 to 0x10FFFF.
+ *                             \ref A_MIN_CP "0x0" to \ref A_MAX_CP "0x10FFFF".
  * 
  * - \b Code \b Unit         - A minimal bit-combination that represents a valid code point, in UTF-8.
  * 
@@ -182,6 +182,56 @@
  * not be broken down (e.g. add a line break in the middle) as that would very
  * likely result in deformed visual rendering.
  * 
+ * Table of contents
+ * ------------------
+ * 
+ * - Basic
+ *    - \ref creation_functions "Creation/Destruction"
+ *    - \ref assignment_functions "Assignments"
+ * - Access/Iterator
+ *    - \ref index_functions "Index"
+ *    - \ref iterator_functions "Iterators"
+ * - Character Info
+ *    - \ref character_name_functions "Names"
+ *    - \ref categories_functions "Categories"
+ *    - \ref blocks_functions "Blocks"
+ * - Normalization
+ *    - \ref normalization_functions "Normalization"
+ * - String Info
+ *    - \ref length_functions "Length/Size"
+ * - String Manipulation
+ *    - \ref concatenation_functions "Concatenation"
+ *    - \ref transformation_functions "Transformation"
+ *    - \ref insertion_functions "Insertion"
+ *    - \ref replacement_functions "Replacement"
+ *    - \ref trimming_functions "Trimming"
+ *    - \ref reversal_functions "Reversal"
+ *    - \ref escaping_functions "Escaping/Unescaping"
+ * - Splitting/Joining
+ *    - \ref splitting_functions "Splitting"
+ *    - \ref joining_functions "Joining"
+ * - Substrings
+ *    - \ref substring_counting_functions "Substring Countin"
+ *    - \ref substring_extraction_functions "Substring Extraction"
+ *    - \ref tokenization_functions "Token/List Manipulation"
+ * - Comparing/Searching
+ *    - \ref matching_functions "Matching"
+ *    - \ref search_functions "Searching"
+ *    - \ref start_end_cmp_functions "Start/End Comparisons"
+ * - Memory-related
+ *    - \ref buffer_management_functions "Buffer Management"
+ *    - \ref gc_functions "GC Functions"
+ * - Debug/Validation
+ *    - \ref validation_functions "Validation"
+ *    - \ref debug_functions "Debug"
+ * - I/O Functions
+ *    - \ref io_functions "I/O Functions"
+ * - Locale
+ *    - \ref locale_functions "Locale"
+ * - Miscellaneous
+ *    - \ref hashing_functions "Hashing"
+ * - Unicode Version
+ *    - \ref unicode_version_functions "Unicode Version"
  * 
  * Additional Info
  * ---------------
@@ -341,7 +391,9 @@ typedef struct a_pool *a_pool;
 extern const char a_next_char_size[256];
 
 
-/** \name Creation and destruction
+/**
+ * \anchor creation_functions
+ * \name Creation and destruction
  *
  * Various functions used for creating and destructing Aleph string
  * objects, `a_str`. All a_str objects must be destroyed using one
@@ -468,7 +520,9 @@ void        a_free_vec(a_str *strv);
 /*@}*/
 
 
-/** \name Assignments
+/**
+ * \anchor assignment_functions
+ * \name Assignments
  *
  * Various functions used to replace the value of the string with a
  * new value.
@@ -540,7 +594,9 @@ a_str       a_set_cstr_size(a_str str, const char *newstr, size_t size);
 /*@}*/
 
 
-/** \name Index
+/**
+ * \anchor index_functions
+ * \name Index
  *
  * Various functions used to access individual characters.
  * @{
@@ -573,14 +629,14 @@ a_cp        a_char_at(a_cstr str, size_t index);
  * \note This function should \b NOT be used to iterate over a string
  *       as it seeks the \p index 'th position from the start of the
  *       string each time. (I.E. O(n) complexity). To iterate over a
- *       string efficiently see the #Iterator functions section.
+ *       string efficiently see the \ref iterator_functions Iterator functions section.
  */
 char       *a_gchar_at(a_str str, size_t index);
 /*@}*/
 
 
 /**
- * \anchor Iterator
+ * \anchor iterator_functions
  * \name Iterator
  *
  * Various functions used to traverse UTF-8 encoded strings.
@@ -620,7 +676,9 @@ int         a_it_at_start(a_cstr s);
 /*@}*/
 
 
-/** \name Validation
+/** 
+ * \anchor validation_functions
+ * \name Validation
  *
  * Various functions used to validate UTF-8 encoded strings.
  * @{
@@ -630,7 +688,9 @@ a_str       a_validate(a_str str);
 /*@}*/
 
 
-/** \name Debug
+/** 
+ * \anchor debug_functions
+ * \name Debug
  *
  * Various functions used to print useful info about an a_str object 
  * or a specific code point.
@@ -641,7 +701,9 @@ void        a_dump_cp(a_cp cp);
 /*@}*/
 
 
-/** \name Lengths
+/**
+ * \anchor length_functions
+ * \name Length and Size
  *
  * Various functions used to retrive or calculate the length of a
  * string in bytes, code points, and grapheme clusters.
@@ -662,7 +724,9 @@ size_t      a_mem(a_cstr str);
 /*@}*/
 
 
-/** \name Concatenation
+/**
+ * \anchor concatenation_functions
+ * \name Concatenation
  *
  * Various functions used to concatenate values onto an Aleph string.
  * @{
@@ -676,14 +740,14 @@ a_str       a_cat_cp(a_str str, a_cp codepoint);
 /*@}*/
 
 
-/** \name Insertion
+/**
+ * \anchor insertion_functions
+ * \name Insertion
  *
  * LibAleph provides a set of utilities of inserting a string at
  * a specific position of another string. Insertion can be done
  * based on the code point index, grapheme cluster index, or simply
- * based on the index in the string.
- * 
- * \debug sdsdsd
+ * based on the offset in the string.
  * 
  * @{
  */
@@ -702,7 +766,9 @@ a_str       a_gins_cp(a_str str, a_cp codepoint, size_t index);
 /*@}*/
 
 
-/** \name Replacement
+/** 
+ * \anchor replacement_functions
+ * \name Replacement
  *
  * Various ways of inserting values into an Aleph string.
  * @{
@@ -722,7 +788,9 @@ a_str       a_rep_all_cp(a_str str, a_cp oldcp, a_cp newcp);
 /*@}*/
 
 
-/** \name Splitting
+/**
+ * \anchor splitting_functions
+ * \name Splitting
  *
  * Functions used to split a string with various options.
  * @{
@@ -748,7 +816,9 @@ enum a_split_options
 /*@}*/
 
 
-/** \name Joining
+/** 
+ * \anchor joining_functions
+ * \name Joining
  *
  * Functions used to join multiple Aleph strings together
  * @{
@@ -760,7 +830,9 @@ a_str       a_join_on_opts(a_str str, int opts, ...); /* skip blanks, etc.. */
 /*@}*/
 
 
-/** \name Buffer Size Management
+/**
+ * \anchor buffer_management_functions
+ * \name Buffer Size Management
  *
  * Various functions used to manage the internal buffer size
  * of an a_str object.
@@ -771,7 +843,9 @@ a_str       a_ensure(a_str str, size_t l);
 /*@}*/
 
 
-/** \name Substring Counting
+/**
+ * \anchor substring_counting_functions
+ * \name Substring Counting
  *
  * Various functions used to count the number of delimiters/substrings
  * found in the original string.
@@ -792,7 +866,9 @@ size_t      a_icount_substr_cstr_cstr(const char *str, const char *substr);
 /*@}*/
 
 
-/** \name Substring Extraction
+/** 
+ * \anchor substring_extraction_functions
+ * \name Substring Extraction
  *
  * Various functions used to extract a substring from a string.
  * @{
@@ -812,7 +888,9 @@ a_str       a_right_offset_inplace(a_str str, size_t length);
 /*@}*/
 
 
-/** \name Trimming
+/** 
+ * \anchor trimming_functions
+ * \name Trimming
  *
  * Various functions used to trim a string.
  * @{
@@ -826,7 +904,9 @@ a_str       a_trim_right_cstr(a_str str, const char *chars);
 /*@}*/
 
 
-/** \name Matching
+/** 
+ * \anchor matching_functions
+ * \name Matching
  *
  * Various functions used in comparing two strings fully or partially.
  * @{
@@ -861,7 +941,9 @@ int         a_icmp_wild(const char *str, const char *pattern);*/
 /*@}*/
 
 
-/** \name Searching
+/** 
+ * \anchor search_functions
+ * \name Searching
  *
  * Various functions used to search a string.
  * @{
@@ -919,7 +1001,9 @@ size_t      a_irfind_offset_from_cp(a_cstr str, a_cp codepoint, size_t offset);*
 /*@}*/
 
 
-/** \name Start/End comparison
+/** 
+ * \anchor start_end_cmp_functions
+ * \name Start/End comparison
  *
  * Various functions used to test the end or start of a string against
  * a substring.
@@ -943,7 +1027,9 @@ int         a_iendswith_norm(a_str str, a_str substr);
 /*@}*/
 
 
-/** \name Reversal
+/** 
+ * \anchor reversal_functions
+ * \name Reversal
  *
  * Functions used to perfrom string reversal.
  * 
@@ -987,7 +1073,9 @@ a_str       a_greverse_str(a_cstr str, a_str output);
 /*@}*/
 
 
-/** \name Escaping/Unescaping
+/** 
+ * \anchor escaping_functions
+ * \name Escaping/Unescaping
  *
  * Functions used to transform a string into an escaped string and
  * vice versa.
@@ -1002,7 +1090,9 @@ a_str       a_unescape(a_str str);
 
 
 #if A_INCLUDE_IO == 1
-/** \name Input/Output handling
+/**
+ * \anchor io_functions
+ * \name Input/Output handling
  *
  * Functions used in reading and writing to a FILE object.
  * 
@@ -1017,8 +1107,10 @@ size_t      a_file_line_count(FILE *fp);
 /*@}*/
 
 
-#if A_INCLUDE_MEM == 1
-/** \name Garbage Collection
+#if A_INCLUDE_MEM == 1 || defined(DOXYGEN_DOCS)
+/** 
+ * \anchor gc_functions
+ * \name Garbage Collection
  *
  * A set of functions to facilitate a light weight string release pool
  * that can be used to collect strings and free them all at once at a
@@ -1049,7 +1141,9 @@ a_str       a_format(a_str str, const char *format, ...);
 #endif
 
 
-/** \name Transformation
+/** 
+ * \anchor transformation_functions
+ * \name Transformation
  *
  * ...
  * 
@@ -1069,8 +1163,10 @@ a_cp        a_to_fold_simple_chr_cp(a_cp cp);
 /*@}*/
 
 
-#if A_INCLUDE_NAMES == 1
-/** \name Names 
+#if A_INCLUDE_NAMES == 1 || defined(DOXYGEN_DOCS)
+/** 
+ * \anchor character_name_functions
+ * \name Names 
  *
  * ...
  * 
@@ -1086,7 +1182,9 @@ char       *a_name_cp(a_cp codepoint, char *buff);
 #endif
 
 
-/** \name Categories
+/**
+ * \anchor categories_functions
+ * \name Categories
  *
  * ...
  * 
@@ -1211,7 +1309,9 @@ enum a_general_categories
 /*@}*/
 
 
-/** \name Blocks
+/** 
+ * \anchor blocks_functions
+ * \name Blocks
  *
  * ...
  * 
@@ -1482,7 +1582,9 @@ enum a_blocks
 /*@}*/
 
 
-/** \name Normalization
+/** 
+ * \anchor normalization_functions
+ * \name Normalization
  *
  * ...
  * 
@@ -1509,7 +1611,9 @@ enum a_normalization_forms_quick_check
 
 
 
-/** \name Hashing
+/** 
+ * \anchor hashing_functions
+ * \name Hashing
  *
  * ...
  * 
@@ -1520,7 +1624,9 @@ unsigned int    a_crc32(a_cstr str);
 /*@}*/
 
 
-/** \name Version
+/** 
+ * \anchor unicode_version_functions
+ * \name Version
  *
  * ...
  * 
@@ -1533,7 +1639,9 @@ const char     *a_unicode_version_url(void);
 
 
 #if A_INCLUDE_LOCALE == 1
-/** \name Locale
+/** 
+ * \anchor locale_functions
+ * \name Locale
  *
  * ...
  * 
@@ -1584,7 +1692,9 @@ int a_locale_set(const char *id);
 
 #if 0
 #ifdef A_INCLUDE_TOKEN
-/** \name Token/List Manipulation
+/** 
+ * \anchor tokenization_functions
+ * \name Token/List Manipulation
  *
  * ...
  * 
