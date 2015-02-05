@@ -114,5 +114,5 @@ a_cp a_peek(const char *s)
 
 a_cp a_peek_prev(const char *s)
 {
-    return a_to_cp(a_prev(&s));
+    return a_to_cp(a_prev_cstr(&s));
 }

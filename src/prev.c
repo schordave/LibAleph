@@ -36,7 +36,13 @@ static char *a_internal_to_prev(const char **s)
     return (char*)t;
 #endif
 }
-char *a_prev(const char **s)
+char *a_prev(char **s)
+{
+    assert(s != NULL);
+    PASSTHROUGH_ON_FAIL(s != NULL, NULL);
+    return a_internal_to_prev((const char**)s);
+}
+char *a_prev_cstr(const char **s)
 {
     assert(s != NULL);
     PASSTHROUGH_ON_FAIL(s != NULL, NULL);
