@@ -189,7 +189,7 @@
  * 
  * \author Copyright (c) 2006-2015 David Schor (david@zigwap.com), ZigWap LLC
  * 
- * <dl class="section author"><dt>Bugs</dt><dd>Please report bugs by filing an issue on GitHub: https://github.com/ZigWap/LibAleph</dd></dl>
+ * <dl class="section"><dt>Bugs</dt><dd>Please report bugs by filing an issue on GitHub: https://github.com/ZigWap/LibAleph</dd></dl>
  * 
  * \copyright MIT License (LibAleph code) CC BY-ND 3.0 (Documentation)
  */
@@ -266,6 +266,9 @@
 #   define A_ASSERT_CODEPOINT(cp) \
         assert(((void)"LibAleph: Precondition Violated: codepoint provided is outside of the Unicode codespace.", \
         (A_MIN_CP <= (cp) && (cp) <= A_MAX_CP)))
+#   define A_ASSERT_CODEPOINT_BOUNDARY(chr) \
+        assert(((void)"LibAleph: Precondition Violated: offset provided doesn't point to a start of a code unit sequence.", \
+        (((chr) & 0xC0) != 0x80)))
 #endif  /* END hide from doxygen */
 #ifdef __STDC_VERSION__
 #   if __STDC_VERSION__ >= 199901L
@@ -570,14 +573,14 @@ a_cp        a_char_at(a_cstr str, size_t index);
  * \note This function should \b NOT be used to iterate over a string
  *       as it seeks the \p index 'th position from the start of the
  *       string each time. (I.E. O(n) complexity). To iterate over a
- *       string efficiently see the \ref Iterator functions section.
+ *       string efficiently see the #Iterator functions section.
  */
 char       *a_gchar_at(a_str str, size_t index);
 /*@}*/
 
 
 /**
- * \defgroup Iterator String Iterators
+ * \anchor Iterator
  * \name Iterator
  *
  * Various functions used to traverse UTF-8 encoded strings.
@@ -675,21 +678,27 @@ a_str       a_cat_cp(a_str str, a_cp codepoint);
 
 /** \name Insertion
  *
- * Various ways of inserting values into an Aleph string.
+ * LibAleph provides a set of utilities of inserting a string at
+ * a specific position of another string. Insertion can be done
+ * based on the code point index, grapheme cluster index, or simply
+ * based on the index in the string.
+ * 
+ * \debug sdsdsd
+ * 
  * @{
  */
 a_str       a_ins(a_str str, a_cstr str2, size_t index);
 a_str       a_ins_chr(a_str str, const char *chr, size_t index);
 a_str       a_ins_cstr(a_str str, const char *str2, size_t index);
 a_str       a_ins_cp(a_str str, a_cp codepoint, size_t index);
-a_str       a_gins(a_str str, a_cstr str2, size_t index);
-a_str       a_gins_chr(a_str str, const char *chr, size_t index);
-a_str       a_gins_cstr(a_str str, const char *str2, size_t index);
-a_str       a_gins_cp(a_str str, a_cp codepoint, size_t index);
 a_str       a_ins_offset(a_str str, a_cstr str2, size_t offset);
 a_str       a_ins_offset_chr(a_str str, const char *chr, size_t offset);
 a_str       a_ins_offset_cstr(a_str str, const char *str2, size_t offset);
 a_str       a_ins_offset_cp(a_str str, a_cp codepoint, size_t offset);
+a_str       a_gins(a_str str, a_cstr str2, size_t index);
+a_str       a_gins_chr(a_str str, const char *chr, size_t index);
+a_str       a_gins_cstr(a_str str, const char *str2, size_t index);
+a_str       a_gins_cp(a_str str, a_cp codepoint, size_t index);
 /*@}*/
 
 
