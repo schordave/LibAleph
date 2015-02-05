@@ -103,7 +103,7 @@ a_str a_trim_right(a_str str)
     count = 0;
     s = str + a_size(str);
     while (s >= str &&  a_is_space(a_peek_prev(s)))
-        a_prev(&s), ++count;
+        a_prev_cstr(&s), ++count;
     
     if (count)
     {
