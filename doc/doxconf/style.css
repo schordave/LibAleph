@@ -1,12 +1,7 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Custom Doxygen CSS - doxygen.css
- *
- * The standard CSS for doxygen modded by
- * Alexandre Dantas <alex.dantas92@gmail.com>
- *
- * Webpage: https://github.com/alexdantas/Custom-Doxygen-CSS/wiki
- *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*
+ * Most of the content in this file was derived from https://github.com/alexdantas/Custom-Doxygen-CSS/
+ * with additional modification from David Schor.
+ */
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -165,7 +160,22 @@ pre.fragment {
   word-wrap: break-word;
   font-size:  9pt;
   line-height: 125%;
+  white-space: pre;
 }
+div.fragment {
+  border: 1px solid #C4CFE5;
+  background-color: #FBFCFD;
+  padding: 4px 6px;
+  margin: 4px 8px 4px 2px;
+  overflow: auto;
+  word-wrap: break-word;
+  font-size:  9pt;
+  line-height: 1pt;
+  white-space: pre;
+  font-family: monospace, fixed;
+}
+div .fragment .line { font-family: monospace, fixed; white-space: pre; }
+div .fragment .lineno { font-family: monospace, fixed; white-space: pre;line-height: 90%; }
 
 div.ah {
   background-color: black;
@@ -1012,3 +1022,7 @@ dl.citelist dd {
 #navrow1 { display: none; }
 #nav-path { display: none; }
 #navelem { display: none; }
+
+.memItemRight {
+    word-break: break-word;
+}
