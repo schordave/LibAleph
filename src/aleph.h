@@ -219,6 +219,7 @@
  *    - \ref search_functions "Searching"
  *    - \ref start_end_cmp_functions "Start/End Comparisons"
  * - Memory-related
+ *    - \ref custom_memory_functions "Custom Memory"
  *    - \ref buffer_management_functions "Buffer Management"
  *    - \ref gc_functions "GC Functions"
  * - Debug/Validation
@@ -257,7 +258,9 @@
 /** \hideinitializer */
 #   define A_MIN_STR_SIZE 16
 #endif
-/** \name Custom Memory
+/** 
+ * \anchor custom_memory_functions
+ * \name Custom Memory
  *
  * 
  * @{
@@ -650,20 +653,185 @@ char       *a_gchar_at(a_str str, size_t index);
  * 
  * @{
  */
+/**
+ * \brief Peeks at the next code point.
+ * 
+ * This function peek at the next code point in the string
+ * and return its value.
+ * 
+ * \param str The string to peek at.
+ * 
+ * \return The value of the next code point in the string.
+ * \pre \p str must be a valid UTF-8 string.
+ */
 a_cp        a_peek(const char *str);
+/**
+ * \brief Advances one code point.
+ * 
+ * This function advances the string pointed by \p str by a single code
+ * point and returns a pointer to the first code unit of the next code
+ * point in the string.
+ * 
+ * \param str A pointer to the string to operate on.
+ * 
+ * \return A pointer to the first code unit of the next code point of \p str.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ * \see a_prev()
+ */
 char       *a_next(char **str);
+/**
+ * \brief Advances one code point.
+ * 
+ * This function advances the string pointed by \p str by a single code
+ * point and returns a pointer to the first code unit of the next code
+ * point in the string.
+ * 
+ * \param str A pointer to the string to operate on.
+ * 
+ * \return A pointer to the first code unit of the next code point of \p str.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ * \see a_prev_cstr()
+ */
 char       *a_next_cstr(const char **str);
+/**
+ * \brief Advences to the next code point and returns its value.
+ * 
+ * This function returns the first code point value of the string pointed
+ * by \p str, while advencing the pointer pointed by \p str by a single code
+ * point.
+ * 
+ * \param str A pointer to the string to operate on.
+ * 
+ * \return The code point value of the first code point of \p str.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ * \see a_prev_cp()
+ */
 a_cp        a_next_cp(char **str);
+/**
+ * \brief Advences to the next code point and returns its value.
+ * 
+ * This function returns the first code point value of the string pointed
+ * by \p str, while advencing the pointer pointed by \p str by a single code
+ * point.
+ * 
+ * \param str A pointer to the string to operate on.
+ * 
+ * \return The code point value of the first code point of \p str.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ * \see a_prev_cp_cstr()
+ */
 a_cp        a_next_cp_cstr(const char **str);
+/**
+ * \brief Advences to the next grapheme cluster. 
+ * 
+ * This function advences the pointer pointed by \p str to the next grapheme
+ * cluster. The pointer is then return.
+ * 
+ * \param str A pointer to the string to operate on.
+ * 
+ * \return A pointer to the first code unit of the next grapheme cluster of \p str.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ */
 char       *a_gnext(char **str);
+/**
+ * \brief Advences to the next grapheme cluster.
+ * 
+ * This function advences the pointer pointed by \p str to the next grapheme
+ * cluster. The pointer is then return.
+ * 
+ * \param str A pointer to the string to operate on.
+ * 
+ * \return A pointer to the first code unit of the next grapheme cluster of \p str.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ */
 char       *a_gnext_cstr(const char **str);
+/**
+ * \brief Advances one code point.
+ * 
+ * This macro increments a `const char *` by a single code point.
+ * 
+ * \param str The string to operate on.
+ * 
+ * \return The incremented \p str pointer.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ * \warning This macro DOES expands to code that evalutes \p str TWICE.
+ * \see a_next()
+ */
 /** \hideinitializer */
 #define     a_next_chr(str) ((char*)((str) + a_next_char_size[(int)*(unsigned char*)(str)]))
-a_str       a_last(a_str str);
+/**
+ * \brief Returns a pointer to the end of the string.
+ * 
+ * This function returns a pointer to '\0' code unit located at
+ * the end of the string pointed by \p str.
+ * 
+ * \param str The string in context.
+ * \return a pointer to the end of string \p str.
+ */
+char       *a_last(a_str str);
+/**
+ * \brief Returns a pointer to the end of the string.
+ * 
+ * This function returns a pointer to '\0' code unit located at
+ * the end of the string pointed by \p str.
+ * 
+ * \param str The string in context.
+ * \return a pointer to the end of string \p str.
+ * \pre \p str must be a valid UTF-8 string.
+ */
 char       *a_last_cstr(const char *str);
-char       *a_prev(const char **str);
+/**
+ * \brief Advances to the previous code point.
+ * 
+ * This function advances the string pointed by \p str by a single code
+ * point backwards and returns a pointer to that position.
+ * 
+ * \param str A pointer to the string to operate on.
+ * 
+ * \return A pointer to the first code unit of the previous code point of \p str.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ * \see a_next()
+ */
+char       *a_prev(char **str);
+/**
+ * \brief Advances to the previous code point.
+ * 
+ * This function advances the string pointed by \p str by a single code
+ * point backwards and returns a pointer to that position.
+ * 
+ * \param str A pointer to the string to operate on.
+ * 
+ * \return A pointer to the first code unit of the previous code point of \p str.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ * \see a_next_cstr()
+ */
+char       *a_prev_cstr(const char **str);
+/**
+ * \brief Advences to the previous code point and returns its value.
+ * 
+ * This function advences the pointer pointed by \p str by a single code
+ * point to the previous code point and returns its value.
+ * 
+ * \param str A pointer to the string to operate on.
+ * 
+ * \return The code point value of the previous code point pointed by \p str.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ * \see a_next_cp()
+ */
 a_cp        a_prev_cp(char **str);
-a_cp        a_prev_cp_cstr(const char **s);
+/**
+ * \brief Advences to the previous code point and returns its value.
+ * 
+ * This function advences the pointer pointed by \p str by a single code
+ * point to the previous code point and returns its value.
+ * 
+ * \param str A pointer to the string to operate on.
+ * 
+ * \return The code point value of the previous code point pointed by \p str.
+ * \pre \p str must be a pointer to a valid UTF-8 string.
+ * \see a_next_cp_cstr()
+ */
+a_cp        a_prev_cp_cstr(const char **str);
 #ifdef A_ITERATOR
 char       *a_it_at(a_str s);
 char       *a_it_next(a_str s);
