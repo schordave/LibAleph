@@ -897,6 +897,11 @@ size_t      a_mem(a_cstr str);
  * \name Concatenation
  *
  * Various functions used to concatenate values onto an Aleph string.
+ * 
+ * \note It's important to note that no normalization form is closed
+ *       under string concatenation. (I.E. for strings `X` and `Y`,
+ *       normalized in same form Z; cat(X,Y) need not be normalized,
+ *       for all forms.) For such situations, only use a_cat_norm().
  * @{
  */
 a_str       a_cat(a_str str, a_str str2);
@@ -905,6 +910,7 @@ a_str       a_cat_chr(a_str str, const char *chr);
 a_str       a_cat_str(a_str str, a_str str2);
 a_str       a_cat_len(a_str str, const char *str2, size_t l);
 a_str       a_cat_cp(a_str str, a_cp codepoint);
+a_str       a_cat_norm(a_str str, a_str str2, int mode);
 /*@}*/
 
 
@@ -1754,7 +1760,41 @@ enum a_blocks
  * \anchor normalization_functions
  * \name Normalization
  *
- * ...
+ * Normalization is a process by which Unicode text can converted into a form
+ * where unwanted distinctions are eliminated. The Unicode standard defines 4
+ * normalization forms:
+ * 
+ *  - Normalization Form D (NFD)
+ *  - Normalization Form KD (NFKD)
+ *  - Normalization Form C (NFC)
+ *  - Normalization Form KC (NFKC)
+ * 
+ * (NF=Normalization Form; C=Composed; D=Decomposed; K=Kompatibility)
+ * 
+ * Where forms NFD and NFKD generally decompose code points while NFC and NFKC
+ * compose code points wherever possible.
+ * 
+ * Canonical Ordering
+ * ---------------
+ * 
+ * Normalization is also very important to providing a unique canonical order
+ * for sequences of combining code points that are visually indistinguishable.
+ * 
+ * Decompositions
+ * --------------
+ * 
+ * Decomposables code points are precomposed code points that may be broken down
+ * (decomposed) into one or more other code points - conceptually, reducing a
+ * code point to an equivalent sequence of constituent parts. Two types of 
+ * decompositions exist:
+ * 
+ *  - Canonical     - Both the code point and its decomposition are treated
+ *                    as equivalent.
+ * 
+ *  - Compatibility - A decomposition that may result in loss of information
+ *                    (e.g. formatting info) that is important in various
+ *                    contexts.
+ * 
  * 
  * @{
  */
@@ -1987,7 +2027,7 @@ enum a_gcb_property
 #ifndef DOXYGEN_DOCS
 struct a_header
 {
-    size_t len;  /* length (in codepoints)          */
+    size_t len;  /* length (in code points)         */
     size_t size; /* size (in bytes)                 */
     size_t mem;  /* mem size                        */
     #ifdef A_ITERATOR
