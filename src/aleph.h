@@ -1774,9 +1774,6 @@ enum a_blocks
  * Where forms NFD and NFKD generally decompose code points while NFC and NFKC
  * compose code points wherever possible.
  * 
- * Canonical Ordering
- * ---------------
- * 
  * Normalization is also very important to providing a unique canonical order
  * for sequences of combining code points that are visually indistinguishable.
  * 
