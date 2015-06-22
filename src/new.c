@@ -70,6 +70,24 @@ a_str a_new_dup(a_cstr s)
     return dup;
 }
 
+a_str a_new_uint(unsigned long val)
+{
+    a_str str;
+    
+    if ((str = a_new_mem(A_INT_DIGITS)))
+        str = a_cat_uint(str, val);
+    return str;
+}
+
+a_str a_new_int(long val)
+{
+    a_str str;
+    
+    if ((str = a_new_mem(A_INT_DIGITS)))
+        str = a_cat_int(str, val);
+    return str;
+}
+
 
 static a_str a_new_chr_internal(const char *chr, size_t size, size_t repeat)
 {
