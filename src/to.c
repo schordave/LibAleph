@@ -127,13 +127,13 @@ char *a_to_fold_cp(a_cp cp, char *b)
     if (r->special & A_SPECIAL_MASK_CASEFOLD)*/
     {
         int index = -1;
-        int high = A_CASEFOLD_SPECIAL_TABLE_SIZE;
+        int high = A_FOLD_SPECIAL_TABLE_SIZE;
         int low = 0;
         
         while (high)
         {
             int mid = low + ((high - low) / 2);
-            a_cp cur_cp = a_codepoint_casefold_special[mid].cp;
+            a_cp cur_cp = a_codepoint_case_fold_special[mid].cp;
 
             if (cur_cp == cp)
             {
@@ -150,7 +150,7 @@ char *a_to_fold_cp(a_cp cp, char *b)
          * table was generated incorrectly */
         assert(index != -1); 
         
-        memcpy(b, a_codepoint_casefold_special[index].str, A_MAX_CASEFOLD_UTF8_BUFFER_SIZE);
+        memcpy(b, a_codepoint_case_fold_special[index].str, A_MAX_FOLD_UTF8_BUFFER_SIZE);
     }
     return b;
 }
@@ -199,13 +199,13 @@ a_cp *a_to_fold_cp_cp(a_cp cp, a_cp *b)
     if (r->special & A_SPECIAL_MASK_CASEFOLD)*/
     {
         int index = -1;
-        int high = A_CASEFOLD_SPECIAL_TABLE_SIZE;
+        int high = A_FOLD_SPECIAL_TABLE_SIZE;
         int low = 0;
         
         while (high)
         {
             int mid = low + ((high - low) / 2);
-            a_cp cur_cp = a_codepoint_casefold_special[mid].cp;
+            a_cp cur_cp = a_codepoint_case_fold_special[mid].cp;
 
             if (cur_cp == cp)
             {
@@ -222,7 +222,7 @@ a_cp *a_to_fold_cp_cp(a_cp cp, a_cp *b)
          * table was generated incorrectly */
         assert(index != -1); 
         
-        memcpy(b, a_codepoint_casefold_special[index].codepoints, (A_MAX_CASEFOLD_SIZE+1) *  sizeof (int));
+        memcpy(b, a_codepoint_case_fold_special[index].codepoints, (A_MAX_CASE_FOLD_SIZE+1) *  sizeof (int));
     }
     return b;
 }

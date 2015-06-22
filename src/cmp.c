@@ -21,8 +21,8 @@ int a_icmp_cstr(a_cstr str1, const char *str2)
 int a_icmp_cstr_cstr(const char *str1, const char *str2)
 {
     size_t index_a, index_b;
-    a_cp buff_a[A_MAX_CASEFOLD_SIZE+1];/*  */
-    a_cp buff_b[A_MAX_CASEFOLD_SIZE+1];
+    a_cp buff_a[A_MAX_CASE_FOLD_SIZE+1];/*  */
+    a_cp buff_b[A_MAX_CASE_FOLD_SIZE+1];
     
     index_a = index_b = 0;
     buff_a[0] = buff_b[0] = 0;
@@ -77,8 +77,8 @@ int a_icmp_min_cstr(a_cstr str1, const char *str2)
 int a_icmp_min_cstr_cstr(const char *str1, const char *str2)
 {
     size_t index_a, index_b;
-    a_cp buff_a[A_MAX_CASEFOLD_SIZE+1];/*  */
-    a_cp buff_b[A_MAX_CASEFOLD_SIZE+1];
+    a_cp buff_a[A_MAX_CASE_FOLD_SIZE+1];/*  */
+    a_cp buff_b[A_MAX_CASE_FOLD_SIZE+1];
     
     index_a = index_b = 0;
     buff_a[0] = buff_b[0] = 0;
@@ -114,8 +114,8 @@ int a_icmpn_cstr_cstr(const char *str1, const char *str2, size_t n)
 {
     size_t index_a, index_b;
     size_t count_a, count_b;
-    a_cp buff_a[A_MAX_CASEFOLD_SIZE+1];/*  */
-    a_cp buff_b[A_MAX_CASEFOLD_SIZE+1];
+    a_cp buff_a[A_MAX_CASE_FOLD_SIZE+1];/*  */
+    a_cp buff_b[A_MAX_CASE_FOLD_SIZE+1];
     
     index_a = index_b = 0;
     count_a = count_b = 0;
@@ -155,8 +155,8 @@ int a_ircmp_cstr_cstr(const char *str1, const char *str2, size_t len1, size_t le
 {
     size_t index_a, index_b;
     size_t count_a, count_b;
-    a_cp buff_a[A_MAX_CASEFOLD_SIZE+1];/*  */
-    a_cp buff_b[A_MAX_CASEFOLD_SIZE+1];
+    a_cp buff_a[A_MAX_CASE_FOLD_SIZE+1];/*  */
+    a_cp buff_b[A_MAX_CASE_FOLD_SIZE+1];
     
     index_a = index_b = 0;
     count_a = count_b = 0;
