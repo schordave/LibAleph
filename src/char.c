@@ -9,13 +9,24 @@
  */
 size_t a_char_offset(a_cstr str, size_t index)
 {
-    const char *s = str;
-    size_t size = 0;
+    return a_char_offset_cstr(str, index);
+}
+size_t a_char_offset_cstr(const char *str, size_t index)
+{
+    assert(str != NULL && index <= a_len(str));
+    PASSTHROUGH_ON_FAIL(str != NULL, 0);
+
+    return a_internal_index_to_offset(str, index);
+}
+
+
+/*
+ * Returns offset from index from reverse
+ */
+size_t a_char_offset_rev(a_cstr str, size_t index)
+{
+    assert(str != NULL && index <= a_len(str));
+    PASSTHROUGH_ON_FAIL(str != NULL, 0);
     
-    assert(s != NULL && index < a_size(str));
-    PASSTHROUGH_ON_FAIL(s != NULL, 0);
-    
-    while (*s && index > size)
-        s = a_next_chr(s), ++size;
-    return s - str;
+    return a_internal_index_to_offset_rev(str, index);
 }
