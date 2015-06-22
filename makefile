@@ -43,7 +43,8 @@ LIB_FLAGS=	-DA_NULL_PASSTHROUGH=1          \
 		-DA_INCLUDE_LOCALE=1            \
 		-DA_INCLUDE_LOCALE_LANG_NAME=1
 
-FG=-pedantic $(WARN) $(NO_WARN) -O2 -DNDEBUG $(LIB_FLAGS)
+OPTZ=-march=native -mtune=native
+FG=-pedantic $(WARN) $(NO_WARN) $(OPTZ) -O3 -DNDEBUG $(LIB_FLAGS)
 FGD=-pedantic $(WARN) $(NO_WARN) -O0 -g -ggdb $(LIB_FLAGS)
 SRC=src/
 OUT=build/
@@ -69,6 +70,8 @@ $(OUT)aleph.c: .FORCE
 	@echo -e '#include "aleph.h"\n#include <string.h>' >> $(OUT)aleph.c
 	@echo -e '#include <stdio.h>\n#include <stdarg.h>' >> $(OUT)aleph.c
 	@echo -e '#include <stdlib.h>\n' >> $(OUT)aleph.c
+	@echo -e '#include <limits.h>\n' >> $(OUT)aleph.c
+	@echo -e '#define A_INT_DIGITS (CHAR_BIT * sizeof val) / 3/*~log2(10)*/ + 1\n' >> $(OUT)aleph.c
 	@find $(SRC) -name '*.c' -print0 | \
 	        sort -z | \
 		xargs --null awk 'FNR==1{printf("\n\n/* FROM %s */\n\n", ARGV[ARGIND])}1' >> $(OUT)aleph.c
@@ -84,7 +87,7 @@ testd: test.c $(OUT)libalephd.a
 	$(CC) $(FGD) -o test -I $(OUT) test.c $(OUT)libalephd.a
 
 aleph_gen: gen/gen.c $(OUT)libaleph.a
-	$(CC) $(FG) -o -I $(OUT) gen/gen.c $(OUT)libaleph.a
+	$(CC) $(FG) -I $(OUT) gen/gen.c -o aleph_gen $(OUT)libaleph.a
 
 gen_names: aleph_gen
 	@echo "Generating name table"
