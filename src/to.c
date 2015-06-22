@@ -235,11 +235,131 @@ char *a_to_fold_simple_chr(a_cp cp, char *b)
     PASSTHROUGH_ON_FAIL(b != NULL, NULL);
     
     return a_internal_cp_to_char(
-                cp + A_RECORD_PTR(cp)->simplecasefold_diff, b);
+                cp + A_RECORD_PTR(cp)->case_diff_simple_fold, b);
 }
 
 a_cp a_to_fold_simple_chr_cp(a_cp cp)
 {
     A_ASSERT_CODEPOINT(cp);
-    return cp + A_RECORD_PTR(cp)->simplecasefold_diff;
+    return cp + A_RECORD_PTR(cp)->case_diff_simple_fold;
+}
+
+a_str a_to_upper_simple(a_str str)
+{
+    a_str new;
+    char *at, *start;
+    
+    assert(str != NULL);
+    PASSTHROUGH_ON_FAIL(str != NULL, NULL);
+    
+    for (start = at = str; *at; start = at)
+    {
+        const a_cp cp = a_internal_to_next_cp((const char **)&at);
+        const a_cp upper = a_to_upper_simple_chr_cp(cp);
+        
+        if (cp != upper)
+            goto to_upper;
+    }
+    
+    return str;
+to_upper:
+    if (!(new = a_new_mem_raw(a_size(str))))
+        return NULL;
+    
+    a_set_cstr_size(new, str, start - start);
+
+
+    for (start = at = str; *at && new; start = at)
+    {
+        const a_cp cp = a_internal_to_next_cp((const char **)&at);
+        const a_cp upper = a_to_upper_simple_chr_cp(cp);
+        
+        new = a_cat_cp(new, upper);
+    }
+    
+    a_free(str);
+    return new;
+}
+char *a_to_upper_simple_chr(a_cp cp, char *b)
+{
+    A_ASSERT_CODEPOINT(cp);
+    assert(b != NULL);
+    PASSTHROUGH_ON_FAIL(b != NULL, NULL);
+    
+    return a_internal_cp_to_char(
+                cp + A_RECORD_PTR(cp)->case_diff_simple_upper, b);
+}
+
+a_cp a_to_upper_simple_chr_cp(a_cp cp)
+{
+    A_ASSERT_CODEPOINT(cp);
+    return cp + A_RECORD_PTR(cp)->case_diff_simple_upper;
+}
+
+a_str a_to_lower_simple(a_str str)
+{
+    a_str new;
+    char *at, *start;
+    
+    assert(str != NULL);
+    PASSTHROUGH_ON_FAIL(str != NULL, NULL);
+    
+    for (start = at = str; *at; start = at)
+    {
+        const a_cp cp = a_internal_to_next_cp((const char **)&at);
+        const a_cp lower = a_to_lower_simple_chr_cp(cp);
+        
+        if (cp != lower)
+            goto to_lower;
+    }
+    
+    return str;
+to_lower:
+    if (!(new = a_new_mem_raw(a_size(str))))
+        return NULL;
+    
+    a_set_cstr_size(new, str, start - start);
+
+
+    for (start = at = str; *at && new; start = at)
+    {
+        const a_cp cp = a_internal_to_next_cp((const char **)&at);
+        const a_cp lower = a_to_lower_simple_chr_cp(cp);
+        
+        new = a_cat_cp(new, lower);
+    }
+    
+    a_free(str);
+    return new;
+}
+char *a_to_lower_simple_chr(a_cp cp, char *b)
+{
+    A_ASSERT_CODEPOINT(cp);
+    assert(b != NULL);
+    PASSTHROUGH_ON_FAIL(b != NULL, NULL);
+    
+    return a_internal_cp_to_char(
+                cp + A_RECORD_PTR(cp)->case_diff_simple_lower, b);
+}
+
+a_cp a_to_lower_simple_chr_cp(a_cp cp)
+{
+    A_ASSERT_CODEPOINT(cp);
+    return cp + A_RECORD_PTR(cp)->case_diff_simple_lower;
+}
+
+char *a_to_title_simple_chr(a_cp cp, char *b)
+{
+    A_ASSERT_CODEPOINT(cp);
+    assert(b != NULL);
+    PASSTHROUGH_ON_FAIL(b != NULL, NULL);
+    
+    return a_internal_cp_to_char(
+                cp + A_RECORD_PTR(cp)->case_diff_simple_title, b);
+}
+
+a_cp a_to_title_simple_chr_cp(a_cp cp)
+{
+    A_ASSERT_CODEPOINT(cp);
+    return cp + A_RECORD_PTR(cp)->case_diff_simple_title;
 }
