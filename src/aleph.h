@@ -488,6 +488,26 @@ a_str       a_new_mem_raw(size_t size);
  * \return A new a_str string, otherwise NULL on failure.
  */
 a_str       a_new_dup(a_cstr str);
+/**
+ * \brief Creates a new a_str from an unsigned long integer value.
+ * 
+ * Creates a new Aleph string from the unsigned long integer value
+ * \p val.
+ * 
+ * \param val An unsigned long integer.
+ * \return A new a_str string, otherwise NULL on failure.
+ */
+a_str       a_new_uint(unsigned long val);
+/**
+ * \brief Creates a new a_str from a long integer value.
+ * 
+ * Creates a new Aleph string from the long integer value
+ * \p val.
+ * 
+ * \param val A long integer.
+ * \return A new a_str string, otherwise NULL on failure.
+ */
+a_str       a_new_int(long val);
 /*
  * TODO: Incomplete!
  */
@@ -619,6 +639,15 @@ a_str       a_set_cstr_size(a_str str, const char *newstr, size_t size);
  *       string efficiently see the \ref Iterator functions section.
  */
 a_cp        a_char_at(a_cstr str, size_t index);
+/**
+ * 
+ */
+size_t      a_char_offset(a_cstr str, size_t index);
+size_t      a_char_offset_cstr(const char *str, size_t index);
+/**
+ * 
+ */
+size_t      a_char_offset_rev(a_cstr str, size_t index);
 /**
  * \brief Returns the start of the grapheme cluster at a specific index.
  * 
@@ -911,6 +940,8 @@ a_str       a_cat_str(a_str str, a_str str2);
 a_str       a_cat_len(a_str str, const char *str2, size_t l);
 a_str       a_cat_cp(a_str str, a_cp codepoint);
 a_str       a_cat_norm(a_str str, a_str str2, int mode);
+a_str       a_cat_uint(a_str str, unsigned long val);
+a_str       a_cat_int(a_str str, long val);
 /*@}*/
 
 
@@ -1319,16 +1350,95 @@ a_str       a_format(a_str str, const char *format, ...);
  * \anchor transformation_functions
  * \name Transformation
  *
- * ...
+ * Unicode offers 3 forms of casing: uppercase, titlecase, and
+ * lowercase. Additionally, case folding is also offered for case-
+ * insensitive comparisons.
+ * 
+ * The main functions (a_to_upper/a_to_lower/etc.) use full case
+ * conversion when transforming strings, this means both the size
+ * and the length of the string may change.
+ * 
+ * Assumptions:
+ * 
+ *      As with most things Unicode-related, many assumptions must
+ *      be thrown out the window.
+ * 
+ *      * The size of the string may change during any transformation.
+ * 
+ *      * The length of the string may change during full case
+ *        conversion.
+ * 
+ *      * Transforms are irreversible operations.
  * 
  * @{
  */
 a_cp        a_to_cp(const char *str);
 const char *a_to_utf8(a_cp codepoint, char *buffer);
 const char *a_to_utf8_size(a_cp codepoint, char *buffer, int *size);
+/**
+ * \brief Transforms the string to uppercase.
+ * 
+ * This function transforms all the letters in the string to
+ * uppercase (also known as capital or majuscule) using full
+ * uppercase conversion.
+ * 
+ * \note The new string need not have the same size nor length
+ *       as the original string. Additionally, this operation is
+ *       irreversible.
+ * 
+ * \param str The string in context.
+ * \return \p str uppercased; otherwise NULL on failure.
+ * \see a_to_lower()
+ */
 a_str       a_to_upper(a_str str);
+char       *a_to_upper_cp(a_cp cp, char *b);
+a_cp       *a_to_upper_cp_cp(a_cp cp, a_cp *b);
+a_str       a_to_upper_simple(a_str str);
+char       *a_to_upper_simple_chr(a_cp cp, char *b);
+a_cp        a_to_upper_simple_chr_cp(a_cp cp);
+/**
+ * \brief Transforms the string to lowercase.
+ * 
+ * This function transforms all the letters in the string to
+ * lowercase (also known as small or minuscule) using full
+ * lowercase conversion.
+ * 
+ * \note The new string need not have the same size nor length
+ *       as the original string. Additionally, this operation is
+ *       irreversible.
+ * 
+ * \param str The string in context.
+ * \return \p str lowercased; otherwise NULL on failure.
+ * \see a_to_upper()
+ */
 a_str       a_to_lower(a_str str);
+char       *a_to_lower_cp(a_cp cp, char *b);
+a_cp       *a_to_lower_cp_cp(a_cp cp, a_cp *b);
+a_str       a_to_lower_simple(a_str str);
+char       *a_to_lower_simple_chr(a_cp cp, char *b);
+a_cp        a_to_lower_simple_chr_cp(a_cp cp);
+/**
+ * \brief Transforms the string to titlecase.
+ * 
+ * This function transforms all the letters in the string to
+ * titlecase using full uppercase and lowercase conversions.
+ * 
+ * \note The new string need not have the same size nor length
+ *       as the original string. Additionally, this operation is
+ *       irreversible.
+ * 
+ * \param str The string in context.
+ * \return \p str titlecased; otherwise NULL on failure.
+ * \see a_to_upper()
+ * \see a_to_lower()
+ */
 a_str       a_to_title(a_str str);
+char       *a_to_title_cp(a_cp cp, char *b);
+a_cp       *a_to_title_cp_cp(a_cp cp, a_cp *b);
+a_str       a_to_title_simple(a_str str);
+char       *a_to_title_simple_chr(a_cp cp, char *b);
+a_cp        a_to_title_simple_chr_cp(a_cp cp);
+
 a_str       a_to_fold(a_str str);
 char       *a_to_fold_cp(a_cp cp, char *b);
 a_cp       *a_to_fold_cp_cp(a_cp cp, a_cp *b);
