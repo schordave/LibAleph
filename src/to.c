@@ -366,7 +366,6 @@ char *a_to_upper_cp(a_cp cp, char *b)
 
 a_cp *a_to_upper_cp_cp(a_cp cp, a_cp *b)
 {
-
     const struct a_char_record *r = A_RECORD_PTR(cp);
     A_ASSERT_CODEPOINT(cp);
     assert(b != NULL);
@@ -475,6 +474,187 @@ a_cp a_to_upper_simple_chr_cp(a_cp cp)
 {
     A_ASSERT_CODEPOINT(cp);
     return cp + A_RECORD_PTR(cp)->case_diff_simple_upper;
+}
+
+a_str a_to_lower(a_str str)
+{
+    a_str new;
+    char *at, *start;
+    char buff[A_MAX_LOWER_UTF8_BUFFER_SIZE];
+    
+    assert(str != NULL);
+    PASSTHROUGH_ON_FAIL(str != NULL, NULL);
+    
+    for (start = at = str; *at; start = at)
+        if (!a_is_lower(a_internal_to_next_cp((const char **)&at)))
+            goto to_lower;
+    return str;
+    
+to_lower:
+    if (!(new = a_new_mem_raw(a_size(str))))
+        return NULL;
+    
+    a_set_cstr_size(new, str, start - start);
+
+    for (start = at = str; *at && new; start = at)
+    {
+        const a_cp cp = a_internal_to_next_cp((const char **)&at);
+        new = a_cat_cstr(new, a_to_lower_cp(cp, buff));
+    }
+    
+    a_free(str);
+    return new;
+}
+
+char *a_to_lower_cp(a_cp cp, char *b)
+{
+    const struct a_char_record *r = A_RECORD_PTR(cp);
+    register int new_cp = cp + r->case_diff_lower;
+    A_ASSERT_CODEPOINT(cp);
+    assert(b != NULL);
+    PASSTHROUGH_ON_FAIL(b != NULL, NULL);
+    
+#if A_INCLUDE_LOCALE == 1
+    /* lithuania
+     * 
+     * 00CC; 0069 0307 0300; 00CC; 00CC; lt; # LATIN CAPITAL LETTER I WITH GRAVE
+     * 00CD; 0069 0307 0301; 00CD; 00CD; lt; # LATIN CAPITAL LETTER I WITH ACUTE
+     * 0128; 0069 0307 0303; 0128; 0128; lt; # LATIN CAPITAL LETTER I WITH TILDE
+     */
+    if (a_locale_get()->exceptions & A_LOCALE_LITHUANIA_EXCEPTION)
+    {/*
+        if (cp == 0x00CC)
+        {
+            b[0] = 0x0069; b[1] = 0x0307; b[2] = 0x0300; b[4] = 0x00;
+            return b;
+        }
+        if (cp == 0x00CD)
+        {
+            b[0] = 0x0069; b[1] = 0x0307; b[2] = 0x0301; b[4] = 0x00;
+            return b;
+        }
+        if (cp == 0x0128)
+        {
+            b[0] = 0x0069; b[1] = 0x0307; b[2] = 0x0303; b[4] = 0x00;
+            return b;
+        }*/
+    }
+#endif
+    
+    /* common case */
+    if (!(r->special & A_SPECIAL_MASK_CASE_FOLD))
+        return a_internal_cp_to_char(new_cp, b);
+    
+    /* case lowering has a set of exceptional characters
+     * that fold into multiple code points, sometimes
+     * as much as 3. we handle those seperatly.
+     *//*
+    if (r->special & A_SPECIAL_MASK_CASE_FOLD)*/
+    {
+        int index = -1;
+        int high = A_LOWER_SPECIAL_TABLE_SIZE;
+        int low = 0;
+        
+        while (high)
+        {
+            int mid = low + ((high - low) / 2);
+            a_cp cur_cp = a_codepoint_case_lower_special[mid].cp;
+
+            if (cur_cp == cp)
+            {
+                index = mid;
+                break;
+            }
+            else if (cur_cp < cp)
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+        
+        /* this should NEVER EVER happen unless the
+         * table was generated incorrectly */
+        assert(index != -1); 
+        
+        memcpy(b, a_codepoint_case_lower_special[index].str, A_MAX_LOWER_UTF8_BUFFER_SIZE);
+    }
+    return b;
+}
+
+a_cp *a_to_lower_cp_cp(a_cp cp, a_cp *b)
+{
+    const struct a_char_record *r = A_RECORD_PTR(cp);
+    A_ASSERT_CODEPOINT(cp);
+    assert(b != NULL);
+    PASSTHROUGH_ON_FAIL(b != NULL, NULL);
+    
+#if A_INCLUDE_LOCALE == 1
+    /* lithuania
+     * 
+     * 00CC; 0069 0307 0300; 00CC; 00CC; lt; # LATIN CAPITAL LETTER I WITH GRAVE
+     * 00CD; 0069 0307 0301; 00CD; 00CD; lt; # LATIN CAPITAL LETTER I WITH ACUTE
+     * 0128; 0069 0307 0303; 0128; 0128; lt; # LATIN CAPITAL LETTER I WITH TILDE
+     */
+    if (a_locale_get()->exceptions & A_LOCALE_LITHUANIA_EXCEPTION)
+    {
+        if (cp == 0x00CC)
+        {
+            b[0] = 0x0069; b[1] = 0x0307; b[2] = 0x0300; b[4] = 0x00;
+            return b;
+        }
+        if (cp == 0x00CD)
+        {
+            b[0] = 0x0069; b[1] = 0x0307; b[2] = 0x0301; b[4] = 0x00;
+            return b;
+        }
+        if (cp == 0x0128)
+        {
+            b[0] = 0x0069; b[1] = 0x0307; b[2] = 0x0303; b[4] = 0x00;
+            return b;
+        }
+    }
+#endif
+    
+    /* common case */
+    if (!(r->special & A_SPECIAL_MASK_CASE_UPPER))
+    {
+        b[0] = cp + r->case_diff_lower;
+        b[1] = 0;
+        return b;
+    }
+    
+    /* caselower has a set of exceptional characters
+     * that fold into multiple code points, sometimes
+     * as much as 3. we handle those seperatly.
+     *//*
+    if (r->special & A_SPECIAL_MASK_CASE_FOLD)*/
+    {
+        int index = -1;
+        int high = A_LOWER_SPECIAL_TABLE_SIZE;
+        int low = 0;
+        
+        while (high)
+        {
+            int mid = low + ((high - low) / 2);
+            a_cp cur_cp = a_codepoint_case_lower_special[mid].cp;
+
+            if (cur_cp == cp)
+            {
+                index = mid;
+                break;
+            }
+            else if (cur_cp < cp)
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+        
+        /* this should NEVER EVER happen unless the
+         * table was generated incorrectly */
+        assert(index != -1); 
+        
+        memcpy(b, a_codepoint_case_lower_special[index].codepoints, (A_MAX_CASE_LOWER_SIZE+1) *  sizeof (int));
+    }
+    return b;
 }
 
 a_str a_to_lower_simple(a_str str)
