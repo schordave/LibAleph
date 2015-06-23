@@ -12,6 +12,7 @@ struct a_locale
     int region;
     int exceptions;
 #define A_LOCALE_TURKISH_EXCEPTION (1 << 0)
+#define A_LOCALE_LITHUANIA_EXCEPTION (1 << 1)
 };
 
 static struct a_locale *a_locale_get(void)
