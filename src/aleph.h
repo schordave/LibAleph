@@ -644,6 +644,8 @@ a_cp        a_char_at(a_cstr str, size_t index);
  */
 size_t      a_char_offset(a_cstr str, size_t index);
 size_t      a_char_offset_cstr(const char *str, size_t index);
+size_t      a_char_index(a_cstr str, size_t offset);
+size_t      a_char_index_cstr(const char *str, size_t offset);
 /**
  * 
  */

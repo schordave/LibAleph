@@ -19,6 +19,21 @@ size_t a_char_offset_cstr(const char *str, size_t index)
     return a_internal_index_to_offset(str, index);
 }
 
+size_t a_char_index(a_cstr str, size_t offset)
+{
+    return a_char_index_cstr(str, offset);
+}
+size_t a_char_index_cstr(const char *str, size_t offset)
+{
+    size_t index;
+    const char *start = str;
+    
+    for (index = 0; *str && (str-start) < offset; ++index)
+        a_next_cstr(&str);
+    
+    return index;
+}
+
 
 /*
  * Returns offset from index from reverse
