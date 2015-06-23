@@ -113,13 +113,13 @@ size_t a_find_offset_from(a_cstr str, a_cstr substr, size_t offset)
 {
     assert(str != NULL && substr != NULL);
     PASSTHROUGH_ON_FAIL(str != NULL && substr != NULL, A_EOS);
-    return a_find_offset_internal(str + offset, substr, a_size(str) - offset, a_size(substr)); 
+    return a_find_offset_internal(str + offset, substr, a_size(str) - offset, a_size(substr)) + offset; 
 }
 size_t a_find_offset_from_cstr(a_cstr str, const char *substr, size_t offset)
 {
     assert(str != NULL && substr != NULL);
     PASSTHROUGH_ON_FAIL(str != NULL && substr != NULL, A_EOS);
-    return a_find_offset_internal(str + offset, substr, a_size(str) - offset, strlen(substr));
+    return a_find_offset_internal(str + offset, substr, a_size(str) - offset, strlen(substr)) + offset;
 }
 static size_t a_ifind_internal(const char *str, const char *substr)
 {
