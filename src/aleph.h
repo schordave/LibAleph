@@ -204,6 +204,7 @@
  *    - \ref transformation_functions "Transformation"
  *    - \ref insertion_functions "Insertion"
  *    - \ref replacement_functions "Replacement"
+ *    - \ref deletion_functions "Deletion"
  *    - \ref trimming_functions "Trimming"
  *    - \ref reversal_functions "Reversal"
  *    - \ref escaping_functions "Escaping/Unescaping"
@@ -920,6 +921,7 @@ size_t      a_gsize_chr_cstr(const char *str);
 size_t      a_glen(a_cstr str);
 size_t      a_glen_cstr(const char *s);
 size_t      a_mem(a_cstr str);
+int         a_is_empty(a_cstr str);
 /*@}*/
 
 
@@ -992,6 +994,30 @@ a_str       a_rep_all_cp(a_str str, a_cp oldcp, a_cp newcp);
 a_str       a_irep_all(a_str str, a_cstr oldstr, a_cstr newstr);
 a_str       a_irep_all_cstr_cstr(a_str str, const char *oldstr, const char *newstr);
 a_str       a_rep_all_cp(a_str str, a_cp oldcp, a_cp newcp);
+/*@}*/
+
+
+/**
+ * \anchor deletion_functions
+ * \name Deletion
+ * 
+ * Various ways of deleting characters from a string
+ * @{
+ */
+/**
+ * \brief Deletes a portion of the string.
+ * 
+ * This function deletes \p length code points from \p str starting
+ * at \p start.
+ * 
+ * \param str A pointer to the string to operate on.
+ * \param start The starting code point index
+ * \param length The number of code points to delete.
+ * 
+ * \return \p str with the specified portion deleted.
+ */
+a_str       a_del(a_str str, size_t start, size_t length);
+a_str       a_del_offset(a_str str, size_t start, size_t length);
 /*@}*/
 
 
