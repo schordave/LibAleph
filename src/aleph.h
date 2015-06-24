@@ -1156,6 +1156,8 @@ int         a_icmp_simple_cstr_cstr(const char *str1, const char *str2);
 int         a_icmp_min(a_cstr str1, a_cstr str2);
 int         a_icmp_min_cstr(a_cstr str1, const char *str2);
 int         a_icmp_min_cstr_cstr(const char *str1, const char *str2);
+int         a_icmp_min_cstr_len(a_cstr str1, const char *str2, size_t *match_len);
+int         a_icmp_min_cstr_cstr_len(const char *str1, const char *str2, size_t *match_len);
 int         a_icmpn(a_cstr str1, a_cstr str2, size_t n);
 int         a_icmpn_cstr(a_cstr str1, const char *str2, size_t n);
 int         a_icmpn_cstr_cstr(const char *str1, const char *str2, size_t n);/*
@@ -1211,14 +1213,18 @@ size_t      a_ifind(a_cstr str, a_cstr substr);
 size_t      a_ifind_cstr(a_cstr str, const char *substr);
 size_t      a_ifind_cstr_cstr(const char *str, const char *substr);
 size_t      a_ifind_from(a_cstr str, a_cstr substr, size_t index);
-size_t      a_ifind_from_cstr(a_cstr str, const char *substr, size_t index);/*
+size_t      a_ifind_from_cstr(a_cstr str, const char *substr, size_t index);
 size_t      a_ifind_from_cp(a_cstr str, a_cp codepoint, size_t index);
+size_t      a_ifind_from_len(a_cstr str, a_cstr substr, size_t index, size_t *match_len);
+size_t      a_ifind_from_len_cstr(a_cstr str, const char *substr, size_t index, size_t *match_len);/*
 size_t      a_ifind_offset(a_cstr str, a_cstr substr);
 size_t      a_ifind_offset_cstr(a_cstr str, const char *substr);
 size_t      a_ifind_offset_cp(a_cstr str, a_cp codepoint);*/
 size_t      a_ifind_offset_from(a_cstr str, a_cstr substr, size_t offset);
 size_t      a_ifind_offset_from_cstr(a_cstr str, const char *substr, size_t offset);/*
-size_t      a_ifind_offset_from_cp(a_cstr str, a_cp codepoint, size_t offset);
+size_t      a_ifind_offset_from_cp(a_cstr str, a_cp codepoint, size_t offset);*/
+size_t      a_ifind_offset_from_len(a_cstr str, a_cstr substr, size_t offset, size_t *match_len);
+size_t      a_ifind_offset_from_len_cstr(a_cstr str, const char *substr, size_t offset, size_t *match_len);/*
 size_t      a_irfind(a_cstr str, a_cstr substr);
 size_t      a_irfind_cstr(a_cstr str, const char *substr);
 size_t      a_irfind_cp(a_cstr str, a_cp codepoint);

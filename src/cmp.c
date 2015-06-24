@@ -195,3 +195,45 @@ int a_ircmp_cstr_cstr(const char *str1, const char *str2, size_t len1, size_t le
     
     return -1;
 }
+/*
+ *  cmp(ß, sS) = 1
+ *  cmp(Ss, ß) = 2
+ *  cmp(ß, ß)  = 1
+ */
+int a_icmp_min_cstr_len(a_cstr str1, const char *str2, size_t *match_len)
+{
+    return a_icmp_min_cstr_cstr_len(str1, str2, match_len);
+}
+int a_icmp_min_cstr_cstr_len(const char *str1, const char *str2, size_t *match_len)
+{
+    size_t len;
+    size_t index_a, index_b;
+    a_cp buff_a[A_MAX_CASE_FOLD_SIZE+1];/*  */
+    a_cp buff_b[A_MAX_CASE_FOLD_SIZE+1];
+    
+    index_a = index_b = 0;
+    buff_a[0] = buff_b[0] = 0;
+    len = 0;
+    for (;;)
+    {
+        /* if the buffer is empty, grab the next codepoint and casefold it */
+        if (!buff_a[index_a])
+            a_to_fold_cp_cp(a_internal_to_next_cp(&str1), buff_a), index_a = 0, ++len;
+        if (!buff_b[index_b])
+            a_to_fold_cp_cp(a_internal_to_next_cp(&str2), buff_b), index_b = 0;
+        
+        /* exit point - if one of the strings NULL terminated */
+        if (!buff_a[index_a] || !buff_b[index_b])
+        {
+            *match_len = len - 1;
+            return !buff_b[index_b] ? 0 : -1; /* equal if str2 reached its end */
+        }
+        
+        /* basic inequality */
+        if (buff_a[index_a] != buff_b[index_b])
+            return -1;
+        index_a++, index_b++;
+    }
+    
+    return -1;
+}
