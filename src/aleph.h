@@ -498,7 +498,7 @@ a_str       a_new_dup(a_cstr str);
  * \param val An unsigned long integer.
  * \return A new a_str string, otherwise NULL on failure.
  */
-a_str       a_new_uint(unsigned long val);
+a_str       a_new_ulong(unsigned long val);
 /**
  * \brief Creates a new a_str from a long integer value.
  * 
@@ -508,7 +508,7 @@ a_str       a_new_uint(unsigned long val);
  * \param val A long integer.
  * \return A new a_str string, otherwise NULL on failure.
  */
-a_str       a_new_int(long val);
+a_str       a_new_long(long val);
 /*
  * TODO: Incomplete!
  */
@@ -944,8 +944,8 @@ a_str       a_cat_str(a_str str, a_str str2);
 a_str       a_cat_len(a_str str, const char *str2, size_t l);
 a_str       a_cat_cp(a_str str, a_cp codepoint);
 a_str       a_cat_norm(a_str str, a_str str2, int mode);
-a_str       a_cat_uint(a_str str, unsigned long val);
-a_str       a_cat_int(a_str str, long val);
+a_str       a_cat_ulong(a_str str, unsigned long val);
+a_str       a_cat_long(a_str str, long val);
 /*@}*/
 
 

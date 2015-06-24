@@ -128,7 +128,7 @@ static const char a_digits_2nds[100] =
     "01234567890123456789"
 ;
 
-a_str a_cat_uint(a_str s, unsigned long val)
+a_str a_cat_ulong(a_str s, unsigned long val)
 {
     int const length = a_digits_count(val);
     int pos = length - 1;
@@ -166,7 +166,7 @@ a_str a_cat_uint(a_str s, unsigned long val)
     return s;
 }
 
-a_str a_cat_int(a_str s, long val)
+a_str a_cat_long(a_str s, long val)
 {
     unsigned long uval = val;
     
@@ -176,5 +176,5 @@ a_str a_cat_int(a_str s, long val)
         uval = -uval; /* this avoid implemention-defined behavior */
     }
     
-    return a_cat_uint(s, uval);
+    return a_cat_ulong(s, uval);
 }
