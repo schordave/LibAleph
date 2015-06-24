@@ -61,3 +61,8 @@ size_t a_gsize_chr_cstr(const char *s)
     const char *start = s;
     return (a_gnext_cstr(&s) - start);
 }
+
+int a_is_empty(a_cstr str)
+{
+    return a_size(str) == 0;
+}
