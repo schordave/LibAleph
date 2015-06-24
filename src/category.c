@@ -3,6 +3,101 @@
  * 
  * License: MIT
  */
+/*
+ * When case conversion is applied to a string that is decomposed
+ * (or more precisely, normalized to NFD), applying the case
+ * conversion character by character does not affect the
+ * normalization status of the string. Therefore, these definitions
+ * are specified in terms of Normalization Form NFD. To make the
+ * definitions easier to read, they adopt the convention that the
+ * string Y equals toNFD(X).
+ * 
+ * D139 isLowercase(X): isLowercase(X) is true when toLowercase(Y) = Y.
+ * 
+ *      For example, isLowercase(“combining mark”) is true, and
+ *      isLowercase(“Combining mark”) is false.
+ * 
+ * D140 isUppercase(X): isUppercase(X) is true when toUppercase(Y) = Y.
+ * 
+ *      For example, isUppercase(“COMBINING MARK”) is true, and
+ *      isUppercase(“Combining mark”) is false.
+ * 
+ * D141 isTitlecase(X): isTitlecase(X) is true when toTitlecase(Y) = Y.
+ * 
+ *      For example, isTitlecase(“Combining Mark”) is true, and
+ *      isTitlecase(“Combining mark”) is false.
+ * 
+ * D142 isCasefolded(X): isCasefolded(X) is true when toCasefold(Y) = Y.
+ * 
+ *      For example, isCasefolded(“heiss”) is true, and
+ *      isCasefolded(“heiß”) is false.
+ * 
+ */
+int a_is_title(const char *str)
+{/*
+    a_cp cp;
+    a_cp buff[A_MAX_CASE_FOLD_SIZE+1];
+    
+    assert(str != NULL);
+    A_ASSERT_UTF8(str);
+    
+    while ((cp = a_next_cp_cstr(&str)) != 0)
+    {
+        a_to_title_cp_cp(cp, buff);
+        if (buff[0] != cp && buff[1] != '\0')
+            return 0;
+    }*/
+    return 1;
+}
+int a_is_title_cp(a_cp codepoint)
+{
+    A_ASSERT_CODEPOINT(codepoint);
+    return A_CATEGORY_MASK(codepoint) & a_gc_lt;
+}
+int a_is_lower(const char *str)
+{
+    a_cp cp;
+    a_cp buff[A_MAX_CASE_FOLD_SIZE+1];
+    
+    assert(str != NULL);
+    A_ASSERT_UTF8(str);
+    
+    while ((cp = a_next_cp_cstr(&str)) != 0)
+    {
+        a_to_lower_cp_cp(cp, buff);
+        if (buff[0] != cp && buff[1] != '\0')
+            return 0;
+    }
+    return 1;
+}
+int a_is_lower_cp(a_cp codepoint)
+{
+    A_ASSERT_CODEPOINT(codepoint);
+    return A_CATEGORY_MASK(codepoint) & a_gc_ll;
+}
+int a_is_upper(const char *str)
+{
+    a_cp cp;
+    a_cp buff[A_MAX_CASE_FOLD_SIZE+1];
+    
+    assert(str != NULL);
+    A_ASSERT_UTF8(str);
+    
+    while ((cp = a_next_cp_cstr(&str)) != 0)
+    {
+        a_to_upper_cp_cp(cp, buff);
+        if (buff[0] != cp && buff[1] != '\0')
+            return 0;
+    }
+    return 1;
+}
+int a_is_upper_cp(a_cp codepoint)
+{
+    A_ASSERT_CODEPOINT(codepoint);
+    return A_CATEGORY_MASK(codepoint) & a_gc_lu;
+}
+
+
 int a_category(a_cp codepoint)
 {
     A_ASSERT_CODEPOINT(codepoint);
@@ -52,11 +147,7 @@ int a_is_letter(a_cp codepoint)
     A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_letter;
 }
-int a_is_lower(a_cp codepoint)
-{
-    A_ASSERT_CODEPOINT(codepoint);
-    return A_CATEGORY_MASK(codepoint) & a_gc_ll;
-}
+
 int a_is_mark(a_cp codepoint)
 {
     A_ASSERT_CODEPOINT(codepoint);
@@ -117,16 +208,7 @@ int a_is_symbol(a_cp codepoint)
     A_ASSERT_CODEPOINT(codepoint);
     return A_CATEGORY_MASK(codepoint) & a_gc_symbol;
 }
-int a_is_title(a_cp codepoint)
-{
-    A_ASSERT_CODEPOINT(codepoint);
-    return A_CATEGORY_MASK(codepoint) & a_gc_lt;
-}
-int a_is_upper(a_cp codepoint)
-{
-    A_ASSERT_CODEPOINT(codepoint);
-    return A_CATEGORY_MASK(codepoint) & a_gc_lu;
-}
+
 int a_is_math(a_cp codepoint)
 {
     A_ASSERT_CODEPOINT(codepoint);

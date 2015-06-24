@@ -1522,6 +1522,15 @@ int         a_ascii_is_upper(a_cp codepoint);
 int         a_ascii_is_print(a_cp codepoint);
 int         a_ascii_is_punct(a_cp codepoint);
 int         a_ascii_is_space(a_cp codepoint);
+
+
+int         a_is_title(const char *str);
+int         a_is_title_cp(a_cp codepoint);
+int         a_is_lower(const char *str);
+int         a_is_lower_cp(a_cp codepoint);
+int         a_is_upper(const char *str);
+int         a_is_upper_cp(a_cp codepoint);
+
 int         a_is_alpha(a_cp codepoint);
 int         a_is_alphanumeric(a_cp codepoint);
 int         a_is_bmp(a_cp codepoint);
@@ -1531,7 +1540,6 @@ int         a_is_digit(a_cp codepoint);
 int         a_is_format(a_cp codepoint);
 int         a_is_graphical(a_cp codepoint);
 int         a_is_letter(a_cp codepoint);
-int         a_is_lower(a_cp codepoint);
 int         a_is_mark(a_cp codepoint);
 int         a_is_noncharacter(a_cp codepoint);
 int         a_is_number(a_cp codepoint);
@@ -1544,8 +1552,6 @@ int         a_is_surrogate(a_cp codepoint);
 int         a_is_surrogate_high(a_cp codepoint);
 int         a_is_surrogate_low(a_cp codepoint);
 int         a_is_symbol(a_cp codepoint);
-int         a_is_title(a_cp codepoint);
-int         a_is_upper(a_cp codepoint);
 int         a_is_math(a_cp codepoint);
 int         a_category(a_cp codepoint);
 const char *a_category_to_str(int category);

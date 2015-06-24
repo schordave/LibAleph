@@ -280,7 +280,7 @@ a_str a_to_upper(a_str str)
     PASSTHROUGH_ON_FAIL(str != NULL, NULL);
     
     for (start = at = str; *at; start = at)
-        if (!a_is_upper(a_internal_to_next_cp((const char **)&at)))
+        if (!a_is_upper_cp(a_internal_to_next_cp((const char **)&at)))
             goto to_upper;
     return str;
     
@@ -441,7 +441,7 @@ a_str a_to_upper_simple(a_str str)
     PASSTHROUGH_ON_FAIL(str != NULL, NULL);
     
     for (start = at = str; *at; start = at)
-        if (!a_is_upper(a_internal_to_next_cp((const char **)&at)))
+        if (!a_is_upper_cp(a_internal_to_next_cp((const char **)&at)))
             goto to_upper;
     return str;
     
@@ -486,7 +486,7 @@ a_str a_to_lower(a_str str)
     PASSTHROUGH_ON_FAIL(str != NULL, NULL);
     
     for (start = at = str; *at; start = at)
-        if (!a_is_lower(a_internal_to_next_cp((const char **)&at)))
+        if (!a_is_lower_cp(a_internal_to_next_cp((const char **)&at)))
             goto to_lower;
     return str;
     
@@ -666,7 +666,7 @@ a_str a_to_lower_simple(a_str str)
     PASSTHROUGH_ON_FAIL(str != NULL, NULL);
     
     for (start = at = str; *at; start = at)
-        if (!a_is_lower(a_internal_to_next_cp((const char **)&at)))
+        if (!a_is_lower_cp(a_internal_to_next_cp((const char **)&at)))
             goto to_lower;
     return str;
     
