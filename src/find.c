@@ -164,7 +164,6 @@ size_t a_ifind_cstr_cstr(const char *str, const char *substr)
 {
     return a_ifind_internal(str, substr);
 }
-
 size_t a_ifind_from(a_cstr str, a_cstr substr, size_t index)
 {
     assert(str != NULL && substr != NULL);
@@ -173,7 +172,6 @@ size_t a_ifind_from(a_cstr str, a_cstr substr, size_t index)
     return a_ifind_offset_internal(str, substr, a_size(str), a_size(substr),
             a_internal_index_to_offset(str, index)); 
 }
-
 size_t a_ifind_from_cstr(a_cstr str, const char *substr, size_t index)
 {
     assert(str != NULL && substr != NULL);
@@ -182,7 +180,6 @@ size_t a_ifind_from_cstr(a_cstr str, const char *substr, size_t index)
     return a_find_offset_internal(str, substr, a_size(str), strlen(substr), 
             a_internal_index_to_offset(str, index)); 
 }
-
 size_t a_ifind_offset_from(a_cstr str, a_cstr substr, size_t offset)
 {
     assert(str != NULL && substr != NULL);
@@ -191,7 +188,6 @@ size_t a_ifind_offset_from(a_cstr str, a_cstr substr, size_t offset)
     
     return a_ifind_offset_internal(str, substr, a_size(str), a_size(substr), offset); 
 }
-
 size_t a_ifind_offset_from_cstr(a_cstr str, const char *substr, size_t offset)
 {
     assert(str != NULL && substr != NULL);
