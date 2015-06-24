@@ -75,7 +75,7 @@ a_str a_new_uint(unsigned long val)
     a_str str;
     
     if ((str = a_new_mem(A_INT_DIGITS)))
-        str = a_cat_uint(str, val);
+        str = a_cat_ulong(str, val);
     return str;
 }
 
@@ -84,7 +84,7 @@ a_str a_new_int(long val)
     a_str str;
     
     if ((str = a_new_mem(A_INT_DIGITS)))
-        str = a_cat_int(str, val);
+        str = a_cat_long(str, val);
     return str;
 }
 
