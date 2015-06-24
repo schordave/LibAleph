@@ -70,7 +70,7 @@ a_str a_new_dup(a_cstr s)
     return dup;
 }
 
-a_str a_new_uint(unsigned long val)
+a_str a_new_ulong(unsigned long val)
 {
     a_str str;
     
@@ -79,7 +79,7 @@ a_str a_new_uint(unsigned long val)
     return str;
 }
 
-a_str a_new_int(long val)
+a_str a_new_long(long val)
 {
     a_str str;
     
