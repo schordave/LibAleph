@@ -1183,15 +1183,15 @@ size_t      a_rfind_offset_from_cp(a_cstr str, a_cp codepoint, size_t offset);*/
 
 size_t      a_ifind(a_cstr str, a_cstr substr);
 size_t      a_ifind_cstr(a_cstr str, const char *substr);
-size_t      a_ifind_cstr_cstr(const char *str, const char *substr);/*
+size_t      a_ifind_cstr_cstr(const char *str, const char *substr);
 size_t      a_ifind_from(a_cstr str, a_cstr substr, size_t index);
-size_t      a_ifind_from_cstr(a_cstr str, const char *substr, size_t index);
+size_t      a_ifind_from_cstr(a_cstr str, const char *substr, size_t index);/*
 size_t      a_ifind_from_cp(a_cstr str, a_cp codepoint, size_t index);
 size_t      a_ifind_offset(a_cstr str, a_cstr substr);
 size_t      a_ifind_offset_cstr(a_cstr str, const char *substr);
-size_t      a_ifind_offset_cp(a_cstr str, a_cp codepoint);
+size_t      a_ifind_offset_cp(a_cstr str, a_cp codepoint);*/
 size_t      a_ifind_offset_from(a_cstr str, a_cstr substr, size_t offset);
-size_t      a_ifind_offset_from_cstr(a_cstr str, const char *substr, size_t offset);
+size_t      a_ifind_offset_from_cstr(a_cstr str, const char *substr, size_t offset);/*
 size_t      a_ifind_offset_from_cp(a_cstr str, a_cp codepoint, size_t offset);
 size_t      a_irfind(a_cstr str, a_cstr substr);
 size_t      a_irfind_cstr(a_cstr str, const char *substr);
