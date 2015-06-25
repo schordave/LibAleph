@@ -3,6 +3,28 @@
  * 
  * License: MIT
  */
+
+/*
+ * Assignments
+ */
+
+a_str a_clear(a_str str) 
+{
+    struct a_header *h;
+    assert(str != NULL);
+    PASSTHROUGH_ON_FAIL(str != NULL, NULL);
+    
+    h = a_header(str);
+    h->size = 0;
+    h->len = 0;
+    str[0] = '\0';
+    return str;
+}
+
+/**************************************************/
+/**************************************************/
+/**************************************************/
+
 a_str a_set(a_str str, a_str newstr) 
 {
     size_t size;
