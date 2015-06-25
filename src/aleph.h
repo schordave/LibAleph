@@ -817,6 +817,27 @@ char       *a_end(a_str str);
  */
 char       *a_end_cstr(const char *str);
 /**
+ * \brief Returns a pointer to the last code point of the string.
+ * 
+ * This function returns a pointer to the first code unit of the
+ * last code point of the string pointed by \p str.
+ * 
+ * \param str The string in context.
+ * \return a pointer to the last code point of string \p str.
+ */
+char       *a_last(a_str str);
+/**
+ * \brief Returns a pointer to the last code point of the string.
+ * 
+ * This function returns a pointer to the first code unit of the
+ * last code point of the string pointed by \p str.
+ * 
+ * \param str The string in context.
+ * \return a pointer to the last code point of string \p str.
+ * \pre \p str must be a valid UTF-8 string.
+ */
+char       *a_last_cstr(const char *str);
+/**
  * \brief Advances to the previous code point.
  * 
  * This function advances the string pointed by \p str by a single code
