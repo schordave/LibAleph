@@ -32,7 +32,7 @@ CTEST(Categories, check_category)
     for (cp = 'a'; cp < 'z'; ++cp)
     {
         ASSERT_TRUE(a_category(cp) == a_gc_letter_lowercase);
-        ASSERT_TRUE(a_is_lower(cp));
+        ASSERT_TRUE(a_is_lower_cp(cp));
         ASSERT_TRUE(a_is_letter(cp));
         ASSERT_TRUE(a_is_graphical(cp));
     }
@@ -40,7 +40,7 @@ CTEST(Categories, check_category)
     for (cp = 'A'; cp < 'Z'; ++cp)
     {
         ASSERT_TRUE(a_category(cp) == a_gc_letter_uppercase);
-        ASSERT_TRUE(a_is_upper(cp));
+        ASSERT_TRUE(a_is_upper_cp(cp));
         ASSERT_TRUE(a_is_letter(cp));
         ASSERT_TRUE(a_is_graphical(cp));
     }
@@ -149,11 +149,11 @@ CTEST(Categories, check_is_title)
         
         if (a_find_cp(s, cp) != A_EOS)
         {
-            ASSERT_TRUE(a_is_title(cp));
+            ASSERT_TRUE(a_is_title_cp(cp));
             ASSERT_TRUE(a_is_graphical(cp));
         }
         else
-            ASSERT_FALSE(a_is_title(cp));
+            ASSERT_FALSE(a_is_title_cp(cp));
     }
     
     a_free(s);
