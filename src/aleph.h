@@ -74,14 +74,23 @@
  * LibAleph can operate on a string in three "modes":
  * 
  * - Based on offsets
- *   - Such functions will have `_offset` in their name. For example `a_substr_offset()`, `a_find_offset()`, and `a_ins_offset()`
- *   - Those functions are considerably more efficient as they require no linear scanning of the string.
+ *      - These are the default variations as they are usually considerably more efficient and are
+ *        normally more natural to worth with.
  * 
- * - Based on code points index
- *   - These are the default variation. For example `a_substr()`, `a_find_from()`, and `a_ins()`.
+ *          Example: `a_substr()`, `a_find()`, `a_del()`, and `a_ins()`
+ * 
+ * - Based on code points indices
+ *      - These functions rely on the index of the code point instead of their offsets. Those functions
+ *        should be used sparingly as often they involve repeated linear scanning of the string.
+ *      - Index-based functions all have a `x` prefix to them.
+ * 
+ *          Example: `a_xsubstr()`, `a_xfind()`, `a_xdel()`, and `a_xins()`
  * 
  * - Based on grapheme clusters index
- *   - Thse functions will have a `g` prefix to them, for example `a_gfind_from()` and `a_gsubstr()`.
+ *      - These functions operate on whole grapheme clusters instead of code points. These functions all
+ *        have a `g` prefix to them.
+ * 
+ *          Example: `a_gsubstr()`, `a_gfind_from()`, `a_del()`, and `a_ins()
  * 
  * 
  * Visual Overview
@@ -111,6 +120,8 @@
  *        `i`, for example `icmp`, `ifind`, and `istartswith`.
  *      - Grapheme index version of the function is prefixed with a
  *        'g', for example `gfind` and `gsubstr`
+ *      - Code point index version of the function is prefixed with a
+ *        'x', for example `xfind`and `xsubstr`
  * 
  * Preconditions
  * -------------
@@ -491,16 +502,6 @@ a_str       a_new_mem_raw(size_t size);
  */
 a_str       a_new_dup(a_cstr str);
 /**
- * \brief Creates a new a_str from an unsigned long integer value.
- * 
- * Creates a new Aleph string from the unsigned long integer value
- * \p val.
- * 
- * \param val An unsigned long integer.
- * \return A new a_str string, otherwise NULL on failure.
- */
-a_str       a_new_ulong(unsigned long val);
-/**
  * \brief Creates a new a_str from a long integer value.
  * 
  * Creates a new Aleph string from the long integer value
@@ -510,6 +511,16 @@ a_str       a_new_ulong(unsigned long val);
  * \return A new a_str string, otherwise NULL on failure.
  */
 a_str       a_new_long(long val);
+/**
+ * \brief Creates a new a_str from an unsigned long integer value.
+ * 
+ * Creates a new Aleph string from the unsigned long integer value
+ * \p val.
+ * 
+ * \param val An unsigned long integer.
+ * \return A new a_str string, otherwise NULL on failure.
+ */
+a_str       a_new_ulong(unsigned long val);
 /*
  * TODO: Incomplete!
  */
