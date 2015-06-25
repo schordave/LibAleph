@@ -35,7 +35,7 @@ static size_t a_internal_gindex_to_offset(const char *s, size_t index)
 
 static size_t a_internal_index_to_offset_rev(const char *str, size_t index)
 {
-    const char *s = a_last_cstr(str);
+    const char *s = a_end_cstr(str);
     
     while (s > str && index--)
         a_prev_cstr(&s);

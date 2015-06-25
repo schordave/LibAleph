@@ -201,7 +201,8 @@
  *    - \ref length_functions "Length/Size"
  * - String Manipulation
  *    - \ref concatenation_functions "Concatenation"
- *    - \ref transformation_functions "Transformation"
+ *    - \ref transformation_functions "Transformations"
+ *    - \ref case_functions "Case Detection & Manipulation"
  *    - \ref insertion_functions "Insertion"
  *    - \ref replacement_functions "Replacement"
  *    - \ref deletion_functions "Deletion"
@@ -651,6 +652,9 @@ size_t      a_char_index_cstr(const char *str, size_t offset);
  * 
  */
 size_t      a_char_offset_rev(a_cstr str, size_t index);
+size_t      a_char_offset_rev_cstr(const char *str, size_t index);
+size_t      a_char_index_rev(a_cstr str, size_t offset);
+size_t      a_char_index_rev_cstr(const char *str, size_t offset);
 /**
  * \brief Returns the start of the grapheme cluster at a specific index.
  * 
@@ -800,7 +804,7 @@ char       *a_gnext_cstr(const char **str);
  * \param str The string in context.
  * \return a pointer to the end of string \p str.
  */
-char       *a_last(a_str str);
+char       *a_end(a_str str);
 /**
  * \brief Returns a pointer to the end of the string.
  * 
@@ -811,7 +815,7 @@ char       *a_last(a_str str);
  * \return a pointer to the end of string \p str.
  * \pre \p str must be a valid UTF-8 string.
  */
-char       *a_last_cstr(const char *str);
+char       *a_end_cstr(const char *str);
 /**
  * \brief Advances to the previous code point.
  * 
@@ -1379,14 +1383,25 @@ a_str       a_format(a_str str, const char *format, ...);
 /*@}*/
 #endif
 
-
 /** 
  * \anchor transformation_functions
- * \name Transformation
+ * \name Transformation Functions
+ * 
+ * @{
+ */
+a_cp        a_to_cp(const char *str);
+const char *a_to_utf8(a_cp codepoint, char *buffer);
+const char *a_to_utf8_size(a_cp codepoint, char *buffer, int *size);
+/*@}*/
+
+/** 
+ * \anchor case_functions
+ * \name Case Detection & Manipulation
  *
  * Unicode offers 3 forms of casing: uppercase, titlecase, and
  * lowercase. Additionally, case folding is also offered for case-
- * insensitive comparisons.
+ * insensitive comparisons. Additionally, characters may also be 
+ * uncased - simultaneously lowercase, uppercase, and titlecase.
  * 
  * The main functions (a_to_upper/a_to_lower/etc.) use full case
  * conversion when transforming strings, this means both the size
@@ -1406,9 +1421,6 @@ a_str       a_format(a_str str, const char *format, ...);
  * 
  * @{
  */
-a_cp        a_to_cp(const char *str);
-const char *a_to_utf8(a_cp codepoint, char *buffer);
-const char *a_to_utf8_size(a_cp codepoint, char *buffer, int *size);
 /**
  * \brief Transforms the string to uppercase.
  * 
@@ -1478,6 +1490,15 @@ char       *a_to_fold_cp(a_cp cp, char *b);
 a_cp       *a_to_fold_cp_cp(a_cp cp, a_cp *b);
 char       *a_to_fold_simple_chr(a_cp cp, char *b);
 a_cp        a_to_fold_simple_chr_cp(a_cp cp);
+
+int         a_is_title(const char *str);
+int         a_is_title_cp(a_cp codepoint);
+int         a_is_lower(const char *str);
+int         a_is_lower_cp(a_cp codepoint);
+int         a_is_upper(const char *str);
+int         a_is_upper_cp(a_cp codepoint);
+int         a_is_folded(const char *str);
+int         a_is_folded_cp(a_cp codepoint);
 /*@}*/
 
 
@@ -1522,14 +1543,6 @@ int         a_ascii_is_upper(a_cp codepoint);
 int         a_ascii_is_print(a_cp codepoint);
 int         a_ascii_is_punct(a_cp codepoint);
 int         a_ascii_is_space(a_cp codepoint);
-
-
-int         a_is_title(const char *str);
-int         a_is_title_cp(a_cp codepoint);
-int         a_is_lower(const char *str);
-int         a_is_lower_cp(a_cp codepoint);
-int         a_is_upper(const char *str);
-int         a_is_upper_cp(a_cp codepoint);
 
 int         a_is_alpha(a_cp codepoint);
 int         a_is_alphanumeric(a_cp codepoint);
