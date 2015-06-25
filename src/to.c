@@ -326,14 +326,14 @@ char *a_to_upper_cp(a_cp cp, char *b)
 #endif
     
     /* common case */
-    if (!(r->special & A_SPECIAL_MASK_CASE_FOLD))
+    if (!(r->special & A_SPECIAL_MASK_CASE_UPPER))
         return a_internal_cp_to_char(new_cp, b);
     
     /* casefolding has a set of exceptional characters
      * that fold into multiple code points, sometimes
      * as much as 3. we handle those seperatly.
      *//*
-    if (r->special & A_SPECIAL_MASK_CASE_FOLD)*/
+    if (r->special & A_SPECIAL_MASK_CASE_UPPER)*/
     {
         int index = -1;
         int high = A_UPPER_SPECIAL_TABLE_SIZE;
@@ -401,7 +401,7 @@ a_cp *a_to_upper_cp_cp(a_cp cp, a_cp *b)
      * that fold into multiple code points, sometimes
      * as much as 3. we handle those seperatly.
      *//*
-    if (r->special & A_SPECIAL_MASK_CASE_FOLD)*/
+    if (r->special & A_SPECIAL_MASK_CASE_UPPER)*/
     {
         int index = -1;
         int high = A_UPPER_SPECIAL_TABLE_SIZE;
@@ -542,14 +542,14 @@ char *a_to_lower_cp(a_cp cp, char *b)
 #endif
     
     /* common case */
-    if (!(r->special & A_SPECIAL_MASK_CASE_FOLD))
+    if (!(r->special & A_SPECIAL_MASK_CASE_LOWER))
         return a_internal_cp_to_char(new_cp, b);
     
     /* case lowering has a set of exceptional characters
      * that fold into multiple code points, sometimes
      * as much as 3. we handle those seperatly.
      *//*
-    if (r->special & A_SPECIAL_MASK_CASE_FOLD)*/
+    if (r->special & A_SPECIAL_MASK_CASE_LOWER)*/
     {
         int index = -1;
         int high = A_LOWER_SPECIAL_TABLE_SIZE;
@@ -615,7 +615,7 @@ a_cp *a_to_lower_cp_cp(a_cp cp, a_cp *b)
 #endif
     
     /* common case */
-    if (!(r->special & A_SPECIAL_MASK_CASE_UPPER))
+    if (!(r->special & A_SPECIAL_MASK_CASE_LOWER))
     {
         b[0] = cp + r->case_diff_lower;
         b[1] = 0;
@@ -626,7 +626,7 @@ a_cp *a_to_lower_cp_cp(a_cp cp, a_cp *b)
      * that fold into multiple code points, sometimes
      * as much as 3. we handle those seperatly.
      *//*
-    if (r->special & A_SPECIAL_MASK_CASE_FOLD)*/
+    if (r->special & A_SPECIAL_MASK_CASE_LOWER)*/
     {
         int index = -1;
         int high = A_LOWER_SPECIAL_TABLE_SIZE;
