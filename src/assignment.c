@@ -41,7 +41,6 @@ a_str a_set(a_str str, a_str newstr)
 
     return str;
 }
-
 a_str a_set_cstr(a_str str, const char *newstr) 
 {
     assert(str != NULL && newstr != NULL);
@@ -49,7 +48,11 @@ a_str a_set_cstr(a_str str, const char *newstr)
     A_ASSERT_UTF8(newstr);
     return a_set_cstr_size(str, newstr, strlen(newstr));
 }
-
+a_str a_set_cstr_validate(a_str str, const char *newstr)
+{
+    assert("Function not implemented.");
+    return NULL;
+}
 a_str a_set_cstr_size(a_str str, const char *newstr, size_t size) 
 {
     assert(str != NULL && newstr != NULL);
