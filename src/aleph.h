@@ -712,6 +712,7 @@ char       *a_gchar_at(a_str str, size_t index);
  * \pre \p str must be a valid UTF-8 string.
  */
 a_cp        a_peek(const char *str);
+a_cp        a_peek_prev(const char *s);
 /**
  * \brief Advances one code point.
  * 
