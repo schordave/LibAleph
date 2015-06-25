@@ -34,7 +34,7 @@ size_t a_char_index_cstr(const char *str, size_t offset)
     size_t index;
     const char *start = str;
     
-    for (index = 0; *str && (str-start) < offset; ++index)
+    for (index = 0; *str && (size_t)(str-start) < offset; ++index)
         a_next_cstr(&str);
     
     return index;
